@@ -130,6 +130,18 @@ interface MessageGroup {
 	 * @return string
 	 */
 	public function getSourceLanguage();
+
+	/**
+	 * Get the workflow configuration for the group.
+	 */
+	public function getWorkflowConfiguration();
+
+	/*
+	 * Get all the translatable languages for a group, considering the whitelisting
+	 * and blacklisting.
+	 * @return array The language names as array keys.
+	 */
+	public function getTranslatableLanguages();
 }
 
 /**
@@ -397,6 +409,63 @@ abstract class MessageGroupBase implements MessageGroup {
 
 	protected function isSourceLanguage( $code ) {
 		return $code === $this->getSourceLanguage();
+	}
+	/**
+	 * Get the workflow configuration for the group.
+	 */
+	public function getWorkflowConfiguration() {
+		global $wgTranslateWorkflowStates;
+		// If set to false or empty string, return false;
+		if( !$wgTranslateWorkflowStates ) {
+			return false;
+		}
+		if ( isset( $wgTranslateWorkflowStates[$this->getId()] ) ) {
+			return $wgTranslateWorkflowStates[$this->getId()];
+		}
+		// return default configuration
+		if ( isset( $wgTranslateWorkflowStates['default'] ) ) {
+			return $wgTranslateWorkflowStates['default'];
+		}
+		if( is_array( $wgTranslateWorkflowStates ) ) {
+			// It is not null, it does not have default entry, but still array.
+			// Assuming it is worflow states in old format.
+			return $wgTranslateWorkflowStates;
+		}
+		return false;
+	}
+	/**
+	 * Get all the translatable languages for a group, considering the whitelisting
+	 * and blacklisting.
+	 * @return array The language names as array keys.
+	 */
+	public function getTranslatableLanguages() {
+		global $wgLang;
+		$codes = array_keys( TranslateUtils::getLanguageNames( $wgLang->getCode() ) );
+		$codes = array_flip( $codes );
+		$whitelistedLanguages = $codes;
+		$groupConfiguration = $this->getConfiguration();
+		if ( !isset( $groupConfiguration['LANGUAGES'] ) ) {
+			// No LANGUAGES section in the configuration.
+			return $codes;
+		}
+		// Whitelist overrides blacklist.
+		if( isset( $groupConfiguration['LANGUAGES']['whitelist'] ) ) {
+			$whitelistedLanguages = $groupConfiguration['LANGUAGES']['whitelist'];
+			if( !is_array( $whitelistedLanguages ) && $whitelistedLanguages === "*" ) {
+				return $codes;
+			} else {
+				return array_flip( $whitelistedLanguages );
+			}
+		}
+
+		$blackListedLanguages = $groupConfiguration['LANGUAGES']['blacklist'];
+		if( !is_array( $blackListedLanguages ) && $blackListedLanguages === "*" ) {
+			// All languages blacklisted. This is very rare but not impossible.
+			$blackListedLanguages = $codes;
+		} else {
+			$blackListedLanguages = array_flip( $blackListedLanguages);
+		}
+		return array_diff_key( $whitelistedLanguages, $blackListedLanguages);
 	}
 }
 

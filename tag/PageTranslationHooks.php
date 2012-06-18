@@ -224,6 +224,7 @@ class PageTranslationHooks {
 
 		// This way the parser knows to fragment the parser cache by language code
 		$userLangCode = $parser->getOptions()->getUserLang();
+		$userLangDir = $parser->getOptions()->getUserLangObj()->getDir();
 		$sourceLanguage = $page->getMessageGroup()->getSourceLanguage();
 
 		$languages = array();
@@ -300,7 +301,7 @@ class PageTranslationHooks {
 		$languages = implode( $sep, $languages );
 
 		return <<<FOO
-<div class="mw-pt-languages">
+<div class="mw-pt-languages" lang="$userLangCode" dir="$userLangDir">
 <table><tbody>
 
 <tr valign="top">

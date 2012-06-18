@@ -160,7 +160,7 @@ $messages['ar'] = array(
 	'translate-fs-permissions-submit' => 'إرسال طلب',
 );
 
-/** Asturian (Asturianu)
+/** Asturian (asturianu)
  * @author Xuacu
  */
 $messages['ast'] = array(
@@ -327,7 +327,7 @@ $messages['be-tarask'] = array(
 Калі Вы не жадаеце атрымліваць лісты з навінамі, Вы можаце адмовіцца ад іх на закладцы «{{int:prefs-personal}}» Вашых [[Special:Preferences|наладаў]].',
 );
 
-/** Bulgarian (Български)
+/** Bulgarian (български)
  * @author DCLXVI
  */
 $messages['bg'] = array(
@@ -360,7 +360,7 @@ $messages['bo'] = array(
 	'translate-fs-userpage-done' => 'ཡག་པོ་བྱུང་། ད་ནི་ཁྱོད་ལ་སྤྱོད་མིའི་ཤོག་ངོས་ཡོད།',
 );
 
-/** Breton (Brezhoneg)
+/** Breton (brezhoneg)
  * @author Fulup
  * @author Y-M D
  */
@@ -424,7 +424,7 @@ Keleier a resevot ivez ur wezh ar miz.
 Mar ne fell ket deoc'h resev keleier e c'hallit disteuler anezho dre ivinell \"{{int:prefs-personal}}\" en ho [[Special:Preferences|penndibaboù]].",
 );
 
-/** Bosnian (Bosanski)
+/** Bosnian (bosanski)
  * @author CERminator
  * @author Palapa
  */
@@ -464,7 +464,7 @@ Također ćete dobijati novosti najviše jednom mjesečno.
 Ako ne želite primati novosti, možete se odjaviti na jezičku "{{int:prefs-personal}}" u vašim [[Special:Preferences|postavkama]].',
 );
 
-/** Catalan (Català)
+/** Catalan (català)
  * @author SMP
  * @author Toniher
  */
@@ -473,7 +473,7 @@ $messages['ca'] = array(
 	'translate-fs-pagetitle-done' => ' - fet!',
 );
 
-/** Czech (Česky)
+/** Czech (česky)
  * @author Mormegil
  */
 $messages['cs'] = array(
@@ -537,7 +537,7 @@ Také budete maximálně jednou měsíčně dostávat novinky.
 Pokud novinky nechcete dostávat, můžete se z odběru odhlásit na záložce „{{int:prefs-personal}}“ v [[Special:Preferences|nastavení]].',
 );
 
-/** Danish (Dansk)
+/** Danish (dansk)
  * @author Emilkris33
  * @author Peter Alberti
  */
@@ -888,7 +888,7 @@ También recibirás boletines de noticias como máximo una vez al mes.
 Si no deseas recibir boletines de noticias, puedes cancelarlos en la pestaña "{{int:prefs-personal}}" de tus [[Special:Preferences|preferencias]].',
 );
 
-/** Estonian (Eesti)
+/** Estonian (eesti)
  * @author Pikne
  */
 $messages['et'] = array(
@@ -933,7 +933,7 @@ Kui kinnitad oma e-posti aadressi, saad e-kirja niipea, kui su taotlus on üle v
 	'translate-fs-permissions-submit' => 'Saada taotlus',
 );
 
-/** Basque (Euskara)
+/** Basque (euskara)
  * @author An13sa
  */
 $messages['eu'] = array(
@@ -1016,7 +1016,7 @@ $messages['fa'] = array(
 اگر نمی‌خواهید خبرنامه دریافت کنید، می توانید در زبانه «{{int:prefs-personal}}» [[Special:Preferences|ترجیحات]] آن را غیر فعال کنید.',
 );
 
-/** Finnish (Suomi)
+/** Finnish (suomi)
  * @author Centerlink
  * @author Crt
  * @author Nike
@@ -1082,7 +1082,7 @@ Saat myös uutiskirjeen korkeintaan kerran kuukaudessa.
 Jos et halua vastaanottaa uutiskirjeitä, voit muuttaa asetusta välilehdellä »{{int:prefs-personal}}» omat [[Special:Preferences|asetukset]].',
 );
 
-/** French (Français)
+/** French (français)
  * @author Gomoko
  * @author Hashar
  * @author Peter17
@@ -1148,7 +1148,7 @@ Vous recevrez aussi un courrier d’informations au plus une fois par mois.
 Si vous ne souhaitez pas recevoir ce courrier d’informations, vous pouvez le désactiver dans l’onglet « {{int:prefs-personal}} » de vos [[Special:Preferences|préférences]].',
 );
 
-/** Franco-Provençal (Arpetan)
+/** Franco-Provençal (arpetan)
  * @author ChrisPtDe
  */
 $messages['frp'] = array(
@@ -1172,7 +1172,7 @@ $messages['frp'] = array(
 	'translate-fs-permissions-submit' => 'Mandar la requéta',
 );
 
-/** Friulian (Furlan)
+/** Friulian (furlan)
  * @author Klenje
  */
 $messages['fur'] = array(
@@ -1395,7 +1395,7 @@ $messages['he'] = array(
 אם אינכם רוצים לקבל ידיעונים, תוכלי לבטל זאת בלשונית "{{int:prefs-personal}}" של [[Special:Preferences|דף ההעדפות]].',
 );
 
-/** Croatian (Hrvatski)
+/** Croatian (hrvatski)
  * @author SpeedyGonsales
  */
 $messages['hr'] = array(
@@ -1553,7 +1553,7 @@ Kapcsolatba léphetsz fordítótársaiddal a [[Portal:$1|nyelvedhez tartozó por
 Ha még nem tetted meg, [[Special:Preferences|állítsd át a felhasználói felületed nyelvét arra a nyelvre, amire fordítani szeretnél]], hogy a wiki a megfelelő linkeket tudja nyújtani neked.",
 );
 
-/** Interlingua (Interlingua)
+/** Interlingua (interlingua)
  * @author McDutchie
  */
 $messages['ia'] = array(
@@ -1666,7 +1666,7 @@ $messages['ig'] = array(
 	'translate-fs-pagetitle-done' => '- ọméchá!',
 );
 
-/** Icelandic (Íslenska)
+/** Icelandic (íslenska)
  * @author Snævar
  */
 $messages['is'] = array(
@@ -1710,7 +1710,7 @@ Ef þú staðfestir netfangið þitt, þá færð þú tölvupóst um leið og �
 Ef þú villt ekki fá send fréttabréf þá getur þú afvirkjað möguleikann undir "{{int:prefs-personal}}" flipanum í [[Special:Preferences|stillingunum þínum]]',
 );
 
-/** Italian (Italiano)
+/** Italian (italiano)
  * @author Nemo bis
  */
 $messages['it'] = array(
@@ -1795,8 +1795,8 @@ $messages['ja'] = array(
 	'translate-fs-intro' => '{{SITENAME}} 開始準備ウィザードへようこそ。これから翻訳者になるための手順について1つずつ案内していきます。それらを終えると、あなたは {{SITENAME}} でサポートしているすべてのプロジェクトのインターフェイスメッセージを翻訳できるようになります。',
 	'translate-fs-selectlanguage' => '言語を選択',
 	'translate-fs-settings-planguage' => '第一言語：',
-	'translate-fs-settings-planguage-desc' => '第一言語は、このウィキのインターフェイスで使用する言語と
-翻訳対象の言語を兼ねます',
+	'translate-fs-settings-planguage-desc' => '第一言語は、このウィキのインターフェイスで使用する言語と、
+既定の翻訳先言語を兼ねます。',
 	'translate-fs-settings-slanguage' => '補助言語$1：',
 	'translate-fs-settings-slanguage-desc' => '翻訳編集画面で、そのメッセージの他の言語への翻訳を表示できます。
 見たい言語があれば、ここで選択してください。',
@@ -1998,7 +1998,7 @@ Wann De dat nit han wells, kanns De et onger „{{int:prefs-personal}}“ en [[S
 $messages['ku-latn'] = array(
 	'firststeps' => 'Gavên yekem',
 	'translate-fs-pagetitle-done' => '- çêbû!',
-	'translate-fs-target-title' => 'Bi wergerrê dest pê bike!',
+	'translate-fs-target-title' => 'Bi wergerê dest pê bike!',
 );
 
 /** Luxembourgish (Lëtzebuergesch)
@@ -2057,7 +2057,7 @@ Dir kritt och Newsletteren awer héchstens eng pro Mount.
 Wann Dir keng Newslettere kréie wëllt, da kënnt Dir dat am Tab "{{int:prefs-personal}}"  vun Ären [[Special:Preferences|Astellungen]] ausschalten.',
 );
 
-/** Macedonian (Македонски)
+/** Macedonian (македонски)
  * @author Bjankuloski06
  */
 $messages['mk'] = array(
@@ -2351,7 +2351,7 @@ U ontvangt dan ook maximaal een keer per maand de nieuwsbrief.
 Als u geen nieuwsbrieven wilt ontvangen, dan kunt u dit aangeven in het tabblad "{{int:prefs-personal}}" van uw [[Special:Preferences|voorkeuren]].',
 );
 
-/** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
+/** Norwegian Nynorsk (‪norsk (nynorsk)‬)
  * @author Harald Khan
  * @author Njardarlogar
  */
@@ -2431,7 +2431,7 @@ Krigschd a de monadlische Newsletter gschiggd.
 Wonnen awa ned hawe wilschd, konschdn inde Tab "{{int:Prefs-personal}}" vun doine [[Special:Preferences|Oischdellunge]] wegnemme.',
 );
 
-/** Polish (Polski)
+/** Polish (polski)
  * @author BeginaFelicysym
  * @author Sp5uhe
  */
@@ -2550,7 +2550,7 @@ $messages['ps'] = array(
 	'translate-fs-userpage-submit' => 'خپل کارن مخ جوړول',
 );
 
-/** Portuguese (Português)
+/** Portuguese (português)
  * @author Giro720
  * @author Hamilton Abreu
  */
@@ -2591,7 +2591,7 @@ Também receberá newsletters, no máximo uma vez por mês.
 Se não deseja receber as newsletters, pode optar por não recebê-las no separador "{{int:prefs-personal}}" das suas [[Special:Preferences|preferências]].',
 );
 
-/** Brazilian Portuguese (Português do Brasil)
+/** Brazilian Portuguese (português do Brasil)
  * @author 555
  * @author Giro720
  */
@@ -2656,7 +2656,7 @@ Você também passará a receber newsletters no máximo uma vez por mês.
 Se não deseja receber as newsletters, é possível optar por não recebê-las na tab "{{int:prefs-personal}}" das suas [[Special:Preferences|preferências]].',
 );
 
-/** Romanian (Română)
+/** Romanian (română)
  * @author Minisarm
  */
 $messages['ro'] = array(
@@ -2719,14 +2719,14 @@ De asemenea, veți primi, cel mult o dată pe lună, un mesaj cu noutăți și �
 Dacă nu doriți să recepționați acest newsletter, vă puteți dezabona în fila „{{int:prefs-personal}}” a [[Special:Preferences|preferințelor]] dumneavoastră.',
 );
 
-/** Tarandíne (Tarandíne)
+/** tarandíne (tarandíne)
  * @author Joetaras
  */
 $messages['roa-tara'] = array(
 	'translate-fs-pagetitle-done' => '- apposte!',
 );
 
-/** Russian (Русский)
+/** Russian (русский)
  * @author Eleferen
  * @author G0rn
  * @author Hypers
@@ -2819,7 +2819,7 @@ $messages['si'] = array(
 	'translate-fs-target-title' => 'පරිවර්තනය කිරීම අරඹන්න!',
 );
 
-/** Slovak (Slovenčina)
+/** Slovak (slovenčina)
  * @author Teslaton
  */
 $messages['sk'] = array(
@@ -2839,7 +2839,7 @@ Môžete tiež kontaktovať spoluprekladateľa do rovnakého jazyka pomocou [[Po
 Ak ste tak dosiaľ {{gender:|neurobil|neurobila|neurobili}}, [[Special:Preferences|nastavte svoj jazyk rozhrania]] na jazyk, do ktorého chcete prekladať, aby vám táto wiki bola schopná zobrazovať čo najrelevantnejšie odkazy.",
 );
 
-/** Slovenian (Slovenščina)
+/** Slovenian (slovenščina)
  * @author Dbc334
  */
 $messages['sl'] = array(
@@ -2917,7 +2917,7 @@ $messages['su'] = array(
 	'translate-fs-email-title' => 'Konfirmasi alamat surélék anjeun',
 );
 
-/** Swedish (Svenska)
+/** Swedish (svenska)
  * @author Fredrik
  * @author WikiPhoenix
  */
@@ -3074,9 +3074,10 @@ $messages['ug-arab'] = array(
 	'translate-fs-email-title' => 'ئېلخەت مەنزىلىڭىزنى جەزملەڭ',
 );
 
-/** Ukrainian (Українська)
+/** Ukrainian (українська)
  * @author A1
  * @author Hypers
+ * @author Olvin
  * @author Тест
  */
 $messages['uk'] = array(
@@ -3093,6 +3094,13 @@ $messages['uk'] = array(
 	'translate-fs-intro' => 'Ласкаво просимо до майстра "перші кроки" проекту {{SITENAME}}.
 Крок за кроком майстер проведе вас шляхом становлення як перекладача.
 Зрештою, ви зможете перекладати інтерфейсні повідомлення усіх проектів, що підтримуються на {{SITENAME}}.',
+	'translate-fs-settings-planguage' => 'Основна мова:',
+	'translate-fs-settings-planguage-desc' => 'Основна мова дублює мову інтерфейсу цієї вікі
+і є мовою за замовчуванням для перекладу.',
+	'translate-fs-settings-slanguage' => 'Допоміжні мови $1:',
+	'translate-fs-settings-slanguage-desc' => 'Це дозволяє бачити переклади повідомлень іншими мовами в інтерфейсі перекладача.
+Тут можна вибрати, які саме мови ви хотіли б бачити.',
+	'translate-fs-settings-submit' => 'Зберегти налаштування',
 	'translate-fs-userpage-level-N' => 'Моя рідна мова',
 	'translate-fs-userpage-level-5' => 'Я - професійний перекладач з',
 	'translate-fs-userpage-level-4' => 'Досконало володію',
@@ -3229,7 +3237,7 @@ $messages['yi'] = array(
 	'translate-fs-userpage-submit' => 'שאַפֿן מיין באַניצער בלאַט',
 );
 
-/** Simplified Chinese (‪中文(简体)‬)
+/** Simplified Chinese (‪中文（简体）‬)
  * @author Anakmalaysia
  * @author Chenxiaoqino
  * @author Hydra
@@ -3297,7 +3305,7 @@ $messages['zh-hans'] = array(
 如果你不想收到通讯，你可以在[[Special:Preferences|选项]]"页面的{{int:prefs-personal}}"标签选择停止接收。',
 );
 
-/** Traditional Chinese (‪中文(繁體)‬)
+/** Traditional Chinese (‪中文（繁體）‬)
  * @author Lauhenry
  * @author Mark85296341
  */
