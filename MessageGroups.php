@@ -103,7 +103,7 @@ abstract class MessageGroupOld implements MessageGroup {
 	public function setMeta( $value ) { $this->meta = $value; }
 
 	public function getSourceLanguage() {
-		return 'en';
+		return 'ja';
 	}
 
 	/**
@@ -737,7 +737,7 @@ class WikiMessageGroup extends MessageGroupOld {
 	public function getSourceLanguage() {
 		global $wgLanguageCode;
 
-		return $wgLanguageCode;
+		return "ja";
 	}
 
 	/**
@@ -797,7 +797,7 @@ class WikiPageMessageGroup extends WikiMessageGroup {
 	public function getSourceLanguage() {
 		global $wgLanguageCode;
 
-		return $wgLanguageCode;
+		return "ja";
 	}
 
 	/**

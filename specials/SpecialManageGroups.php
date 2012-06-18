@@ -156,7 +156,7 @@ class SpecialManageGroups extends SpecialPage {
 						$id = substr( sha1( "{$group->getId()}/$code/$type/$key" ), 0, 7 );
 						$id = Sanitizer::escapeId( "smg/$id" );
 						if ( $req->getVal( $id ) === null ) {
-							throw new MWException( "Request is inconsistent. Not found '$id'." );
+							throw new MWException( "Request is inconsistent. Not found '$id ($code, $type, $key)'." );
 						}
 						// Do nothing if message was deleted
 						if ( !isset( $params['content'] ) ) {

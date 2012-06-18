@@ -30,7 +30,7 @@ class PageTranslationHooks {
 		if ( strpos( $text, '<translate>' ) !== false ) {
 			try {
 				$parse = TranslatablePage::newFromText( $parser->getTitle(), $text )->getParse();
-				$text = $parse->getTranslationPageText( null );
+				$text = $parse->removeTranslationMarkup($text);
 			} catch ( TPException $e ) {
 				// Show ugly preview without processed <translate> tags
 			}
@@ -65,6 +65,9 @@ class PageTranslationHooks {
 		if ( TranslatablePage::isTranslationPage( $title ) ) {
 			list( , $code ) = TranslateUtils::figureMessage( $title->getText() );
 			$pageLang = $code;
+		}
+		else if ( TranslatablePage::isSourcePage( $title ) ) {
+			$pageLang = "ja";
 		}
 
 		return true;
@@ -227,6 +230,7 @@ class PageTranslationHooks {
 		foreach ( $status as $code => $percent ) {
 			$name = TranslateUtils::getLanguageName( $code, false, $userLangCode );
 			$name = htmlspecialchars( $name ); // Unlikely, but better safe
+			$name = '<span lang="' . $code . '">'. $name . '</span>';
 
 			/* Percentages are too accurate and take more
 			 * space than simple images */
@@ -268,7 +272,7 @@ class PageTranslationHooks {
 				$name = Linker::linkKnown( $subpage, $name );
 			} else {
 				/* When language is included because it is a priority language,
-				 * but translation does not yet exists, link directly to the
+				 * but translation does not yet exist, link directly to the
 				 * translation view. */
 				$specialTranslateTitle = SpecialPage::getTitleFor( 'Translate' );
 				$params = array(
@@ -286,12 +290,13 @@ class PageTranslationHooks {
 			$languages[] = "$name $percentImage";
 		}
 
-		$legend = wfMsg( 'tpt-languages-legend' );
+		global $wgLang;
+		$legend = '<span lang="' . $wgLang->getCode(). '">'. wfMsg( 'tpt-languages-legend' ) . '</span>';
 		// dirmark (rlm/lrm) is added, because languages with RTL names can
 		// mess the display
 		$lang = Language::factory( $userLangCode );
 		$sep = wfMessage( 'tpt-languages-separator' )->inLanguage( $lang )->plain();
-		$sep .= $lang->getDirMarkEntity();
+		$sep .= $lang->getDirMark();
 		$languages = implode( $sep, $languages );
 
 		return <<<FOO
@@ -546,7 +551,7 @@ FOO;
 			);
 
 			$translate = SpecialPage::getTitleFor( 'Translate' );
-			$linkDesc  = wfMsgHtml( 'translate-tag-translate-link-desc' );
+			$linkDesc  = '<span lang="' . $wgLang->getCode(). '">'. wfMsgHtml( 'translate-tag-translate-link-desc' ) . '</span>';
 			$actions[] = Linker::link( $translate, $linkDesc, array(), $par );
 		}
 

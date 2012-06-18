@@ -79,6 +79,7 @@ abstract class JavaScriptFFS extends SimpleFFS {
 		/**
 		 * Break in to segments.
 		 */
+
 		$data = explode( "\",\n", $data );
 
 		$messages = array();
@@ -111,8 +112,8 @@ abstract class JavaScriptFFS extends SimpleFFS {
 			/**
 			 * Strip excess whitespace from key and value, then quotation marks.
 			 */
-			$key = trim( trim( $segments[0] ), "'\"" );
-			$value = trim( trim( $segments[1] ), "'\"" );
+			$key = trim( trim( $segments[0] ), "\"" );
+			$value = trim( trim( $segments[1] ), "\"" );
 
 			/**
 			 * Unescape any JavaScript string syntax and append to message array.
@@ -147,11 +148,11 @@ abstract class JavaScriptFFS extends SimpleFFS {
 			}
 
 			$key = $mangler->unmangle( $message->key() );
-			$key = $this->transformKey( Xml::escapeJsString( $key ) );
+			$key = $this->transformKey( self::escapeJsString( $key ) );
 
-			$translation = Xml::escapeJsString( $message->translation() );
+			$translation = self::escapeJsString( $message->translation() );
 
-			$body .= "\t{$key}: \"{$translation}\",\n";
+			$body .= "{$key}: \"{$translation}\",\n";
 		}
 
 		if ( strlen( $body ) === 0 ) {
@@ -186,7 +187,42 @@ abstract class JavaScriptFFS extends SimpleFFS {
 		 */
 		return substr( " * Translators:\n$authorsList", 0, -1 );
 	}
+	
+	/**
+	 * Returns an escaped string suitable for inclusion in a string literal
+	 * for JavaScript source code.
+	 * Illegal control characters are assumed not to be present.
+	 *
+	 * @param $string String to escape
+	 * @return String
+	 */
+	protected static function escapeJsString( $string ) {
+		// See ECMA 262 section 7.8.4 for string literal format
+		$pairs = array(
+			"\\" => "\\\\",
+			"\"" => "\\\"",
+			//'\'' => '\\\'',
+			"\n" => "\\n",
+			"\r" => "\\r",
 
+			# To avoid closing the element or CDATA section
+			"<" => "\\x3c",
+			">" => "\\x3e",
+
+			# To avoid any complaints about bad entity refs
+			"&" => "\\x26",
+
+			# Work around https://bugzilla.mozilla.org/show_bug.cgi?id=274152
+			# Encode certain Unicode formatting chars so affected
+			# versions of Gecko don't misinterpret our strings;
+			# this is a common problem with Farsi text.
+			"\xe2\x80\x8c" => "\\u200c", // ZERO WIDTH NON-JOINER
+			"\xe2\x80\x8d" => "\\u200d", // ZERO WIDTH JOINER
+		);
+
+		return strtr( $string, $pairs );
+	}
+	
 	/**
 	 * @param $string string
 	 * @return string

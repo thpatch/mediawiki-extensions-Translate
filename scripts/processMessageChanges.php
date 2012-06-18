@@ -134,6 +134,9 @@ class ProcessMessageChanges extends Maintenance {
 		foreach ( $common as $key ) {
 			$sourceContent = $file['MESSAGES'][$key];
 			$wikiContent = $wiki[$key]->translation();
+			
+			if ( trim( $sourceContent ) === '' ) continue;
+			print("---". $sourceContent . " / " . $wikiContent . "---". "\n");
 
 			if ( !self::compareContent( $sourceContent, $wikiContent ) ) {
 				if ( $reason !== MessageGroupCache::NO_CACHE ) {
@@ -152,7 +155,9 @@ class ProcessMessageChanges extends Maintenance {
 		$added = array_diff( $fileKeys, $wikiKeys );
 		foreach ( $added as $key ) {
 			$sourceContent = $file['MESSAGES'][$key];
+			
 			if ( trim( $sourceContent ) === '' ) continue;
+			print("---". $sourceContent . "---". '\n');
 			$this->addChange( 'addition', $group, $code, $key, $sourceContent );
 		}
 

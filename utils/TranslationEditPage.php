@@ -82,6 +82,16 @@ class TranslationEditPage {
 		}
 
 		$translation = $helpers->getTranslation();
+		if (!$translation)	{
+			// This is a translation of a message group.
+			// Fetch the latest article.
+			// WHY DIDN'T THE DEVELOPERS THINK ABOUT THIS?!?
+			$fetchId = $this->getTitle()->getArticleID();
+			if ($fetchId) {
+				$fetchArticle = Article::newFromId($fetchId);
+				$translation = $fetchArticle->getRawText();
+			}
+		}
 		$targetLang = Language::factory( $helpers->getTargetLanguage() );
 		$textareaParams = array(
 			'name' => 'text',

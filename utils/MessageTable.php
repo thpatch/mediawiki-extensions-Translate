@@ -90,6 +90,7 @@ class MessageTable {
 		} else {
 			$tableheader .= Xml::openElement( 'tr' );
 			$tableheader .= Xml::tags( 'th', null, $this->headerText( 'table' ) );
+			$tableheader .= Xml::tags( 'th', null, $this->headerText( 'default' ) );
 			$tableheader .= Xml::tags( 'th', null, $this->headerText( 'current' ) );
 			$tableheader .= Xml::closeElement( 'tr' );
 		}
@@ -165,6 +166,7 @@ class MessageTable {
 			} else {
 				$output .= Xml::tags( 'tr', array( 'class' => 'def tqe-inlineeditable' ) + $tqeData,
 					Xml::tags( 'td', null, $leftColumn ) .
+					Xml::tags( 'td', null, TranslateUtils::convertWhiteSpaceToHTML( $original ) ) .
 					Xml::tags( 'td', $rclasses, TranslateUtils::convertWhiteSpaceToHTML( $message ) )
 				);
 			}

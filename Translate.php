@@ -24,7 +24,7 @@ $wgExtensionCredits['specialpage'][] = array(
 	'path'           => __FILE__,
 	'name'           => 'Translate',
 	'version'        => TRANSLATE_VERSION,
-	'author'         => array( 'Niklas Laxström', 'Siebrand Mazeland' ),
+	'author'         => array( 'Niklas Laxström', 'Siebrand Mazeland', 'additional Touhou-specific hacks by Nmlgc' ),
 	'descriptionmsg' => 'translate-desc',
 	'url'            => 'https://www.mediawiki.org/wiki/Extension:Translate',
 );
@@ -679,7 +679,7 @@ function wfAddNamespace( $id, $name ) {
 	$wgExtraNamespaces[$id]   = $name;
 	$wgExtraNamespaces[$id + 1] = $name . '_talk';
 
-	$wgContentNamespaces[]           = $id;
+	// $wgContentNamespaces[]           = $id;
 	$wgTranslateMessageNamespaces[]  = $id;
 
 	$wgNamespacesWithSubpages[$id]   = true;
@@ -687,7 +687,8 @@ function wfAddNamespace( $id, $name ) {
 
 	$wgNamespaceProtection[$id] = array( 'translate' );
 
-	$wgNamespacesToBeSearchedDefault[$id] = true;
+	// $wgNamespacesToBeSearchedDefault[$id] = true;
+	$wgCapitalLinkOverrides[$id]  = false;
 }
 
 /** @defgroup TranslateSpecialPage Special pages of Translate extension */

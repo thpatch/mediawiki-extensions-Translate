@@ -200,18 +200,25 @@ class TPParse {
 
 			// Use the original text if no translation is available
 			if ( $sectiontext === null ) {
-				$sectiontext = $s->getTextForTrans();
+				$sectiontext = "";
 			}
 
 			// Substitute variables into section text and substitute text into document
 			$sectiontext = self::replaceVariables( $s->getVariables(), $sectiontext );
 			$text = str_replace( $ph, $sectiontext, $text );
 		}
-
+		return self::removeTranslationMarkup($text);
+	}
+	
+	/**
+	 * Remove <translate> tags.
+	 * @param $text \type{string} Wikitext.
+	 * @return \string Whole page as wikitext.
+	 */
+	public function removeTranslationMarkup( /*string*/ $text ) {
 		$nph = array();
 		$text = TranslatablePage::armourNowiki( $nph, $text );
 
-		// Remove translation markup
 		$cb = array( __CLASS__, 'replaceTagCb' );
 		$text = preg_replace_callback( '~(<translate>)(.*)(</translate>)~sU', $cb, $text );
 		$text = TranslatablePage::unArmourNowiki( $nph, $text );

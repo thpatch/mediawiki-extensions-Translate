@@ -162,6 +162,7 @@ $wgAutoloadClasses['FlatPhpFFS'] = "$dir/ffs/FlatPhpFFS.php";
 $wgAutoloadClasses['GettextFFS'] = "$dir/ffs/GettextFFS.php";
 $wgAutoloadClasses['JavaFFS'] = "$dir/ffs/JavaFFS.php";
 $wgAutoloadClasses['JavaScriptFFS'] = "$dir/ffs/JavaScriptFFS.php";
+$wgAutoloadClasses['JsonFFS'] = "$dir/ffs/JsonFFS.php";
 $wgAutoloadClasses['PythonSingleFFS'] = "$dir/ffs/PythonSingleFFS.php";
 $wgAutoloadClasses['RubyYamlFFS'] = "$dir/ffs/RubyYamlFFS.php";
 $wgAutoloadClasses['ShapadoJsFFS'] = "$dir/ffs/JavaScriptFFS.php";

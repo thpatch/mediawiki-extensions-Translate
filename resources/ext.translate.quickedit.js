@@ -287,7 +287,7 @@
 			}
 			
 			var current = $this.html();
-			var $target = $( '<td>' ).attr( { colspan: 2 } );
+			var $target = $( '<td>' ).attr( { colspan: 3 } );
 			$this.html( $target );
 			$this.addClass( 'tqe-editor-loaded' );
 			

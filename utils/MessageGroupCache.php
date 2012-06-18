@@ -36,9 +36,9 @@ class MessageGroupCache {
 	/**
 	 * Contructs a new cache object for given group and language code.
 	 * @param $group \types{String,FileBasedMessageGroup} Group object or id.
-	 * @param $code \string Language code. Default value 'en'.
+	 * @param $code \string Language code. Default value 'ja'.
 	 */
-	public function __construct( $group, $code = 'en' ) {
+	public function __construct( $group, $code = 'ja' ) {
 		if ( is_object( $group ) ) {
 			$this->group = $group;
 		} else {
@@ -156,7 +156,7 @@ class MessageGroupCache {
 				$pattern = $group->getSourceFilePath( '*' );
 				$globCache[$groupId] = array_flip( glob( $pattern, GLOB_NOESCAPE ) );
 				// Definition file might not match the above pattern
-				$globCache[$groupId][$group->getSourceFilePath( 'en' )] = true;
+				$globCache[$groupId][$group->getSourceFilePath( 'ja' )] = true;
 			}
 
 			$cache = $this->exists();

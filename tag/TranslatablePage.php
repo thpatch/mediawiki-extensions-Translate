@@ -651,7 +651,7 @@ class TranslatablePage {
 		// Content language is always up-to-date
 		global $wgContLang;
 
-		$temp[$wgContLang->getCode()] = 1.00;
+		$temp['ja'] = 1.00;
 
 		wfGetCache( CACHE_ANYTHING )->set( $memcKey, $temp, 60 * 60 * 12 );
 
@@ -732,7 +732,11 @@ class TranslatablePage {
 		if ( $key === '' || $code === '' ) {
 			return false;
 		}
-
+		
+		if( $code === 'ja') {
+			return false;
+		}
+	
 		$codes = Language::getLanguageNames( false );
 		global $wgTranslateDocumentationLanguageCode;
 		unset( $codes[$wgTranslateDocumentationLanguageCode] );
