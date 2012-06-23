@@ -511,9 +511,11 @@ Vysvětlení klíčů u funkce PLURAL najdete na [http://unicode.org/repos/cldr-
 	'bw-desc-statusnet' => '[[Translating:StatusNet|StatusNet]] je open-source mikroblovací server',
 	'translate-group-desc-statusnet-plugin' => 'Tyto zprávy jsou částí modulu pro [[Translating:StatusNet|StatusNet]]',
 	'translate-group-desc-tsint' => 'Skupina zpráv pro [http://toolserver.org/~krinkle/TsIntuition Toolserver Intuition], lokalizační systém pro nástroje na [http://toolserver.org Toolserveru] (<span class="plainlinks">[[Translating talk:Toolserver|podpora]] &middot; [https://wiki.toolserver.org/view/Toolserver_Intuition technické podrobnosti]</span>)',
+	'translate-group-desc-waymarked-trails' => '[[Translating:Waymarked Trails|Waymarked Trails]] je služba zobrazující trasy pro turistiku, cyklistiku, MTB a inline bruslení po celém světě. Používá licenci GNU GPL',
 	'bw-desc-wikiblame' => '[http://wikipedia.ramselehof.de/wikiblame.php Wikiblame] dokáže rychle zjistit autory libovolné stránky na wiki nadace Wikimedia.',
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] je projekt nabízející offline čistě textovou verzi Wikipedie pro mobilní zařízení.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] je mnohoplatformní mobilní a tabletová aplikace pro čtení Wikipedie a přispívání do ní',
+	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] je mnohoplatformní mobilní a tabletová aplikace pro čtení Wikislovníku a přispívání do něj',
 );
 
 /** Danish (dansk)
@@ -2706,13 +2708,14 @@ $messages['tt-cyrl'] = array(
 /** Ukrainian (українська)
  * @author AS
  * @author Base
+ * @author Olvin
  * @author Prima klasy4na
  * @author Тест
  */
 $messages['uk'] = array(
 	'translate-group-desc-nodesc' => 'Немає опису цієї групи повідомлень',
 	'translate-group-desc-mediawikicore' => 'Ця група містить повідомлення, які використовують у поточній альфа-версії MediaWiki ({{CURRENTVERSION}})',
-	'translate-group-desc-mediawikimostused' => 'Ця група містить [http://translatewiki.net/wiki/Most_often_used_messages_in_MediaWiki 500 найвживаніших у MediaWiki повідомлень]',
+	'translate-group-desc-mediawikimostused' => 'Ця група містить [http://translatewiki.net/wiki/Most_often_used_messages_in_MediaWiki 500 найуживаніших повідомлень] [[Translating:MediaWiki|MediaWiki]]',
 	'translate-group-desc-mediawikiextensions' => 'Ця метагрупа містить повідомлення підтримуваних розширень MediaWiki',
 	'translate-group-desc-collection' => 'Метагрупа, що містить повідомлення для розширення [http://www.mediawiki.org/wiki/Extension:Collection Collection]',
 	'translate-group-desc-flaggedrevs' => 'Метагрупа, що містить повідомлення для MediaWiki-розширення [http://www.mediawiki.org/wiki/Extension:FlaggedRevs FlaggedRevs]',

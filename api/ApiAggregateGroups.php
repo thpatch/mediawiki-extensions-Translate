@@ -201,7 +201,7 @@ class ApiAggregateGroups extends ApiBase {
 	}
 
 	public function getVersion() {
-		return __CLASS__ . ': $Id$';
+		return __CLASS__ . ': ' . TRANSLATE_VERSION;
 	}
 
 	public static function getAllPages() {
@@ -221,18 +221,16 @@ class ApiAggregateGroups extends ApiBase {
 			return false;
 		}
 
-		static $cachedToken = null;
-		if ( !is_null( $cachedToken ) ) {
-			return $cachedToken;
-		}
-
-		$cachedToken = $wgUser->getEditToken( self::$salt );
-		return $cachedToken;
+		return $wgUser->getEditToken( self::$salt );
 	}
 
 	public static function injectTokenFunction( &$list ) {
 		$list['aggregategroups'] = array( __CLASS__, 'getToken' );
 		return true; // Hooks must return bool
+	}
+
+	public static function getRight() {
+		return self::$right;
 	}
 
 }

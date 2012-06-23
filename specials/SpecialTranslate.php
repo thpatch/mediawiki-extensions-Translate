@@ -148,9 +148,9 @@ class SpecialTranslate extends SpecialPage {
 				}
 
 				$priorityLanguageNames = array();
+				$languageNames = TranslateUtils::getLanguageNames( $wgLang->getCode() );
 				foreach ( array_keys( $priorityLangs ) as $langCode ) {
-					$languageName = Language::fetchLanguageName( $langCode, $wgLang->getCode() );
-					$priorityLanguageNames[] = $languageName;
+					$priorityLanguageNames[] = $languageNames[$langCode];
 				}
 
 				$priorityReason = TranslateMetadata::get( $groupId, 'priorityreason' );
@@ -173,7 +173,7 @@ class SpecialTranslate extends SpecialPage {
 					wfMessage(
 						$priorityMessageKey,
 						'', // param formerly used for reason, now empty
-						Language::fetchLanguageName( $this->options['language'], $wgLang->getCode() ),
+						$languageNames[$this->options['language']],
 						$wgLang->listToText( $priorityLanguageNames )
 					)->parseAsBlock() . $priorityReason
 				);

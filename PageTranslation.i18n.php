@@ -2535,6 +2535,9 @@ Tämä sivu on käännös sivusta [[$1]] ja käännöstä voi päivittää käyt
 Sivu, jota yrität muokata, ei näytä vastaavan mitään sivua, joka on merkitty käännettäväksi.',
 	'tpt-render-summary' => 'Päivittäminen vastaamaan uutta versiota lähdesivusta',
 	'tpt-download-page' => 'Sivun vienti käännösten kera',
+	'tpt-aggregategroup-add' => 'Lisää',
+	'tpt-aggregategroup-save' => 'Tallenna',
+	'tpt-aggregategroup-new-name' => 'Nimi',
 	'pt-parse-open' => 'Sulkematon &lt;translate>-tägi.
 Käännöspohja: <pre>$1</pre>',
 	'pt-parse-close' => 'Avaamaton &lt;/translate>-tägi.
@@ -8161,9 +8164,12 @@ $messages['uk'] = array(
 Це – переклад сторінки [[$1]] і його можна оновити за допомогою [$2 засобу перекладу].',
 	'tpt-unknown-page' => 'Цей простір імен зарезервовано для перекладів текстів сторінок.
 Сторінка, яку ви намагаєтесь редагувати, скоріше за все, не відповідає жодній сторінці, відміченій для перекладу.',
-	'tpt-discouraged-language-force' => 'Неможливо перекласти сторінку на мову: $2
-Адміністратор визнає лише такі мови: $3',
-	'tpt-discouraged-language' => 'Адміністратор бажає бачити цю сторінку перекладеною мовою $3, натомість мова $2 його не цікавить',
+	'tpt-discouraged-language-force' => "'''Ця сторінка не може бути перекладена мовою ''$2'' '''
+
+Адміністратор вирішив, що ця сторінка може бути перекладена лише такими мовами: $3",
+	'tpt-discouraged-language' => "'''Переклад мовою $2 не є пріоритетним для цієї сторінки.'''
+
+Адміністратор вирішив зосередити зусилля на перекладі такими мовами: $3.",
 	'tpt-discouraged-language-reason' => 'Причина:$1',
 	'tpt-priority-languages' => 'Адміністратор перекладу визначив для цієї групи пріоритетні мови $1.',
 	'tpt-render-summary' => 'Оновлення для відповідності новій версії вихідної сторінки',
