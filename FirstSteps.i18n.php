@@ -160,6 +160,13 @@ $messages['ar'] = array(
 	'translate-fs-permissions-submit' => 'إرسال طلب',
 );
 
+/** Assamese (অসমীয়া)
+ * @author Bishnu Saikia
+ */
+$messages['as'] = array(
+	'translate-fs-signup-title' => 'সদস্য ভুক্তি',
+);
+
 /** Asturian (asturianu)
  * @author Xuacu
  */
@@ -224,7 +231,7 @@ Tamién recibirás boletinos de noticies tolo más una vegada al mes.
 Si nun quies recibir boletinos de noticies, pues desapuntate na llingüeta "{{int:prefs-personal}}" de les tos [[Special:Preferences|preferencies]].',
 );
 
-/** Bashkir (Башҡортса)
+/** Bashkir (башҡортса)
  * @author Assele
  */
 $messages['ba'] = array(
@@ -271,7 +278,7 @@ $messages['bar'] = array(
 	'firststeps' => "D' erschten Schriet",
 );
 
-/** Belarusian (Taraškievica orthography) (‪Беларуская (тарашкевіца)‬)
+/** Belarusian (Taraškievica orthography) (‪беларуская (тарашкевіца)‬)
  * @author EugeneZelenko
  * @author Jim-by
  * @author Renessaince
@@ -735,7 +742,7 @@ Sie erhalten außerdem bis zu einmal im Monat einen Newsletter.
 Wenn Sie keinen Newsletter erhalten möchten, können Sie sich im Tab „{{int:prefs-personal}}“ in Ihren [[Special:Preferences|Einstellungen]] austragen.',
 );
 
-/** Lower Sorbian (Dolnoserbski)
+/** Lower Sorbian (dolnoserbski)
  * @author Michawiki
  */
 $messages['dsb'] = array(
@@ -1204,7 +1211,7 @@ $messages['fur'] = array(
 	'translate-fs-email-title' => 'Conferme la tô direzion email',
 );
 
-/** Galician (Galego)
+/** Galician (galego)
  * @author Toliño
  */
 $messages['gl'] = array(
@@ -1429,7 +1436,7 @@ $messages['hr'] = array(
 	'translate-fs-userpage-submit' => 'Stvori moju suradničku stranicu',
 );
 
-/** Upper Sorbian (Hornjoserbsce)
+/** Upper Sorbian (hornjoserbsce)
  * @author Michawiki
  */
 $messages['hsb'] = array(
@@ -1889,10 +1896,11 @@ $messages['km'] = array(
 /** Korean (한국어)
  * @author Freebiekr
  * @author 관인생략
+ * @author 아라
  */
 $messages['ko'] = array(
 	'firststeps' => '첫걸음',
-	'firststeps-desc' => 'Translate  확장기능을 사용하는 웹사이트에서 사용자가 활동할 수 있게 돕는 [[Special:FirstSteps|특수 문서]]',
+	'firststeps-desc' => 'Translate  확장 기능을 사용하는 웹사이트에서 사용자가 활동할 수 있게 돕는 [[Special:FirstSteps|특수 문서]]',
 	'translate-fs-pagetitle-done' => '- 완료!',
 	'translate-fs-pagetitle-pending' => '- 처리 대기 중',
 	'translate-fs-pagetitle' => '시작 마법사 - $1',
@@ -1902,7 +1910,9 @@ $messages['ko'] = array(
 	'translate-fs-permissions-title' => '번역자 권한 신청',
 	'translate-fs-target-title' => '번역하기!',
 	'translate-fs-email-title' => '이메일 주소 확인하기',
-	'translate-fs-intro' => "{{SITENAME}} 첫걸음 마법사에 오신 것을 환영합니다. 번역자가 되는 과정을 차례로 거칠 것입니다.  결국에는 {{SITENAME}}에서 지원하는 모든 프로젝트의 ''인터페이스 메시지''를 번역할 수 있을 것입니다.",
+	'translate-fs-intro' => "{{SITENAME}} 첫걸음 마법사에 오신 것을 환영합니다.
+번역자가 되는 과정을 차례로 거칠 것입니다.
+결국에는 {{SITENAME}}에서 지원하는 모든 프로젝트의 ''인터페이스 메시지''를 번역할 수 있을 것입니다.",
 	'translate-fs-selectlanguage' => '언어 선택',
 	'translate-fs-settings-planguage' => '모어:',
 	'translate-fs-settings-planguage-desc' => '모어는 여기 웹사이트에서 당신의 인터페이스 언어이자 번역할 때 기본 도착어가 됩니다.',
@@ -1919,7 +1929,7 @@ $messages['ko'] = array(
 	'translate-fs-userpage-submit' => '내 사용자 문서 만들기',
 	'translate-fs-userpage-done' => '잘 했습니다! 이제 당신의 사용자 문서가 생겼습니다.',
 	'translate-fs-permissions-planguage' => '모어:',
-	'translate-fs-permissions-help' => '지금 번역자 그룹에 추가되도록 요청할 필요가 있습니다.  번역 모어를 선택하십시오.
+	'translate-fs-permissions-help' => '지금 번역자 그룹에 추가되도록 요청할 필요가 있습니다. 번역 모어를 선택하십시오.
 
 아래 상자에서 다른 언어 및 의견을 말할 수 있습니다.',
 	'translate-fs-permissions-pending' => '당신의 요청이 [[$1]]로 제출되었으며 여기 웹사이트 직원이 되도록 빨리 그 요청을 검토할 것입니다. 이메일 주소를 인증하면 요청 결과를 이메일로 받아볼 것입니다.',
@@ -1967,7 +1977,7 @@ Aam Engk kanns De de Täxte un Nohreeschte uß alle Projäkte övversäze, di {{
 	'translate-fs-settings-planguage' => 'Houpshprooch:',
 	'translate-fs-settings-planguage-desc' => 'De Houpshprooch is och di Schprooch, die heh dat Wiki met Der kallt, un des es och Ding shtandattmääßeje Shprooch för dren ze övversäze.',
 	'translate-fs-settings-slanguage' => 'Zohsäzlejje Shprooch Nommer $1:',
-	'translate-fs-settings-slanguage-desc' => 'Et es müjjelesch, sesch Övversäzonge en ander Shprooche beim sellver övversäze aanzeije ze lohße. Söhg uß, wat för esu en Shprooche De ze sinn krijje wells, wan De övverhoup wälsche han wells.',
+	'translate-fs-settings-slanguage-desc' => 'Et es müjjelesch, sesch Övversäzonge en ander Schprooche beim sellver Övversäze aanzeije ze lohße. Söhg uß, wat för esu en Shprooche De ze sinn krijje wells, wann De övverhoup wälsche han wells.',
 	'translate-fs-settings-submit' => 'Enstellunge faßhallde',
 	'translate-fs-userpage-level-N' => 'Ming Mottershprooch es:',
 	'translate-fs-userpage-level-5' => 'Esch ben ene beroofsmääßeje Övversäzer vun:',
@@ -2040,6 +2050,8 @@ Iech gëtt gewisen, Déi Dir Schrëtt fir Schrëtt zum Iwwersetzer gitt.
 Um Schluss kënnt Dir all ''Interface-Messagen'' vun de vun {{SITENAME}} ënnerstetzte Projeten iwwersetzen.",
 	'translate-fs-selectlanguage' => 'Eng Sprooch eraussichen',
 	'translate-fs-settings-planguage' => 'Haaptsprooch:',
+	'translate-fs-settings-planguage-desc' => "Déi éischt Sprooch ass gläichzäiteg d'Sprooch vun Ärem Interface op dëser Wiki
+an d'Standard-Zilsprooch fir Iwwersetzungen.",
 	'translate-fs-settings-slanguage' => 'Ënnerstetzungs-Sprooch $1:',
 	'translate-fs-settings-slanguage-desc' => 'Et ass méiglech fir Iwwersetzunge vu Messagen an anere Sproochen am Iwwersetzungsediteur ze weisen.
 Hei kënnt Dir eraussiche wat fir eng Sprooch, wann Dir dat wëllt, Dir gesi wëllt.',
@@ -2265,14 +2277,14 @@ Anda juga akan menerima surat berita selebih-lebihnya sebulan sekali.
 Jika anda tidak ingi menerima surat berita, anda boleh memilih untuk mengecualikan diri daripada senarai penghantaran kami dalam tab "{{int:prefs-personal}}" dalam [[Special:Preferences|keutamaan]] anda.',
 );
 
-/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
- * @author Jon Harald Søby
+/** Norwegian Bokmål (‪norsk (bokmål)‬)
  * @author Nghtwlkr
  */
 $messages['nb'] = array(
 	'firststeps' => 'Første steg',
 	'firststeps-desc' => '[[Special:FirstSteps|Spesialside]] for å få brukere igang med wikier som bruker Translate-utvidelsen',
 	'translate-fs-pagetitle-done' => ' – ferdig!',
+	'translate-fs-pagetitle-pending' => ' – venter',
 	'translate-fs-pagetitle' => 'Veiviser for å komme igang – $1',
 	'translate-fs-signup-title' => 'Registrer deg',
 	'translate-fs-settings-title' => 'Konfigurer innstillingene dine',
@@ -2283,8 +2295,30 @@ $messages['nb'] = array(
 	'translate-fs-intro' => "Velkommen til veiviseren for å komme igang med {{SITENAME}}.
 Du vil bli veiledet gjennom prosessen med å bli en oversetter steg for steg.
 Til slutt vil du kunne oversette ''grensesnittsmeldinger'' for alle støttede prosjekt på {{SITENAME}}.",
+	'translate-fs-selectlanguage' => 'Velg et språk',
+	'translate-fs-settings-planguage' => 'Hovedspråk:',
+	'translate-fs-settings-planguage-desc' => 'Hovedspråket fungerer også som grensesnittspråket ditt på denne wikien og som standardspråk for oversettelser.',
+	'translate-fs-settings-slanguage' => 'Hjelpespråk $1:',
+	'translate-fs-settings-slanguage-desc' => 'Det er mulig å vise oversettelser av meldinger på andre språk i oversettelseseditoren.
+Her kan du velge hvilke språk du ønsker å se, om noen.',
+	'translate-fs-settings-submit' => 'Lagre innstillinger',
+	'translate-fs-userpage-level-N' => 'Morsmålet mitt er',
+	'translate-fs-userpage-level-5' => 'Jeg er profesjonoll oversetter av',
+	'translate-fs-userpage-level-4' => 'Jeg er like god som en morsmålsbruker',
+	'translate-fs-userpage-level-3' => 'Jeg har god kjennskap til',
+	'translate-fs-userpage-level-2' => 'Jeg har grei kjennskap til',
+	'translate-fs-userpage-level-1' => 'Jeg kan litt',
+	'translate-fs-userpage-help' => 'Oppgi dine språkferdigheter og fortell oss litt om deg selv. Om du kan mer enn fem språk kan du legge til flere senere.',
 	'translate-fs-userpage-submit' => 'Opprett brukersiden min',
 	'translate-fs-userpage-done' => 'Flott! Nå har du en brukerside.',
+	'translate-fs-permissions-planguage' => 'Hovedspråk:',
+	'translate-fs-permissions-help' => 'Du må nå be om å få bli med i oversettergruppen.
+Velg språket du hovedsakelig vil oversette til.
+
+Du kan nevne andre språk og andre kommentarer i tekstboksen nedenfor.',
+	'translate-fs-permissions-pending' => 'Forespørselen din har blitt sendt til [[$1]], og noen av våre medarbeidere vil sjekke den så snart som mulig.
+Om du bekrefter e-postadressen din vil du få en melding så fort det skjer.',
+	'translate-fs-permissions-submit' => 'Send forespørsel',
 	'translate-fs-target-text' => "Gratulerer.
 Du kan nå begynne å oversette.
 
@@ -2813,7 +2847,7 @@ $messages['ru'] = array(
 Если вы не хотите получать рассылку, то можете отказаться от неё на вкладке «{{int:prefs-personal}}» своих [[Special:Preferences|персональных настроек]].',
 );
 
-/** Rusyn (Русиньскый)
+/** Rusyn (русиньскый)
  * @author Gazeb
  */
 $messages['rue'] = array(
@@ -3055,6 +3089,7 @@ $messages['tl'] = array(
 	'firststeps' => 'Unang mga hakbang',
 	'firststeps-desc' => '[[Special:FirstSteps|Natatanging pahina]] upang magawang magsimula ang mga tagagamit sa isang wiki sa pamamagitan ng dugtong na Pagsasalinwika',
 	'translate-fs-pagetitle-done' => ' - gawa na!',
+	'translate-fs-pagetitle-pending' => '- nakabinbin',
 	'translate-fs-pagetitle' => 'Masalamangkang pagsisimula - $1',
 	'translate-fs-signup-title' => 'Magpatala',
 	'translate-fs-settings-title' => 'Isaayos ang mga nais mo',
@@ -3065,8 +3100,49 @@ $messages['tl'] = array(
 	'translate-fs-intro' => "Maligayang pagdating sa masalamangkang unang mga hakbang ng {{SITENAME}}. 
 Hakbang-hakbang na gagabayan ka sa proseso ng pagiging isang tagapagsalinwika.
 Sa huli, makakapagsalinwika ka ng ''mga mensahe ng ugnayang-mukha'' ng lahat ng tinatangkilik na mga proyekto sa {{SITENAME}}.",
+	'translate-fs-selectlanguage' => 'Pumili ng isang wika',
+	'translate-fs-settings-planguage' => 'Pangunahing wika:',
+	'translate-fs-settings-planguage-desc' => 'Ang pangunahing wika ay gumaganap din bilang wikang pang-ugnayang mukha mo sa wiking ito
+at bilang isang likas na nakatakdang puntiryang wika para sa mga pagsasalinwika.',
+	'translate-fs-settings-slanguage' => 'Katulong na wikang $1:',
+	'translate-fs-settings-slanguage-desc' => 'Maaaring magpakita ng mga salinwika ng mga mensahe sa ibang mga wika sa loob ng patnugot ng salinwika.
+Makakapili ka rito ng kung anong mga wika, kung mayroon, na nais mong makita.',
+	'translate-fs-settings-submit' => 'Sagipin ang mga nais',
+	'translate-fs-userpage-level-N' => 'Isa akong katutubong tagapagsalita ng',
+	'translate-fs-userpage-level-5' => 'Isa akong propesyunal na tagapagsalinwika ng',
+	'translate-fs-userpage-level-4' => 'Alam ko ito na katulad ng isang katutubong tagapagsalita',
+	'translate-fs-userpage-level-3' => 'Mayroon akong mabuting katatasan sa',
+	'translate-fs-userpage-level-2' => 'Mayroon akong bahagyang katatasan sa',
+	'translate-fs-userpage-level-1' => 'May alam akong kaunti',
+	'translate-fs-userpage-help' => 'Paki ipahiwatig ang mga kasanayang mo sa wika at magsabi sa amin ng ilang bagay patungkol sa iyong sarili. Kung maalam ka sa mahigit pa sa limang mga wika ay maaari ka pang magdagdag sa pagdaka.',
 	'translate-fs-userpage-submit' => 'Likhain ang aking pahina ng tagagamit',
 	'translate-fs-userpage-done' => 'Mahusay! Mayroon ka na ngayong isang pahina ng tagagamit.',
+	'translate-fs-permissions-planguage' => 'Pangunahing wika:',
+	'translate-fs-permissions-help' => 'Ngayon ay kailangan mo nang maglagay ng isang kahilingan upang maidagdag sa pangkat ng tagapagsalinwika.
+Piliin ang pangunahing wika na patutunguhan ng pagsasalinwika mo.
+
+Mababanggit mo ang iba pang mga wika at iba pang mga pahayag sa loob ng kahon ng tekstong nasa ibaba.',
+	'translate-fs-permissions-pending' => 'Ang kahilingan mo ay naipasa na sa [[$1]] at mayroong isang tao mula sa tauhan ng pook na magsusuri nito sa lalong madaling panahon.
+Kapag tiniyak mo ang iyong tirahan ng e-liham, makakatanggap ka ng isang pagpapabatid ng e-liham kapag nangyari na ito.',
+	'translate-fs-permissions-submit' => 'Ipadala ang kahilingan',
+	'translate-fs-target-text' => 'Maligayang bati!
+Makapagsisimula ka na sa pagsasalinwika.
+
+Huwag matakot kung bago at nakakalito pa rin ito sa pakiramdam mo.
+Doon sa [[Project list|Listahan ng Proyekto]] ay mayroong isang malawakang pagtalakay ng mga proyektong mapag-aambagan mo ng mga salinwika.
+Karamihan sa mga proyekto ay mayroong isang maiksing pahina ng paglalarawan na mayroong kawing na "\'\'Isalinwika ang proyektong ito\'\'", na magdadala sa iyo papunta sa isang pahinang naglilista ng lahat ng mga mensaheng hindi pa naisasalinwika.
+Makakakuha rin ang isang listahan ng lahat ng mga pangkat ng mensahe na mayroong [[Special:LanguageStats|pangkasalukuyang katayuan ng salinwika para sa isang wika]].
+
+Kung sa pakiramdam mo ay kailangan mong umunawa ng mas marami pa bago ka magsimulang magsalinwika, maaari mong basahin ang [[FAQ|Mga malilimit na itanong]].
+Sa kasamaang-palad, ang kasulatan ay maaaring hindi na napapanahon kung minsan.
+Kung mayroong kang naiisip na maaari mong gawin, subalit hindi malaman kung papaano, huwag mag-alinlangang itanong ito roon sa [[Support|pahina ng suporta]].
+
+Maaari ka ring makipag-ugnayan sa mga kasamahan mong tagapagsalinwika na nasa kaparehong wika roon sa [[Portal_talk:$1|pahina ng usapan]] ng iyong [[Portal:$1|lagusan ng wika mo]].
+Kung hindi mo pa nagagawa ito, [[Special:Preferences|baguhin mo ang wika ng ugnayang-mukha upang maging wikang nais mong pagsalinan ng wika]], upang magawa ng wiki na maipakita ang pinaka may kaugnayang mga kawing para sa iyo.',
+	'translate-fs-email-text' => 'Paki ibigay ang tirahan mo ng e-liham sa [[Special:Preferences|mga nais mo]] at tiyakin ito mula sa e-liham na ipinadala sa iyo.
+
+Nagpapahintulot ito sa ibang mga tagagamit na makapag-ugnayan sa iyo sa pamamagitan ng e-liham.
+Makakatanggap ka rin ng mga pahayagang paliham, maaari mong piliing huwag tumanggap nito sa loob ng panlaylay na "{{int:prefs-personal}}" ng iyong [[Special:Preferences|mga kanaisan]].',
 );
 
 /** Turkish (Türkçe)
@@ -3103,6 +3179,7 @@ $messages['uk'] = array(
 	'firststeps' => 'Перші кроки',
 	'firststeps-desc' => '[[Special:FirstSteps|Спеціальна сторінка]], яка полегшує новим користувачам початок роботи з використанням розширення Translate',
 	'translate-fs-pagetitle-done' => ' - зроблено!',
+	'translate-fs-pagetitle-pending' => '- очікування',
 	'translate-fs-pagetitle' => 'Майстер "Початок роботи" - $1',
 	'translate-fs-signup-title' => 'Зареєструйтеся',
 	'translate-fs-settings-title' => 'Встановіть ваші налаштування',
@@ -3113,6 +3190,7 @@ $messages['uk'] = array(
 	'translate-fs-intro' => 'Ласкаво просимо до майстра "перші кроки" проекту {{SITENAME}}.
 Крок за кроком майстер проведе вас шляхом становлення як перекладача.
 Зрештою, ви зможете перекладати інтерфейсні повідомлення усіх проектів, що підтримуються на {{SITENAME}}.',
+	'translate-fs-selectlanguage' => 'Оберіть мову',
 	'translate-fs-settings-planguage' => 'Основна мова:',
 	'translate-fs-settings-planguage-desc' => 'Основна мова дублює мову інтерфейсу цієї вікі
 і є мовою за замовчуванням для перекладу.',
@@ -3158,7 +3236,7 @@ $messages['uk'] = array(
 Якщо ви не хочете отримувати розсилку новин, ви можете відмовитися від неї у вкладці "{{int:prefs-personal}}" ваших [Special:Preferences|налаштувань]].',
 );
 
-/** Veps (Vepsän kel’)
+/** Veps (vepsän kel’)
  * @author Игорь Бродский
  */
 $messages['vep'] = array(

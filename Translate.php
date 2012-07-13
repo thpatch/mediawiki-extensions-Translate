@@ -269,7 +269,6 @@ $wgResourceModules['ext.translate.special.managegroups'] = array(
 	'position' => 'top',
 ) + $resourcePaths;
 
-
 $wgResourceModules['ext.translate.special.pagetranslation'] = array(
 	'scripts' => 'resources/ext.translate.special.pagetranslation.js',
 	'styles' => 'resources/ext.translate.special.pagetranslation.css',
@@ -277,6 +276,13 @@ $wgResourceModules['ext.translate.special.pagetranslation'] = array(
 		'ext.translate.multiselectautocomplete',
 	),
 	'position' => 'top',
+) + $resourcePaths;
+
+$wgResourceModules['ext.translate.special.translationstats'] = array(
+	'scripts' => 'resources/ext.translate.special.translationstats.js',
+	'dependencies' => array(
+		'jquery.ui.datepicker',
+	),
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.special.aggregategroups'] = array(
@@ -377,16 +383,14 @@ $wgTranslateTranslationServices['TTMServer'] = array(
 $wgTranslateTranslationServices['Microsoft'] = array(
 	'url' => 'http://api.microsofttranslator.com/V2/Http.svc/Translate',
 	'key' => null,
-	'timeout-sync' => 3,
-	'timeout-async' => 6,
+	'timeout' => 3,
 	'type' => 'microsoft',
 );
 $wgTranslateTranslationServices['Apertium'] = array(
 	'url' => 'http://api.apertium.org/json/translate',
 	'pairs' => 'http://api.apertium.org/json/listPairs',
 	'key' => null,
-	'timeout-sync' => 6,
-	'timeout-async' => 6,
+	'timeout' => 3,
 	'type' => 'apertium',
 	'codemap' => array( 'no' => 'nb' ),
 );
@@ -398,7 +402,8 @@ $wgTranslateTranslationServices['example'] = array(
 	'cutoff' => 0.75,
 	'timeout-sync' => 4,
 	'timeout-async' => 4,
-	'type' => 'remote-ttmserver',
+	'type' => 'ttmserver',
+	'class' => 'RemoteTTMServer',
 );
 */
 

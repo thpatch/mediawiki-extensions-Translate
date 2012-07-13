@@ -148,7 +148,7 @@ abstract class JavaScriptFFS extends SimpleFFS {
 			}
 
 			$key = $mangler->unmangle( $message->key() );
-			$key = $this->transformKey( self::escapeJsString( $key ) );
+			$key = $this->transformKey( self::escapeJsString( $key . '/' . $collection->code) );
 
 			$translation = self::escapeJsString( $message->translation() );
 
@@ -206,11 +206,11 @@ abstract class JavaScriptFFS extends SimpleFFS {
 			"\r" => "\\r",
 
 			# To avoid closing the element or CDATA section
-			"<" => "\\x3c",
-			">" => "\\x3e",
+			//"<" => "\\x3c",
+			//">" => "\\x3e",
 
 			# To avoid any complaints about bad entity refs
-			"&" => "\\x26",
+			//"&" => "\\x26",
 
 			# Work around https://bugzilla.mozilla.org/show_bug.cgi?id=274152
 			# Encode certain Unicode formatting chars so affected
@@ -237,11 +237,11 @@ abstract class JavaScriptFFS extends SimpleFFS {
 			"\r" => "\\r",
 
 			// To avoid closing the element or CDATA section.
-			"<" => "\\x3c",
-			">" => "\\x3e",
+			//"<" => "\\x3c",
+			//">" => "\\x3e",
 
 			// To avoid any complaints about bad entity refs.
-			"&" => "\\x26",
+			//"&" => "\\x26",
 
 			/*
 			 * Work around https://bugzilla.mozilla.org/show_bug.cgi?id=274152

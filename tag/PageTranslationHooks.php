@@ -291,8 +291,6 @@ class PageTranslationHooks {
 			$languages[] = "$name $percentImage";
 		}
 
-		global $wgLang;
-		$legend = '<span lang="' . $wgLang->getCode(). '">'. wfMsg( 'tpt-languages-legend' ) . '</span>';
 		// dirmark (rlm/lrm) is added, because languages with RTL names can
 		// mess the display
 		$lang = Language::factory( $userLangCode );
@@ -300,17 +298,29 @@ class PageTranslationHooks {
 		$sep .= $lang->getDirMark();
 		$languages = implode( $sep, $languages );
 
-		return <<<FOO
-<div class="mw-pt-languages" lang="$userLangCode" dir="$userLangDir">
-<table><tbody>
+		$out = Html::openElement( 'div', array(
+			'class' => 'mw-pt-languages noprint',
+			'lang' => $userLangCode,
+			'dir' => $userLangDir
+		) );
+		$out .= Html::openElement( 'table' );
+		$out .= Html::openElement( 'tbody' );
+		$out .= Html::openElement( 'tr', array( 'valign' => 'top' ) );
+		$out .= Html::rawElement( 'td',
+			array( 'class' => 'mw-pt-languages-label',
+				   'lang' => $lang->getCode() ),
+			wfMessage( 'tpt-languages-legend' )->escaped()
+		);
+		$out .= Html::rawElement( 'td',
+			array( 'class' => 'mw-pt-languages-list' ),
+			$languages
+		);
+		$out .= Html::closeElement( 'tr' );
+		$out .= Html::closeElement( 'tbody' );
+		$out .= Html::closeElement( 'table' );
+		$out .= Html::closeElement( 'div' );
 
-<tr valign="top">
-<td class="mw-pt-languages-label"><b>$legend</b></td>
-<td class="mw-pt-languages-list">$languages</td></tr>
-
-</tbody></table>
-</div>
-FOO;
+		return $out;
 	}
 
 	/**
@@ -581,7 +591,7 @@ FOO;
 
 		$legend  = Html::rawElement(
 			'div',
-			array( 'class' => 'mw-pt-translate-header nomobile' ),
+			array( 'class' => 'mw-pt-translate-header noprint nomobile' ),
 			$wgLang->semicolonList( $actions )
 		) . Html::element( 'hr' );
 

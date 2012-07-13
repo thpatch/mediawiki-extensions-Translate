@@ -555,6 +555,7 @@ $messages['arz'] = array(
 );
 
 /** Assamese (অসমীয়া)
+ * @author Bishnu Saikia
  * @author Chaipau
  */
 $messages['as'] = array(
@@ -563,13 +564,21 @@ $messages['as'] = array(
 	'tpt-diff-old' => 'আগৰ পাঠ্য',
 	'tpt-diff-new' => 'নতুন পাঠ্য',
 	'tpt-submit' => 'এই সংস্কৰণ ভাঙনিৰ বাবে বাচক',
+	'tpt-discouraged-pages-title' => 'নিৰুত্সাহজনক পৃষ্ঠাসমূহ',
+	'tpt-select-prioritylangs-reason' => 'কাৰণ:',
+	'tpt-rev-discourage' => 'নিৰুত্সাহ',
+	'tpt-rev-encourage' => 'পুনঃসংস্থাপন কৰক',
 	'translate-tag-translate-link-desc' => 'এই পৃষ্ঠা ভাঙনি কৰক',
 	'tpt-languages-legend' => 'অন্য ভাষা:',
+	'tpt-discouraged-language-reason' => 'কাৰণ: $1',
+	'tpt-aggregategroup-save' => 'সাঁচি থওক',
+	'tpt-aggregategroup-new-name' => 'নাম:',
 	'pt-movepage-list-translation' => 'ভাঙনি পৃষ্ঠাসমূহ',
 	'pt-movepage-current' => 'সাম্প্ৰতিক নাম:',
 	'pt-movepage-new' => 'নতুন নাম:',
 	'pt-movepage-reason' => 'কাৰণ:',
 	'pt-movepage-action-perform' => 'স্থানান্তৰ নকৰিব',
+	'pt-deletepage-reason' => 'কাৰণ:',
 );
 
 /** Asturian (asturianu)
@@ -759,7 +768,7 @@ $messages['az'] = array(
 	'pt-deletepage-reason' => 'Səbəb:',
 );
 
-/** Bashkir (Башҡортса)
+/** Bashkir (башҡортса)
  * @author Haqmar
  */
 $messages['ba'] = array(
@@ -1374,7 +1383,7 @@ Comproveu el [[Special:Log/pagetranslation|registre de traducció de pàgines]] 
 	'pt-locked-page' => 'Aquesta pàgina està bloquejada perquè la pàgina a traduir està en un procés de trasllat.',
 );
 
-/** Chechen (Нохчийн)
+/** Chechen (нохчийн)
  * @author Sasan700
  */
 $messages['ce'] = array(
@@ -1504,6 +1513,7 @@ $messages['cy'] = array(
 	'tpt-select-prioritylangs-reason' => 'Rheswm:',
 	'tpt-sections-prioritylangs' => 'Blaenoriaethau ymhlith yr ieithoedd',
 	'tpt-languages-legend' => 'Ieithoedd eraill:',
+	'tpt-discouraged-language-reason' => 'Rheswm: $1',
 	'tpt-aggregategroup-add' => 'Ychwaneger',
 	'tpt-aggregategroup-save' => 'Cadwer',
 	'tpt-aggregategroup-new-name' => 'Enw:',
@@ -1573,6 +1583,7 @@ kontrollér før denne version markeres for oversættelse, at ændringerne i sek
 	'tpt-unmarked' => 'Siden $1 er ikke længere markeret til oversættelse.',
 	'tpt-list-nopages' => 'Ingen sider er markeret for oversættelse eller parate til at blive markeret for oversættelse.',
 	'tpt-other-pages-title' => 'Fejlbehæftede sider',
+	'tpt-discouraged-pages-title' => 'Frarådede sider',
 	'tpt-new-pages' => '{{PLURAL:$1|Denne side|Disse sider}} indeholder tekst med oversættelsestags, men ingen version af {{PLURAL:$1|siden|siderne}} er i øjeblikket markeret for oversættelse.',
 	'tpt-old-pages' => 'En version af {{PLURAL:$1|denne side|disse sider}} er markeret for oversættelse.',
 	'tpt-other-pages' => '{{PLURAL:$1|En gammel version af denne side er|Ældre versioner af disse sider er}} markeret til oversættelse,
@@ -1580,7 +1591,11 @@ men {{PLURAL:$1|den seneste version|de seneste versioner}} kan ikke mærkes til 
 	'tpt-select-prioritylangs' => 'Liste over sprogkoder for prioriterede sprog, adskilt med kommaer:',
 	'tpt-select-prioritylangs-reason' => 'Begrundelse:',
 	'tpt-sections-prioritylangs' => 'Prioriterede sprog',
-	'tpt-rev-unmark' => 'fjern denne side fra oversættelse',
+	'tpt-rev-unmark' => 'fjern fra oversættelse',
+	'tpt-rev-discourage' => 'fraråd',
+	'tpt-rev-encourage' => 'gendan',
+	'tpt-rev-discourage-tooltip' => 'Fraråd yderligere oversættelse af denne side.',
+	'tpt-rev-encourage-tooltip' => 'Gendan denne side til normal oversættelse.',
 	'translate-tag-translate-link-desc' => 'Oversæt denne side',
 	'translate-tag-markthis' => 'Markér denne side for oversættelse',
 	'translate-tag-markthisagain' => 'Denne side er <span class="plainlinks">[$1 ændret]</span> siden den sidst blev <span class="plainlinks">[$2 markeret for oversættelse]</span>.',
@@ -1600,6 +1615,7 @@ Siden som du prøver at redigere, ser ikke ud til at svare til nogen side marker
 	'tpt-aggregategroup-save' => 'Gem',
 	'tpt-aggregategroup-new-name' => 'Navn:',
 	'tpt-aggregategroup-new-description' => 'Beskrivelse (valgfri):',
+	'tpt-aggregategroup-invalid-group' => 'Gruppen findes ikke',
 	'pt-parse-open' => 'Ubalanceret &lt;translate> tag.
 Oversættelse skabelon: <pre>$1</pre>',
 	'pt-parse-close' => 'Ubalanceret &lt;/translate> tag.
@@ -1885,7 +1901,7 @@ $messages['diq'] = array(
 	'aggregategroups' => 'Grubi pêro',
 );
 
-/** Lower Sorbian (Dolnoserbski)
+/** Lower Sorbian (dolnoserbski)
  * @author Michawiki
  */
 $messages['dsb'] = array(
@@ -2985,7 +3001,7 @@ $messages['fur'] = array(
 	'pt-movepage-reason' => 'Reson:',
 );
 
-/** Galician (Galego)
+/** Galician (galego)
  * @author Toliño
  */
 $messages['gl'] = array(
@@ -3587,7 +3603,7 @@ Kvarovi/pogreške biti će prijavljene u evidenciji prijevoda i trebaju se ručn
 	'pt-movepage-logreason' => 'Dio prevodive stranice $1.',
 );
 
-/** Upper Sorbian (Hornjoserbsce)
+/** Upper Sorbian (hornjoserbsce)
  * @author Michawiki
  */
 $messages['hsb'] = array(
@@ -4707,7 +4723,7 @@ $messages['kn'] = array(
  */
 $messages['ko'] = array(
 	'pagetranslation' => '문서 번역',
-	'right-pagetranslation' => '번역에 대한 문서의 버전 검토',
+	'right-pagetranslation' => '번역에 대한 문서의 버전 표시',
 	'tpt-desc' => '번역 콘텐츠 문서를 위한 확장 기능',
 	'tpt-section' => '번역 단위 $1',
 	'tpt-section-new' => '새 번역 단위.
@@ -4717,7 +4733,7 @@ $messages['ko'] = array(
 	'tpt-templatediff' => '문서 틀이 바뀌었습니다.',
 	'tpt-diff-old' => '이전 텍스트',
 	'tpt-diff-new' => '새 텍스트',
-	'tpt-submit' => '번역에 대해 이 버전 검토',
+	'tpt-submit' => '번역에 대해 이 버전 표시',
 	'tpt-sections-oldnew' => '새로 및 기존 번역 단위',
 	'tpt-sections-deleted' => '삭제된 번역 단위',
 	'tpt-sections-template' => '번역 문서 틀',
@@ -4725,46 +4741,46 @@ $messages['ko'] = array(
 	'tpt-badtitle' => '주어진 문서 이름($1)은 올바른 제목이 아닙니다',
 	'tpt-nosuchpage' => '$1 문서가 존재하지 않습니다',
 	'tpt-oldrevision' => '$2 버전은 [[$1]] 문서의 최신 버전이 아닙니다.
-최신 버전만 번역에서 검토할 수 있습니다.',
+최신 버전만 번역에서 표시할 수 있습니다.',
 	'tpt-notsuitable' => '$1 문서는 번역에 적합하지 않습니다.
 <nowiki><translate></nowiki> 태그가 있고 올바른 문법인지 확인하세요.',
-	'tpt-saveok' => '[[$1]] 문서는 $2 번역 단위로 번역에 대해 검토했습니다.
+	'tpt-saveok' => '[[$1]] 문서는 $2 번역 단위로 번역에 대해 표시했습니다.
 문서는 지금 <span class="plainlinks">[$3 번역]</span>할 수 있습니다.',
 	'tpt-badsect' => '"$1"(은)는 $2 번역 유닉에 대해 올바른 이름이 아닙니다.',
 	'tpt-showpage-intro' => '다음은 새로와 기존, 삭제된 부분이 나열되어 있습니다.
-번역에 대한 이 버전을 검토하기 전에 부분에 대한 바뀜이 번역에 대한 불필요한 작업을 피하기 위해 최소화되어 있는지 확인하세요.',
-	'tpt-mark-summary' => '번역에 대해 이 버전 검토함',
+번역에 대한 이 버전을 표시하기 전에 부분에 대한 바뀜이 번역에 대한 불필요한 작업을 피하기 위해 최소화되어 있는지 확인하세요.',
+	'tpt-mark-summary' => '번역에 대해 이 버전 표시함',
 	'tpt-edit-failed' => '문서를 업데이트를 할 수 없습니다: $1',
 	'tpt-duplicate' => '$1 번역 단위 이름은 한 번 이상 사용합니다.',
-	'tpt-already-marked' => '이 문서의 최신 버전은 번역에 대해 이미 검토했습니다.',
-	'tpt-unmarked' => '$1 문서는 번역에 대해 더 이상 검토하지 않습니다.',
-	'tpt-list-nopages' => '문서가 번역에 대해 검토하거나 번역에 대해 검토할 준비가 없습니다.',
+	'tpt-already-marked' => '이 문서의 최신 버전은 번역에 대해 이미 표시했습니다.',
+	'tpt-unmarked' => '$1 문서는 번역에 대해 더 이상 표시하지 않습니다.',
+	'tpt-list-nopages' => '문서가 번역에 대해 표시하거나 번역에 대해 표시할 준비가 없습니다.',
 	'tpt-new-pages-title' => '문서 번역에 대한 제안',
 	'tpt-old-pages-title' => '번역한 문서',
 	'tpt-other-pages-title' => '잘못된 문서',
 	'tpt-discouraged-pages-title' => '실종한 문서',
 	'tpt-new-pages' => '{{PLURAL:$1|이 문서는}} 번역 태그로 글자를 포함합니다,
-하지만 현재 번역에서 검토한 {{PLURAL:$1|이 문서}}의 버전이 없습니다.',
-	'tpt-old-pages' => '번역으로 검토한 {{PLURAL:$1|이 페이지}}의 일부 버전입니다.',
-	'tpt-other-pages' => '{{PLURAL:$1|이 문서의 오래된 버전}}은 번역에서 검토했습니다,
-하지만 최신 {{PLURAL:$1|버전}}은 번역에서 검토할 수 없었습니다.',
+하지만 현재 번역에서 표시한 {{PLURAL:$1|이 문서}}의 버전이 없습니다.',
+	'tpt-old-pages' => '번역으로 표시한 {{PLURAL:$1|이 페이지}}의 일부 버전입니다.',
+	'tpt-other-pages' => '{{PLURAL:$1|이 문서의 오래된 버전}}은 번역에서 표시했습니다,
+하지만 최신 {{PLURAL:$1|버전}}은 번역에서 표시할 수 없었습니다.',
 	'tpt-discouraged-pages' => '{{PLURAL:$1|이 문서는}} 추가 번역에서 실종했습니다.',
 	'tpt-select-prioritylangs' => '우선 언어 코드의 쉼표로 구분한 목록:',
 	'tpt-select-prioritylangs-force' => '우선 언어 이외의 언어로 번역 방지',
 	'tpt-select-prioritylangs-reason' => '이유:',
 	'tpt-sections-prioritylangs' => '우선 언어',
-	'tpt-rev-mark' => '번역 검토',
+	'tpt-rev-mark' => '번역한 것으로 표시',
 	'tpt-rev-unmark' => '번역에서 삭제',
 	'tpt-rev-discourage' => '실종',
 	'tpt-rev-encourage' => '복구',
-	'tpt-rev-mark-tooltip' => '번역에 대한 이 문서의 최신 버전을 검토합니다.',
+	'tpt-rev-mark-tooltip' => '번역에 대한 이 문서의 최신 버전을 표시합니다.',
 	'tpt-rev-unmark-tooltip' => '번역에서 이 문서를 삭제합니다.',
 	'tpt-rev-discourage-tooltip' => '이 문서에 대한 번역을 실종합니다.',
 	'tpt-rev-encourage-tooltip' => '이 문서를 정상적인 번역으로 복원합니다.',
 	'translate-tag-translate-link-desc' => '이 문서 번역하기',
-	'translate-tag-markthis' => '번역에 대해 이 버전 검토',
-	'translate-tag-markthisagain' => '이 문서에는 최근 <span class="plainlinks">[$2 번역에 대해 검토한]</span> 이후 <span class="plainlinks">[$1 바뀜]</span>이 있습니다.',
-	'translate-tag-hasnew' => '이 문서에는 번역에 대해 검토하지 않은 <span class="plainlinks">[$1 바뀜]</span>을 포함합니다.',
+	'translate-tag-markthis' => '번역에 대해 이 버전 표시',
+	'translate-tag-markthisagain' => '이 문서에는 최근 <span class="plainlinks">[$2 번역에 대해 표시한]</span> 이후 <span class="plainlinks">[$1 바뀜]</span>이 있습니다.',
+	'translate-tag-hasnew' => '이 문서에는 번역에 대해 표시하지 않은 <span class="plainlinks">[$1 바뀜]</span>을 포함합니다.',
 	'tpt-translation-intro' => '이 문서는 [[$2]] 문서의 <span class="plainlinks">[$1 번역한 버전]</span>이고 번역은 $3% 완료했습니다.',
 	'tpt-translation-intro-fuzzy' => '오래된 번역은 이렇게 표시합니다.',
 	'tpt-languages-legend' => '다른 언어:',
@@ -4772,7 +4788,7 @@ $messages['ko'] = array(
 	'tpt-target-page' => '이 문서를 수동으로 업데이트할 수 없습니다.
 이 문서는 [[$1]]의 번역이며 번역은 [$2 번역 도구]를 사용하여 업데이트할 수 있습니다.',
 	'tpt-unknown-page' => '이 이름공간은 콘텐츠 페이지 번역에 대해 예약되어 있습니다.
-편집하려고 하는 문서는 번역에 대해 검토한 모든 문서와 일치하지 않는 것 같습니다.',
+편집하려고 하는 문서는 번역에 대해 표시한 모든 문서와 일치하지 않는 것 같습니다.',
 	'tpt-translation-restricted' => '이 언어로의 이 문서의 번역은 번역 관리자에 의해 차단되었습니다.
 
 이유: $1',
@@ -4787,7 +4803,7 @@ $messages['ko'] = array(
 	'tpt-render-summary' => '원본 문서의 새 버전에 맞게 업데이트',
 	'tpt-download-page' => '번역 문서 내보내기',
 	'aggregategroups' => '집계 그룹',
-	'tpt-aggregategroup-add' => '더하기',
+	'tpt-aggregategroup-add' => '추가',
 	'tpt-aggregategroup-save' => '저장',
 	'tpt-aggregategroup-add-new' => '새 집계 그룹 더하기',
 	'tpt-aggregategroup-new-name' => '이름:',
@@ -4800,14 +4816,14 @@ $messages['ko'] = array(
 번역 틀: <pre>$1</pre>',
 	'pt-parse-nested' => '중첩한 &lt;translate> 부분은 허용하지 않습니다.
 태그 텍스트: <pre>$1</pre>',
-	'pt-shake-multiple' => '한 부분에 여러 부분 검토.
+	'pt-shake-multiple' => '한 부분에 여러 부분을 표시했습니다.
 부분 텍스트: <pre>$1</pre>',
-	'pt-shake-position' => '예상하지 않은 위치에 부분 검토.
+	'pt-shake-position' => '예상하지 않은 위치에 부분을 표시했습니다.
 부분 텍스트: <pre>$1</pre>',
-	'pt-shake-empty' => '$1 검토에 대한 빈 부분.',
+	'pt-shake-empty' => '$1 표시에 대한 빈 부분입니다.',
 	'pt-log-header' => '문서 번역 시스템에 관련된 작업에 대한 기록',
 	'pt-log-name' => '문서 번역 기록',
-	'pt-log-mark' => '번역에 대한 "[[:$1]]" 문서의 $3 버전을 {{GENDER:$2|검토함}}',
+	'pt-log-mark' => '번역에 대한 "[[:$1]]" 문서의 $3 버전을 {{GENDER:$2|표시함}}',
 	'pt-log-unmark' => '번역에서 "[[:$1]]" 문서를 {{GENDER:$2|삭제함}}',
 	'pt-log-moveok' => '$1 번역 가능한 문서를 $3 문서로 이름 바꾸기 {{GENDER:$2|완료}}',
 	'pt-log-movenok' => '[[:$1]] 문서를 [[:$3]] 문서로 이동하는 동안 문제 {{GENDER:$2|발생}}',
@@ -4845,7 +4861,7 @@ $messages['ko'] = array(
 	'pt-movepage-action-check' => '이동할 수 있는지 확인',
 	'pt-movepage-action-perform' => '이동하기',
 	'pt-movepage-action-other' => '대상 변경',
-	'pt-movepage-intro' => '이 특수 문서는 번역에 대해 검토한 문서를 이동할 수 있습니다.
+	'pt-movepage-intro' => '이 특수 문서는 번역에 대해 표시한 문서를 이동할 수 있습니다.
 많은 문서가 이동해야 하기 때문에 즉시 이동 작업이 되지 않습니다.
 문서를 이동하는 동안 이는 질문의 문서와 상호 작용하는 것은 불가능합니다.
 실패하면 [[Special:Log/pagetranslation|문서 번역 기록]]에 기록되고 직접 복구할 필요가 있습니다.',
@@ -5732,7 +5748,7 @@ $messages['mt'] = array(
 	'tpt-languages-legend' => 'Lingwi oħra:',
 );
 
-/** Erzya (Эрзянь)
+/** Erzya (эрзянь)
  * @author Botuzhaleny-sodamo
  */
 $messages['myv'] = array(
@@ -5749,9 +5765,8 @@ $messages['nah'] = array(
 	'translate-tag-translate-link-desc' => 'Tictlahtōlcuepāz inīn zāzanilli',
 );
 
-/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
+/** Norwegian Bokmål (‪norsk (bokmål)‬)
  * @author Audun
- * @author Jon Harald Søby
  * @author Laaknor
  * @author Nghtwlkr
  * @author Purodha
@@ -5786,13 +5801,30 @@ Den kan nå bli <span class="plainlinks">[$3 oversatt]</span>.',
 Før denne versjonen merkes for oversettelse, sjekk at endringene i avsnittene er minimert for å unngå unødvendig arbeid for oversetterne.',
 	'tpt-mark-summary' => 'Markerte denne versjonen for oversettelse',
 	'tpt-edit-failed' => 'Kunne ikke oppdatere siden: $1',
+	'tpt-duplicate' => 'Oversettelsens enhetsnavn $1 er brukt mer enn en gang.',
 	'tpt-already-marked' => 'Den siste versjonen av denne siden har allerede blitt markert for oversettelse.',
 	'tpt-unmarked' => 'Siden $1 er ikke lenger markert for oversettelse.',
 	'tpt-list-nopages' => 'Ingen sider er markert for oversettelse, eller er klare for å bli markert for oversettelse.',
+	'tpt-new-pages-title' => 'Sider foreslått for oversettelse',
+	'tpt-old-pages-title' => 'Sider som oversettes',
+	'tpt-other-pages-title' => 'Ødelagte sider',
+	'tpt-discouraged-pages-title' => 'Frarådede sider',
 	'tpt-new-pages' => '{{PLURAL:$1|Denne siden|Disse sidene}} inneholder tekst med oversettelsesmerker, men ingen versjon av {{PLURAL:$1|denne siden|disse sidene}} er for tiden markert for oversettelse.',
 	'tpt-old-pages' => 'En versjon av {{PLURAL:$1|denne siden|disse sidene}} har blitt markert for oversettelse.',
 	'tpt-other-pages' => '{{PLURAL:$1|En gammel versjon av denne siden|Eldre versjoner av disse sidene}} er markert for oversettelse, men den siste versjonen kan ikke markeres for oversettelse.',
-	'tpt-rev-unmark' => 'fjern denne siden fra oversettelse',
+	'tpt-discouraged-pages' => '{{PLURAL:$1|Denne siden|Disse sidene}} frafrådes videre oversettelse.',
+	'tpt-select-prioritylangs' => 'Kommaseparert liste over prioriterte språkkoder:',
+	'tpt-select-prioritylangs-force' => 'Forhindre oversettelser til andre språk enn de prioriterte språkene',
+	'tpt-select-prioritylangs-reason' => 'Årsak:',
+	'tpt-sections-prioritylangs' => 'Prioriterte språk',
+	'tpt-rev-mark' => 'merk for oversetting',
+	'tpt-rev-unmark' => 'fjern fra oversetting',
+	'tpt-rev-discourage' => 'fraråd',
+	'tpt-rev-encourage' => 'gjenopprett',
+	'tpt-rev-mark-tooltip' => 'Merk siste versjon av denne siden for oversetting.',
+	'tpt-rev-unmark-tooltip' => 'Fjern denne siden fra oversetting.',
+	'tpt-rev-discourage-tooltip' => 'Fraråd videre oversetting av denne siden.',
+	'tpt-rev-encourage-tooltip' => 'Gjenopprett denne siden til vanlig oversetting.',
 	'translate-tag-translate-link-desc' => 'Oversett denne siden',
 	'translate-tag-markthis' => 'Merk denne siden for oversettelse',
 	'translate-tag-markthisagain' => 'Denne siden har hatt <span class="plainlinks">[$1 endringer]</span> siden den sist ble <span class="plainlinks">[$2 markert for oversettelse]</span>.',
@@ -5800,12 +5832,31 @@ Før denne versjonen merkes for oversettelse, sjekk at endringene i avsnittene e
 	'tpt-translation-intro' => 'Denne siden er en <span class="plainlinks">[$1 oversatt versjon]</span> av en side [[$2]] og oversettelsen er $3% ferdig og oppdatert.',
 	'tpt-translation-intro-fuzzy' => 'Utdaterte oversettelser er markert på denne måten.',
 	'tpt-languages-legend' => 'Andre språk:',
+	'tpt-languages-zero' => 'Begynn oversettelse for dette språket',
 	'tpt-target-page' => 'Denne siden kan ikke oppdateres manuelt.
 Denne siden er en oversettelse av siden [[$1]] og oversettelsen kan bli oppdatert ved å bruke [$2 oversettelsesverktøyet].',
 	'tpt-unknown-page' => 'Dette navnerommet er reservert for oversettelser av innholdssider.
 Denne siden som du prøver å redigere ser ikke ut til å samsvare med noen av sidene som er markert for oversettelse.',
+	'tpt-translation-restricted' => 'Oversettelse av denne siden til dette språket har blitt forhindret av en oversettelsesadministrator.
+
+Årsak: $1',
+	'tpt-discouraged-language-force' => 'En oversettelsesadministrator har begrenset språkene denne siden kan oversettes til. Dette språket er ikke blant disse språkene.
+
+Årsak: $1',
+	'tpt-discouraged-language' => 'Dette språket er ikke blant prioritetsspråkene som er satt av en oversettelsesadministrator for denne siden.
+
+Årsak: $1',
+	'tpt-priority-languages' => 'En oversettelsesadministrator har satt prioritetsspråkene for denne gruppen til $1.',
 	'tpt-render-summary' => 'Oppdaterer for å svare til ny versjon av kildesiden',
 	'tpt-download-page' => 'Eksporter side med oversettelser',
+	'aggregategroups' => 'Samle sammen grupper',
+	'tpt-aggregategroup-add' => 'Legg til',
+	'tpt-aggregategroup-save' => 'Lagre',
+	'tpt-aggregategroup-add-new' => 'Legg til en ny samlet gruppe',
+	'tpt-aggregategroup-new-name' => 'Navn:',
+	'tpt-aggregategroup-new-description' => 'Beskrivelse (valgfri):',
+	'tpt-aggregategroup-remove-confirm' => 'Er du sikker på at du ønsker å slette denne gruppa?',
+	'tpt-aggregategroup-invalid-group' => 'Gruppa eksisterer ikke',
 	'pt-parse-open' => 'Ubalansert &lt;translate>-element.
 Oversettelsesmal: <pre>$1</pre>',
 	'pt-parse-close' => 'Ubalansert &lt;/translate>-element.
@@ -5819,14 +5870,25 @@ Seksjonstekst: <pre>$1</pre>',
 	'pt-shake-empty' => 'Tøm seksjon for markør $1.',
 	'pt-log-header' => 'Logg over handlinger relatert til systemet for sideoversettelser',
 	'pt-log-name' => 'Logg for sideoversettelser',
-	'pt-log-mark' => '{{GENDER:$2|markerte}} revisjon $3 av side «[[:$1]]» for oversettelse',
-	'pt-log-unmark' => '{{GENDER:$2|fjernet}} side «[[:$1]]» fra oversettelse',
-	'pt-log-moveok' => '{{GENDER:$2|fullførte}} omdøping av oversettbar side $1 til et nytt navn',
+	'pt-log-mark' => '{{GENDER:$2|markerte}} revisjon $3 av siden «[[:$1]]» for oversettelse',
+	'pt-log-unmark' => '{{GENDER:$2|fjernet}} siden «[[:$1]]» fra oversettelse',
+	'pt-log-moveok' => '{{GENDER:$2|fullførte}} omdøping av den oversettbare siden $1 til $3',
 	'pt-log-movenok' => '{{GENDER:$2|støtte på}} et problem under flytting av [[:$1]] til [[:$3]]',
+	'pt-log-delete-full-ok' => '{{GENDER:$2|fullførte}} sletting av den oversettbare siden $1',
+	'pt-log-delete-full-nok' => '{{GENDER:$2|fant}} et problem under sletting av den oversettbare siden [[:$1]]',
+	'pt-log-delete-lang-ok' => '{{GENDER:$2|fullførte}} sletting av den oversettbare siden $1',
+	'pt-log-delete-lang-nok' => '{{GENDER:$2|støtte på}} et problem under sletting av den oversettbare siden [[:$1]]',
+	'pt-log-encourage' => '{{GENDER:$2|oppmuntret}} oversettelse av side [[:$1]]',
+	'pt-log-discourage' => '{{GENDER:$2|frarådet}} oversettelse av side [[:$1]]',
+	'pt-log-priority-langs-unset' => '{{GENDER:$2|fjernet}} prioritetsspråk fra oversettbar side [[:$1]]',
+	'pt-log-priority-langs' => '{{GENDER:$2|satte}} prioritetsspråk for oversettbar side [[:$1]] til $3. Årsak: $4',
+	'pt-log-priority-langs-force' => '{{GENDER:$2|begrenset}} språk for oversettbar side [[:$1]] til $3. Årsak: $4',
+	'pt-log-aggregategroup-associate' => '{{GENDER:$2|la til}} oversettbar side [[:$1]] til samlet gruppe $3',
+	'pt-log-aggregategroup-dissociate' => '{{GENDER:$2|fjernet}} oversettbar side [[:$1]] fra samlet gruppe $3',
 	'pt-movepage-title' => 'Flytt oversettbar side $1',
-	'pt-movepage-blockers' => 'Den oversettbare siden kan ikke flyttes til et nytt navn på grunn av følgende {{PLURAL:$1|feil|feil}}:',
-	'pt-movepage-block-base-exists' => 'Målbasesiden [[:$1]] finnes.',
-	'pt-movepage-block-base-invalid' => 'Målbasesiden er ikke en gyldig tittel.',
+	'pt-movepage-blockers' => 'Den oversettbare siden kan ikke flyttes til et nytt navn på grunn av følgende {{PLURAL:$1|feil}}:',
+	'pt-movepage-block-base-exists' => 'Målgrunnsiden [[:$1]] finnes.',
+	'pt-movepage-block-base-invalid' => 'Målgrunnsiden er ikke en gyldig tittel.',
 	'pt-movepage-block-tp-exists' => 'Måloversettelsessiden [[:$2]] finnes.',
 	'pt-movepage-block-tp-invalid' => 'Måloversettelsessidetittelen for [[:$1]] ville vært ugyldig (for lang?).',
 	'pt-movepage-block-section-exists' => 'Målavsnittssiden [[:$2]] finnes.',
@@ -5854,6 +5916,30 @@ Feil vil bli logget i [[Special:Log/pagetranslation|sideoversettelsesloggen]] og
 	'pt-movepage-started' => 'Basesiden har nå blitt flyttet.
 Kontroller [[Special:Log/pagetranslation|sideoversettelsesloggen]] for feil- og fullføringsmeldinger.',
 	'pt-locked-page' => 'Denne siden er låst fordi oversettelsessiden blir flyttet nå.',
+	'pt-deletepage-lang-title' => 'Sletter den oversettbare siden $1.',
+	'pt-deletepage-full-title' => 'Sletter den oversettbare siden $1.',
+	'pt-deletepage-invalid-title' => 'Den angitte siden er ikke gyldig.',
+	'pt-deletepage-invalid-text' => 'Den angitte siden er ikke en oversettbar side eller en oversettelse av den.',
+	'pt-deletepage-action-check' => 'List opp sider som skal slettes',
+	'pt-deletepage-action-perform' => 'Utfør slettingen',
+	'pt-deletepage-action-other' => 'Endre mål',
+	'pt-deletepage-lang-legend' => 'Slett oversettbar side',
+	'pt-deletepage-full-legend' => 'Slett oversettbar side',
+	'pt-deletepage-any-legend' => 'Slett oversettbar side eller oversettelse av oversettbar side',
+	'pt-deletepage-current' => 'Sidenavn:',
+	'pt-deletepage-reason' => 'Årsak:',
+	'pt-deletepage-subpages' => 'Slett alle undersider',
+	'pt-deletepage-list-pages' => 'Liste over sider å slette',
+	'pt-deletepage-list-translation' => 'Oversettelsessider',
+	'pt-deletepage-list-section' => 'Seksjonssider',
+	'pt-deletepage-list-other' => 'Andre undersider',
+	'pt-deletepage-list-count' => 'Totalt $1 {{PLURAL:$1|side|sider}} å slette.',
+	'pt-deletepage-full-logreason' => 'Del av den oversettbare siden $1.',
+	'pt-deletepage-lang-logreason' => 'Del av oversettelsessiden $1.',
+	'pt-deletepage-started' => 'Sjekk [[Special:Log/pagetranslation|sideoversettelsesloggen]] for feil- og fullføringsmeldinger.',
+	'pt-deletepage-intro' => 'Denne spesialsiden lar deg slette hele oversettbare sider eller oversettelser till ett språk.
+Slettingen vil ikke være umiddelbar, fordi mange sider må slettes.
+Feil vil logges i [[Special:Log/pagetranslation|sideoversettelsesloggen]], og må fikses manuelt.',
 );
 
 /** Dutch (Nederlands)
@@ -7197,6 +7283,7 @@ $messages['ru'] = array(
 	'tpt-discouraged-language' => 'Данный язык не входит в список приоритетных для данной страницы, установленных администратором перевода
 
 Причина: $1',
+	'tpt-discouraged-language-reason' => 'Причина: $1',
 	'tpt-priority-languages' => 'Администратор перевода установил $1 в качестве приоритетного языка для этой группы.',
 	'tpt-render-summary' => 'Обновление для соответствия новой версии исходной страницы.',
 	'tpt-download-page' => 'Экспортировать страницу с переводами',
@@ -7293,7 +7380,7 @@ $messages['ru'] = array(
 Сбои будут отмечены в [[Special:Log/pagetranslation|журнале перевода страниц]] и должны быть устранены вручную.',
 );
 
-/** Rusyn (Русиньскый)
+/** Rusyn (русиньскый)
  * @author Gazeb
  */
 $messages['rue'] = array(
@@ -8140,15 +8227,32 @@ Maaari na ngayong <span class="plainlinks">[$3 isalinwika]</span> ang pahina.',
 Bago tatakan ang bersyong ito para isalinwika, suriing nakauntian ang mga pagbabago sa mga seksyon upang maiwasan ang hindi kailangang gawain para sa mga tagapagsalinwika.',
 	'tpt-mark-summary' => 'Tinatakan ang bersyong ito para isalinwika',
 	'tpt-edit-failed' => 'Hindi maisapanahon ang pahina:  $1',
+	'tpt-duplicate' => 'Ang pangalan ng yunit ng salinwika na $1 ay ginagamit nang mas marami kaysa sa isa.',
 	'tpt-already-marked' => 'Ang huling bersyon ng pahinang ito ay natatakan na para sa pagsasalinwika.',
 	'tpt-unmarked' => 'Ang pahinang $1 ay hindi na tinatakan para sa pagsasalinwika.',
 	'tpt-list-nopages' => 'Walang mga pahinang tinatakan para sa pagsasalinwika o nakahanda upang markahan para sa pagsasalinwika.',
+	'tpt-new-pages-title' => 'Mga pahinang ipinanukala para sa pagsasalinwika',
+	'tpt-old-pages-title' => 'Mga pahinang nasa pagsasalinwika',
+	'tpt-other-pages-title' => 'Patid na mga pahina',
+	'tpt-discouraged-pages-title' => 'Mga pahinang hindi hinihimok',
 	'tpt-new-pages' => '{{PLURAL:$1|Naglalaman ang pahinang ito|Naglalaman ang mga pahinang ito}} ng tekstong may mga tatak ng pagsasalinwika,
 ngunit walang bersyon na {{PLURAL:$1|ang pahinang ito|ang mga pahinang ito}} ay kasalukuyang tinatakan para sa pagsasalinwika.',
 	'tpt-old-pages' => 'Ilang bersyon ng {{PLURAL:$1|pahinang ito|mga pahinang ito}} ay natatakan na para sa pagsasalinwika.',
 	'tpt-other-pages' => '{{PLURAL:$1|Isang lumang bersyon ng pahinang ito ang|Mas lumang mga bersyon ng mga pahinang ito ang}} tinatakan para sa pagsasalinwika,
 subalit ang pinakabagong {{PLURAL:$1|bersyon|mga bersyon}} ay hindi matatatakan para sa pagsasalinwika.',
-	'tpt-rev-unmark' => 'alisin ang pahinang ito mula sa pagsasalinwika',
+	'tpt-discouraged-pages' => '{{PLURAL:$1|Ang pahinang ito|Ang mga pahinang ito}} ay hindi na hinihimok na magkaroon ng karagdagan pang pagsasalinwika.',
+	'tpt-select-prioritylangs' => 'Talaan ng mga kodigo ng mga wikang dapat unahin na pinaghihiwa-hiwalay ng mga kuwit:',
+	'tpt-select-prioritylangs-force' => 'Iwasan ang mga pagsasalinwika papunta sa ibang mga wika kaysa sa mga wikang dapat unahin',
+	'tpt-select-prioritylangs-reason' => 'Dahilan:',
+	'tpt-sections-prioritylangs' => 'Mga wikang nararapat na unahin',
+	'tpt-rev-mark' => 'minarkahan para sa pagsasalinwika',
+	'tpt-rev-unmark' => 'alisin mula sa pagsasalinwika',
+	'tpt-rev-discourage' => 'huwag himukin',
+	'tpt-rev-encourage' => 'papanumbalikin',
+	'tpt-rev-mark-tooltip' => 'Markahan ang pinakahuling bersiyon ng pahinang ito para sa pagsasalinwika.',
+	'tpt-rev-unmark-tooltip' => 'Alisin ang pahinang ito mula sa pagsasalinwika.',
+	'tpt-rev-discourage-tooltip' => 'Huwag nang himukin ang karagdagan pang mga pagsasalinwika sa pahinang ito.',
+	'tpt-rev-encourage-tooltip' => 'Papanumbalikin ang pahinang ito papunta sa normal na pagsasalinwika.',
 	'translate-tag-translate-link-desc' => 'Isalinwika ang pahinang ito',
 	'translate-tag-markthis' => 'Tatakan ang pahinang ito para isalinwika',
 	'translate-tag-markthisagain' => 'Ang pahinang ito ay may <span class="plainlinks">[$1 mga pagbabago]</span> mula pa noong huli itong <span class="plainlinks">[$2 tinatakan para isalinwika]</span>.',
@@ -8156,12 +8260,32 @@ subalit ang pinakabagong {{PLURAL:$1|bersyon|mga bersyon}} ay hindi matatatakan 
 	'tpt-translation-intro' => 'Ang pahinang ito ay isang <span class="plainlinks">[$1 naisalinwikang bersyon]</span> ng isang pahina [[$2]] at ang salinwika ay $3% kumpleto na.',
 	'tpt-translation-intro-fuzzy' => 'Tinatakan ng ganito ang mga pagsasalinwikang lipas na sa panahon.',
 	'tpt-languages-legend' => 'Iba pang mga wika:',
+	'tpt-languages-zero' => 'Simulan ang pagsasalinwika para sa wikang ito',
 	'tpt-target-page' => 'Hindi maaaring kinakamay na maisapanahon ang pahinang ito.
 Ang pahinang ito ay isang salinwika ng pahinang [[$1]] at maisasapanahon ang salinwika sa pamamagitan ng [$2 kasangkapang pansalinwika].',
 	'tpt-unknown-page' => 'Nakalaan ang puwang na pampangalang ito para sa mga salinwika ng pahina ng nilalaman.
 Tila hindi tumutugma ang pahinang sinusubukan mong baguhin sa anumang pahinang natatakan para sa pagsasalinwika.',
+	'tpt-translation-restricted' => 'Ang pagsasalinwika ng pahinang ito na papunta sa wikang ito ay pinigilan ng isang tagapangasiwa ng salinwika.
+
+Dahilan: $1',
+	'tpt-discouraged-language-force' => "'''Ang pahinang ito ay hindi maisasalinwika upang maging $2.'''
+
+Isang tagapangasiwa ng pagsasalinwika ang nagpasya na ang pahinang ito ay maisasalinwika lamang papunta sa $3.",
+	'tpt-discouraged-language' => "'''Ang pagsasalinwika papunta sa $2 ay hindi isang nararapat na unahin para sa pahinang ito.'''
+
+Isang tagapangasiwa ng salinwika ang nagpasyang ituon ang mga pagsisikap ng pagsasalinwika sa $3.",
+	'tpt-discouraged-language-reason' => 'Dahilan: $1',
+	'tpt-priority-languages' => 'Isang tagapangasiwa ng salinwika ang nagtakda ng mga wikang nararapat na unahin para sa pangkat na ito upang maging $1.',
 	'tpt-render-summary' => 'Isinasapanahon upang tumugma sa bagong bersyon ng pinagmulang pahina',
 	'tpt-download-page' => 'Iluwas ang pahinang may mga pagsasalinwika',
+	'aggregategroups' => 'Mga pangkat na pinagsama-sama',
+	'tpt-aggregategroup-add' => 'Idagdag',
+	'tpt-aggregategroup-save' => 'Sagipin',
+	'tpt-aggregategroup-add-new' => 'Magdagdag ng isang bagong pangkat na pinagsama',
+	'tpt-aggregategroup-new-name' => 'Pangalan:',
+	'tpt-aggregategroup-new-description' => 'Paglalarawan (maaaring wala nito):',
+	'tpt-aggregategroup-remove-confirm' => 'Nakatitiyak ka bang nais mong burahin ang pinagsamang pangkat na ito?',
+	'tpt-aggregategroup-invalid-group' => 'Hindi umiiral ang pangkat',
 	'pt-parse-open' => 'Hindi magkatimbang na tatak na &lt;translate>.
 Suleras ng pagsasalinwika:  <pre>$1</pre>',
 	'pt-parse-close' => 'Hindi magkatimbang na tatak na &lt;translate>.
@@ -8177,8 +8301,19 @@ Teksto ng seksyon: <pre>$1</pre>',
 	'pt-log-name' => 'Tala ng pagsasalinwika ng pahina',
 	'pt-log-mark' => '{{GENDER:$2|minarkahang}} rebisyong  $3 ng pahinang "[[:$1]]" para sa pagsasalinwika',
 	'pt-log-unmark' => '{{GENDER:$2|tinanggal}} na pahinang "[[:$1]]" mula sa pagsasalinwika',
-	'pt-log-moveok' => '{{Gender:$2|nakumpleto}}ng pagpapalit ng pangalan ng maisasalinwikang pahina $1 papunta sa isang bagong pangalan',
+	'pt-log-moveok' => '{{Gender:$2|nakumpleto}}ng pagpapangalang muli ng maisasalinwikang pahinang $1 upang maging $3',
 	'pt-log-movenok' => '{{Gender:$2|nakaranas}} ng suliranin habang inililipat ang [[:$1]] papunta sa [[:$3]]',
+	'pt-log-delete-full-ok' => '{{GENDER:$2|nakumpleto}}ng pagbubura ng maisasalinwikang pahinang $1',
+	'pt-log-delete-full-nok' => '{{GENDER:$2|nakatagpo}} ng isang suliranin habang binubura ang pahinang maisasalinwika na [[:$1]]',
+	'pt-log-delete-lang-ok' => '{{GENDER:$2|nakumpleto}}ng pagbubura ng maisasalinwikang pahinang $1',
+	'pt-log-delete-lang-nok' => '{{GENDER:$2|nakatagpo}} ng isang suliranin habang binubura ang pahinang maisasalinwika na [[:$1]]',
+	'pt-log-encourage' => '{{GENDER:$2|hinimok}} ang pagsasalinwika ng pahinang [[:$1]]',
+	'pt-log-discourage' => '{{GENDER:$2|hindi hinimok}} ang pagsasalinwika ng pahinang [[:$1]]',
+	'pt-log-priority-langs-unset' => '{{GENDER:$2|inalis}} ang mga wikang dapat na unahin mula sa pahinang maisasalinwika na [[:$1]]',
+	'pt-log-priority-langs' => '{{GENDER:$2|itakda}} ang mga wikang nararapat na unahin para sa pahinang maisasalinwika na [[:$1]] upang maing $3. Dahilan: $4',
+	'pt-log-priority-langs-force' => '{{GENDER:$2|nilimitahan}} ang mga wika para sa pahinang maisasalinwika na [[:$1]] upang maging $3. Dahilan: $4',
+	'pt-log-aggregategroup-associate' => '{{GENDER:$2|nagdagdag}} ng pahinang maisasalinwika na [[:$1]] sa pangkat na pinagsamang $3',
+	'pt-log-aggregategroup-dissociate' => '{{GENDER:$2|nagtanggal}} ng pahinang maisasalinwika na [[:$1]] mula sa pangkat na pinagsamang $3',
 	'pt-movepage-title' => 'Ilipat ang maisasalinwikang pahinang $1',
 	'pt-movepage-blockers' => 'Hindi malilipat ang maisasalinwikang pahina papunta sa bagong pangalan dahil sa sumusunod na {{PLURAL:$1|kamalian|mga kamalian}}:',
 	'pt-movepage-block-base-exists' => 'Umiiral ang puntiryang batayang pahina na [[:$1]].',
@@ -8193,7 +8328,7 @@ Teksto ng seksyon: <pre>$1</pre>',
 	'pt-movepage-list-translation' => 'Mga pahina ng salinwika',
 	'pt-movepage-list-section' => 'Mga pahina ng seksyon',
 	'pt-movepage-list-other' => 'Iba pang kabahaging mga pahina',
-	'pt-movepage-list-count' => 'Sa kabuoan ay $1 {{PLURAL:$1|pahina|mga pahina}}ng ililipat.',
+	'pt-movepage-list-count' => 'Sa kabuuan ay $1 ang {{PLURAL:$1|pahina|mga pahina}}ng ililipat.',
 	'pt-movepage-legend' => 'Ilipat ang pahinang maisasalinwika',
 	'pt-movepage-current' => 'Kasalukuyang pangalan:',
 	'pt-movepage-new' => 'Bagong pangalan:',
@@ -8210,6 +8345,30 @@ Ang mga kabiguan ay itatala sa loob ng [[Special:Log/pagetranslation|talaan ng p
 	'pt-movepage-started' => 'Nailipat na ngayon ang pahinang batayan.
 Pakisuri ang [[Special:Log/pagetranslation|talaan ng pagsasalinwika ng pahina]] para sa mga kamalian at mensahe ng pagkakabuo.',
 	'pt-locked-page' => 'Ikinandao ang pahinang ito dahil ang pahinang maisasalinwika ay kasalukuyang inililipat.',
+	'pt-deletepage-lang-title' => 'Binubura ang pahina ng salinwikang $1.',
+	'pt-deletepage-full-title' => 'Binubura ang maisasalinwikang pahina na $1.',
+	'pt-deletepage-invalid-title' => 'Hindi katanggap-tanggap ang tinukoy na pahina.',
+	'pt-deletepage-invalid-text' => 'Ang tinukoy na pahina ay hindi isang pahinang maisasalinwika o salinwika kaya nito.',
+	'pt-deletepage-action-check' => 'Ilista ang mga pahinang buburahin',
+	'pt-deletepage-action-perform' => 'Gawin ang pagbura',
+	'pt-deletepage-action-other' => 'Baguhin ang puntirya',
+	'pt-deletepage-lang-legend' => 'Burahin ang pahina ng salinwika',
+	'pt-deletepage-full-legend' => 'Burahin ang pahinang maisasalinwika',
+	'pt-deletepage-any-legend' => 'Burahin ang maisasalinwikang pahina o salinwika ng maisasalinwikang pahina',
+	'pt-deletepage-current' => 'Pangalan ng pahina:',
+	'pt-deletepage-reason' => 'Dahilan:',
+	'pt-deletepage-subpages' => 'Burahin ang lahat ng kabahaging mga pahina',
+	'pt-deletepage-list-pages' => 'Talaan ng mga pahinang buburahin',
+	'pt-deletepage-list-translation' => 'Mga pahina ng salinwika',
+	'pt-deletepage-list-section' => 'Mga pahina ng seksyon',
+	'pt-deletepage-list-other' => 'Iba pang kabahaging mga pahina',
+	'pt-deletepage-list-count' => 'Sa kabuuan ay $1 ang {{PLURAL:$1|pahina|mga pahina}}ng buburahin.',
+	'pt-deletepage-full-logreason' => 'Bahagi ng maisasalinwikang pahinang $1.',
+	'pt-deletepage-lang-logreason' => 'Bahagi ng pahina ng salinwikang $1.',
+	'pt-deletepage-started' => 'Pakisuri ang [[Special:Log/pagetranslation|talaan ng pagsasalinwika ng pahina]] para sa mga kamalian at mensahe ng pagkakabuo.',
+	'pt-deletepage-intro' => 'Nagpapahintulot sa iyo ang pahinang ito na magbura ng kabuuan ng mga pahinang maisasalinwika o mga pagsasalinwika na papunta sa isang wika.
+Ang kilos ng pagbura ay hindi magiging kaagad, dahil maraming mga pahina ang kakailanganing burahin.
+Ang mga kabiguan ay itatala sa loob ng [[Special:Log/pagetranslation|tala ng pagsasalinwika ng pahina]] at kakailanganing kinakamay ang pagkukumpuni ng mga ito.',
 );
 
 /** Turkish (Türkçe)
@@ -8335,6 +8494,7 @@ $messages['uk'] = array(
 Перед тим, які відмітити цю версію для перекладу, переконайтесь, що зміни в розділах будуть мінімальними, щоб уникнути необов'язкової роботи для перекладачів.",
 	'tpt-mark-summary' => 'Позначено цю версію для перекладу',
 	'tpt-edit-failed' => 'Не вдалося оновити сторінку: $1',
+	'tpt-duplicate' => 'Переклад елементу із назвою $1 вжито більше одного разу.',
 	'tpt-already-marked' => 'Остання версія цієї сторінки вже була відмічена для перекладу.',
 	'tpt-unmarked' => 'Сторінка $1 більше не відмічена для перекладу.',
 	'tpt-list-nopages' => 'Немає сторінок, відмічених для перекладу, або готових бути відміченими для перекладу.',
@@ -8346,6 +8506,11 @@ $messages['uk'] = array(
 	'tpt-old-pages' => 'Деякі версії {{PLURAL:$1|цієї сторінки|цих сторінок}} були відмічені для перекладу.',
 	'tpt-other-pages' => '{{PLURAL:$1|Стара версія цієї сторінки відмічена|Старі версії цих сторінок відмічені}} для перекладу,
 але {{PLURAL:$1|остання версія не може бути відмічена|останні версії не можуть бути відмічені}} для перекладу.',
+	'tpt-discouraged-pages' => 'Подальший переклад {{PLURAL:$1|цієї сторінки|цих сторінок}} припинено.',
+	'tpt-select-prioritylangs' => 'Перелік кодів пріоритетних мов (відокремлюються комою)',
+	'tpt-select-prioritylangs-force' => 'Запобігти перекладу іншими мовами, крім пріоритетних',
+	'tpt-select-prioritylangs-reason' => 'Причина:',
+	'tpt-sections-prioritylangs' => 'Пріоритет мов',
 	'tpt-rev-mark' => 'позначити для перекладу',
 	'tpt-rev-unmark' => 'вилучити з перекладу',
 	'tpt-rev-discourage' => 'виключити',
@@ -8361,10 +8526,14 @@ $messages['uk'] = array(
 	'tpt-translation-intro' => 'Ця сторінка є <span class="plainlinks">[$1 перекладом]</span> сторінки [[$2]]. Переклад виконано на $3%.',
 	'tpt-translation-intro-fuzzy' => 'Застарілі переклади позначені так.',
 	'tpt-languages-legend' => 'Інші мови:',
+	'tpt-languages-zero' => 'Розпочати переклад цією мовою',
 	'tpt-target-page' => 'Ця сторінка не може бути оновлена вручну.
 Це – переклад сторінки [[$1]] і його можна оновити за допомогою [$2 засобу перекладу].',
 	'tpt-unknown-page' => 'Цей простір імен зарезервовано для перекладів текстів сторінок.
 Сторінка, яку ви намагаєтесь редагувати, скоріше за все, не відповідає жодній сторінці, відміченій для перекладу.',
+	'tpt-translation-restricted' => 'Адміністратор перекладу заборонив переклад цієї сторінки такою мовою.
+
+Причина: $1',
 	'tpt-discouraged-language-force' => "'''Ця сторінка не може бути перекладена мовою ''$2'' '''
 
 Адміністратор вирішив, що ця сторінка може бути перекладена лише такими мовами: $3",
@@ -8401,9 +8570,16 @@ $messages['uk'] = array(
 	'pt-log-moveok' => '{{GENDER:$2|виконав|виконала}} перейменування сторінки для перекладу $1 на $3',
 	'pt-log-movenok' => '{{GENDER:$2|викликав|викликала}} помилку при переміщенні [[:$1]] до [[:$3]]',
 	'pt-log-delete-full-ok' => '{{GENDER:$2|видалив|видалила}} сторінку перекладу $1',
-	'pt-log-delete-full-nok' => 'Сталася помилка при видаленні сторінки перекладу [[:$1]]',
+	'pt-log-delete-full-nok' => 'Виникла помилка під час вилучення $2 сторінки для перекладу [[:$1]]',
 	'pt-log-delete-lang-ok' => '{{GENDER:$2|вилучив|вилучила}} сторінку з перекладом $1',
 	'pt-log-delete-lang-nok' => '{{GENDER:$2|Сталася}} помилка під час вилучення сторінки перекладу [[:$1]]',
+	'pt-log-encourage' => '{{GENDER:$2|заохочує}} переклад сторінки [[:$1]]',
+	'pt-log-discourage' => '{{GENDER:$2|не радить}} перекладати сторінку [[:$1]]',
+	'pt-log-priority-langs-unset' => '{{GENDER:$2|вилучено}} пріоритетні мови для перекладу сторінки [[:$1]]',
+	'pt-log-priority-langs' => 'Для перекладу сторінки [[:$1]] {{GENDER:$2|встановлено}} такі пріоритетні мови: $3. Підстава: $4',
+	'pt-log-priority-langs-force' => 'Мови для перекладу сторінки [[:$1]] {{GENDER:$2|було обмежено}} таким переліком: $3. Підстава: $4',
+	'pt-log-aggregategroup-associate' => 'Сторінку для перекладу [[:$1]] {{GENDER:$2|додано}} до сукупної групи $3',
+	'pt-log-aggregategroup-dissociate' => 'Призначену для перекладу сторінку [[:$1]] {{GENDER:$2|вилучено}} з сукупної групи $3',
 	'pt-movepage-title' => 'Перемістити сторінку $1, доступну для перекладу',
 	'pt-movepage-blockers' => 'Сторінка перекладу не може бути перейменована через {{PLURAL:$1|таку помилку|такі помилки}}:',
 	'pt-movepage-block-base-exists' => 'Основна кінцева сторінка [[:$1]] вже існує.',
@@ -8427,11 +8603,10 @@ $messages['uk'] = array(
 	'pt-movepage-action-check' => 'Перевірити, чи можливе переміщення',
 	'pt-movepage-action-perform' => 'Виконати переміщення',
 	'pt-movepage-action-other' => 'Змінити ціль',
-	'pt-movepage-intro' => 'Ця службова сторінка дозволяє переміщати сторінки, помічені для перекладу.
-Переміщення не буде миттєвим, оскільки потрібно переміщати багато сторінок.
-Для переміщення сторінок буде використовуватись черга завдань.
-Під час переміщення сторінок взаємодіяти з ними неможливо.
-Помилки будуть записані в журналі перекладу сторінок, ці помилки необхідно буде виправити вручну.',
+	'pt-movepage-intro' => 'Ця службова сторінка дозволяє перейменовувати сторінки, позначені для перекладу.
+Дія не буде миттєвою, оскільки потрібно перейменувати багато сторінок.
+Під час перейменування сторінок взаємодіяти з ними неможливо.
+Помилки буде записано в [[Special:Log/pagetranslation|журналі перекладу сторінок]] і їх потрібно буде виправити вручну.',
 	'pt-movepage-logreason' => 'Частина сторінки, що перекладається, $1.',
 	'pt-movepage-started' => 'Основна сторінка тепер переміщена.
 Будь ласка, перевірте [[Special:Log/pagetranslation|журнал перекладу сторінок]] на наявність помилок і повідомлення про завершення.',
@@ -8456,6 +8631,10 @@ $messages['uk'] = array(
 	'pt-deletepage-list-count' => 'Усього вилучити $1 {{PLURAL:$1|сторінку|сторінки|сторінок}}.',
 	'pt-deletepage-full-logreason' => 'Частина сторінки для перекладу, $1.',
 	'pt-deletepage-lang-logreason' => 'Частина сторінки перекладу $1.',
+	'pt-deletepage-started' => 'Будь ласка, перевірте [[Special:Log/pagetranslation|журнал перекладу сторінок]] на наявність помилок і повідомлення про завершення.',
+	'pt-deletepage-intro' => 'Ця службова сторінка дозволяє Вам повністю вилучати сторінки, призначені для перекладу, або ж вилучати переклади визначеною мовою.
+Ця дія не буде миттєвою, бо потребуватиме вилучення багатьох сторінок.
+Якщо вилучення буде невдалим, його буде записано в [[Special:Log/pagetranslation|журналі перекладу]] і такі випадки потрібно буде усунути вручну.',
 );
 
 /** Urdu (اردو) */
@@ -8470,7 +8649,7 @@ $messages['vec'] = array(
 	'translate-tag-translate-link-desc' => 'Tradusi sta pagina',
 );
 
-/** Veps (Vepsän kel’)
+/** Veps (vepsän kel’)
  * @author Игорь Бродский
  */
 $messages['vep'] = array(
@@ -8825,7 +9004,7 @@ $messages['zh-hans'] = array(
 	'translate-tag-markthis' => '标记此页面将进行翻译',
 	'translate-tag-markthisagain' => '此页面<span class="plainlinks">[$2 最近被标记进行翻译]</span>以来，已经过一些<span class="plainlinks">[$1 更改]</span>。',
 	'translate-tag-hasnew' => '此页面有未被标记进行翻译的<span class="plainlinks">[$1更改]</span>。',
-	'tpt-translation-intro' => '此页面是[[$2]]页面的<span class="plainlinks">[$1 翻译版本]</span>，而该翻译工作已经$3%完成。',
+	'tpt-translation-intro' => '本页是页面[[$2]]的<span class="plainlinks">[$1 翻译版本]</span>，翻译工作已完成$3%。',
 	'tpt-translation-intro-fuzzy' => '已过时的翻译就这样标记。',
 	'tpt-languages-legend' => '其他语言：',
 	'tpt-languages-zero' => '开始这种语言的翻译',

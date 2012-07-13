@@ -51,6 +51,8 @@ class SpecialTranslationStats extends IncludableSpecialPage {
 	public function execute( $par ) {
 		global $wgOut, $wgRequest;
 
+		$wgOut->addModules( 'ext.translate.special.translationstats' );
+
 		$opts = new FormOptions();
 		$opts->add( 'graphit', false );
 		$opts->add( 'preview', false );
@@ -81,6 +83,7 @@ class SpecialTranslationStats extends IncludableSpecialPage {
 		$opts->validateIntBounds( 'days', 1, 10000 );
 		$opts->validateIntBounds( 'width', 200, 1000 );
 		$opts->validateIntBounds( 'height', 200, 1000 );
+
 		if ( $opts['start'] !== '' ) {
 			$opts['start'] = strval( wfTimestamp( TS_MW, $opts['start'] ) );
 		}
@@ -157,7 +160,7 @@ class SpecialTranslationStats extends IncludableSpecialPage {
 			$this->eInput( 'width', $opts ) .
 			$this->eInput( 'height', $opts ) .
 			'<tr><td colspan="2"><hr /></td></tr>' .
-			$this->eInput( 'start', $opts, 12 ) .
+			$this->eInput( 'start', $opts, 16 ) . // Should fit yyyymmddhhmmss
 			$this->eInput( 'days', $opts ) .
 			$this->eRadio( 'scale', $opts, array( 'months', 'weeks', 'days', 'hours' ) ) .
 			$this->eRadio( 'count', $opts, $this->getGraphTypes() ) .
@@ -750,6 +753,7 @@ abstract class TranslationStatsBase implements TranslationStatsInterface {
 
 	protected static function makeTimeCondition( $field, $start, $end ) {
 		$db = wfGetDB( DB_SLAVE );
+
 		$conds = array();
 		if ( $start !== null ) {
 			$conds[] = "$field >= '{$db->timestamp( $start )}'";
