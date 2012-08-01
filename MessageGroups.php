@@ -330,13 +330,10 @@ abstract class MessageGroupOld implements MessageGroup {
 	/**
 	 * Get all the translatable languages for a group, considering the whitelisting
 	 * and blacklisting.
-	 * @return array The language names as array keys.
+	 * @return array|null The language codes as array keys.
 	 */
 	public function getTranslatableLanguages() {
-		global $wgLang;
-		$codes = array_keys( TranslateUtils::getLanguageNames( $wgLang->getCode() ) );
-		$codes = array_flip( $codes );
-		return $codes;
+		return null;
 	}
 }
 
@@ -850,7 +847,8 @@ class WikiPageMessageGroup extends WikiMessageGroup {
 	 * @return array
 	 */
 	public function getDefinitions() {
-		$dbr = wfGetDB( DB_SLAVE );
+		// Avoid replication issues
+		$dbr = wfGetDB( DB_MASTER );
 		$tables = 'translate_sections';
 		$vars = array( 'trs_key', 'trs_text' );
 		$conds = array( 'trs_page' => $this->getTitle()->getArticleID() );
@@ -916,7 +914,6 @@ class WikiPageMessageGroup extends WikiMessageGroup {
 		$checker = new MediaWikiMessageChecker( $this );
 		$checker->setChecks( array(
 			array( $checker, 'pluralCheck' ),
-			array( $checker, 'wikiParameterCheck' ),
 			array( $checker, 'XhtmlCheck' ),
 			array( $checker, 'braceBalanceCheck' ),
 			array( $checker, 'pagenameMessagesCheck' ),

@@ -205,10 +205,6 @@ class SpecialMessageGroupStats extends SpecialLanguageStats {
 			$this->incomplete = true;
 			$extra = array();
 		} else {
-			if ( $total === 0 ) {
-				error_log( __METHOD__ . ": $code has 0 messages." );
-			}
-
 			if ( $this->noComplete && $fuzzy === 0 && $translated === $total ) {
 				return '';
 			}
@@ -234,7 +230,8 @@ class SpecialMessageGroupStats extends SpecialLanguageStats {
 		$out  = "\t" . Html::openElement( 'tr' );
 		$out .= "\n\t\t" . $this->getMainColumnCell( $code, $extra );
 		$out .= $this->table->makeNumberColumns( $fuzzy, $translated, $total );
-		$out .= $this->getWorkflowStateCell( $code );
+		$state = $this->getWorkflowStateValue( $code );
+		$out .= $this->getWorkflowStateCell( $code, $state );
 
 		$out .= "\n\t" . Html::closeElement( 'tr' ) . "\n";
 		return $out;
@@ -259,5 +256,9 @@ class SpecialMessageGroupStats extends SpecialLanguageStats {
 		$text = htmlspecialchars( "$code: {$this->names[$code]}" );
 		$link = Linker::link( $this->translate, $text, array(), $queryParameters );
 		return Html::rawElement( 'td', array(), $link );
+	}
+
+	protected function getWorkflowStates( $field = 'tgr_lang', $filter = 'tgr_group' ) {
+		return parent::getGetWorkflowStates( $field, $filter );
 	}
 }

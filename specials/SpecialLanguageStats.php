@@ -259,15 +259,24 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 		return;
 	}
 
+	protected function getWorkflowStateValue( $target ) {
+		return isset( $this->states[$target] ) ? $this->states[$target] : '';
+	}
+
 	/**
 	 * If workflow states are configured, adds a cell with the workflow state to the row,
-	 * @param $target Whose workflow state do we want, such as language code or group id.
-	 * @return string
+	 * @param String $target Whose workflow state do we want, such as language code or group id.
+	 * @param String $state  The workflow state id
+	 * @return string Html
 	 */
-	function getWorkflowStateCell( $target ) {
+	function getWorkflowStateCell( $target, $state ) {
 		// This will be set by addWorkflowStatesColumn if needed
 		if ( !isset( $this->states ) ) {
 			return '';
+		}
+
+		if ( $state === '' ) {
+			return "\n\t\t" . $this->table->element( '', '', -1 );
 		}
 
 		if ( $this instanceof SpecialMessageGroupStats ) {
@@ -279,9 +288,6 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 			$group = MessageGroups::getGroup( $target );
 			$stateConfig = $group->getWorkflowConfiguration();
 		}
-
-
-		$state = isset( $this->states[$target] ) ? $this->states[$target] : '';
 
 		$sortValue = -1;
 		$stateColor = '';
@@ -390,45 +396,48 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 	protected function makeGroupRow( MessageGroup $group, array $cache, MessageGroup $parent = null ) {
 		$groupId = $group->getId();
 
-		$translatableLanguages = $group->getTranslatableLanguages();
-		if ( $this->table->isBlacklisted( $groupId, $this->target ) !== null
-			|| !isset( $translatableLanguages[$this->target] ) )
-		{
+		if ( $this->table->isBlacklisted( $groupId, $this->target ) !== null ) {
 			return '';
 		}
 
 		$stats = $cache[$groupId];
 
 		list( $total, $translated, $fuzzy ) = $stats;
-		if ( $total === null ) {
-			$this->incomplete = true;
-			$extra = array();
-		} else {
-			if( $total === 0 ) {
-				error_log( $groupId . ' has 0 messages.' );
-			}
-
-			if ( $this->noComplete && $fuzzy === 0 && $translated === $total ) {
-				return '';
-			}
-
-			if ( $this->noEmpty && $translated === 0 && $fuzzy === 0 ) {
-				return '';
-			}
-
-			if ( $translated === $total ) {
-				$extra = array( 'task' => 'reviewall' );
-			} else {
-				$extra = array();
-			}
+		// Quick checks to see whether filters apply
+		if ( $this->noComplete && $fuzzy === 0 && $translated === $total ) {
+			return '';
+		}
+		if ( $this->noEmpty && $translated === 0 && $fuzzy === 0 ) {
+			return '';
 		}
 
+		// Calculation of summary row values
 		if ( !$group instanceof AggregateMessageGroup  ) {
 			if ( !isset( $this->statsCounted[$groupId] ) ) {
 				$this->totals = MessageGroupStats::multiAdd( $this->totals, $stats );
 				$this->statsCounted[$groupId] = true;
 			}
 		}
+
+		$state = $this->getWorkflowStateValue( $groupId );
+
+		$params = $stats;
+		$params[] = $state;
+		$params[] = $groupId;
+		$params[] = $this->getLanguage()->getCode();
+		$cachekey = wfMemcKey( __METHOD__, implode( '-', $params ) );
+		$cacheval = wfGetCache( CACHE_ANYTHING )->get( $cachekey );
+		if ( !$this->purge && is_string( $cacheval ) ) {
+			return $cacheval;
+		}
+
+		$extra = array();
+		if ( $total === null ) {
+			$this->incomplete = true;
+		} elseif ( $translated === $total ) {
+			$extra = array( 'task' => 'reviewall' );
+		}
+
 
 		$rowParams = array();
 		$rowParams['data-groupid'] = $groupId;
@@ -441,40 +450,26 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 		$out .= "\n\t\t" . Html::rawElement( 'td', array(),
 			$this->table->makeGroupLink( $group, $this->target, $extra ) );
 		$out .= $this->table->makeNumberColumns( $fuzzy, $translated, $total );
-		$out .= $this->getWorkflowStateCell( $groupId );
-
+		$out .= $this->getWorkflowStateCell( $groupId, $state );
 		$out .= "\n\t" . Html::closeElement( 'tr' ) . "\n";
 
+		wfGetCache( CACHE_ANYTHING )->set( $cachekey, $out, 3600*24 );
 		return $out;
 	}
 
-	protected function getWorkflowStates() {
+	protected function getWorkflowStates( $field = 'tgr_group', $filter = 'tgr_lang' ) {
 		$db = wfGetDB( DB_SLAVE );
-		$class = get_class( $this );
-		switch ( $class ) {
-			case 'SpecialMessageGroupStats':
-				$targetCol = 'tgr_group';
-				$selectKey = 'tgr_lang';
-				break;
-			case 'SpecialLanguageStats':
-				$targetCol = 'tgr_lang';
-				$selectKey = 'tgr_group';
-				break;
-		}
-
 		$res = $db->select(
 			'translate_groupreviews',
-			array( 'tgr_state', $selectKey ),
-			array( $targetCol => $this->target ),
+			array( 'tgr_state', $field ),
+			array( $filter => $this->target ),
 			__METHOD__
 		);
 
 		$states = array();
-
 		foreach ( $res as $row ) {
-			$states[$row->$selectKey] = $row->tgr_state;
+			$states[$row->$field] = $row->tgr_state;
 		}
-
 		return $states;
 	}
 }

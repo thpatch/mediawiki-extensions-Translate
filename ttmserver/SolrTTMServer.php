@@ -63,7 +63,11 @@ class SolrTTMServer extends TTMServer implements ReadableTTMServer, WritableTTMS
 		$dist = "strdist($dist,text,edit)";
 		$query->addSort( $dist, 'asc' );
 
-		$resultset = $this->client->select( $query );
+		try {
+			$resultset = $this->client->select( $query );
+		} catch( Solarium_Exception $e ) {
+			throw new TranslationHelperException( 'Solarium exception' );
+		}
 
 		$edCache = array();
 		$suggestions = array();
@@ -71,12 +75,12 @@ class SolrTTMServer extends TTMServer implements ReadableTTMServer, WritableTTMS
 			$candidate = $doc->content;
 
 			if ( isset( $edCache[$candidate] ) ) {
-				$dist = $edCache[$candidate];
+				$quality = $edCache[$candidate];
 			} else {
 				$candidateLen = mb_strlen( $candidate );
 				$dist = TTMServer::levenshtein( $text, $candidate, $len, $candidateLen );
 				$quality = 1 - ( $dist * 0.9 / min( $len, $candidateLen ) );
-				$edCache[$candidate] = $dist;
+				$edCache[$candidate] = $quality;
 			}
 			if ( $quality < $this->config['cutoff'] ) {
 				break;
@@ -120,18 +124,25 @@ class SolrTTMServer extends TTMServer implements ReadableTTMServer, WritableTTMS
 		}
 
 		wfProfileIn( __METHOD__ );
-		$doc = $this->createDocument( $handle, $targetLanguage, $definition );
+		$doc = $this->createDocument( $handle, $sourceLanguage, $definition );
 
 		$query = $this->client->createSelect();
-		$query->createFilterQuery( 'globalid' )->setQuery( 'globalid:%T1%', array( $doc->globalid ) );
-		$resultset = $this->client->select( $query );
+		$query->createFilterQuery( 'globalid' )->setQuery( 'globalid:%P1%', array( $doc->globalid ) );
+
+		try {
+			$resultset = $this->client->select( $query );
+		} catch( Solarium_Exception $e ) {
+			error_log( "SolrTTMServer update-read failed" );
+			wfProfileOut( __METHOD__ );
+			return false;
+		}
 
 		$found = count( $resultset );
 		if ( $found > 1 ) {
-			error_log( "Found multiple documents with global id {$doc->globalid}" );
+			throw new MWException( "Found multiple documents with global id {$doc->globalid}" );
 		}
 
-		// Fill in the missing fields
+		// Fill in the fields from existing entry if it exists
 		if ( $found === 1 ) {
 			foreach ( $resultset as $resultdoc ) {
 				foreach( $resultdoc as $field => $value ) {
@@ -148,7 +159,14 @@ class SolrTTMServer extends TTMServer implements ReadableTTMServer, WritableTTMS
 		$update = $this->client->createUpdate();
 		$update->addDocument( $doc );
 		$update->addCommit();
-		$this->client->update( $update );
+
+		try {
+			$this->client->update( $update );
+		} catch( Solarium_Exception $e ) {
+			error_log( "SolrTTMServer update-write failed" );
+			wfProfileOut( __METHOD__ );
+			return false;
+		}
 
 		wfProfileOut( __METHOD__ );
 		return true;
