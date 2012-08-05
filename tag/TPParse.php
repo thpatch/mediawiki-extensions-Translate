@@ -197,10 +197,9 @@ class TPParse {
 					}
 				}
 			}
-
 			// Use the original text if no translation is available
 			if ( $sectiontext === null ) {
-				$sectiontext = "";
+				$sectiontext = $collection->code;
 			}
 
 			// Substitute variables into section text and substitute text into document
