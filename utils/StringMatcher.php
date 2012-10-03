@@ -3,7 +3,7 @@
  * Code for mangling message keys to avoid conflicting keys.
  * @file
  * @author Niklas Laxström
- * @copyright Copyright © 2008-2010, Niklas Laxström
+ * @copyright Copyright © 2008-2012, Niklas Laxström
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
@@ -75,6 +75,20 @@ class StringMatcher implements StringMangler {
 		$this->init( $patterns );
 	}
 
+	protected static function getValidKeyChars() {
+		static $valid = null;
+		if ( $valid === null ) {
+			global $wgLegalTitleChars;
+			$valid = strtr( $wgLegalTitleChars, array(
+				'=' => '', // equals sign, which is itself usef for escaping
+				'&' => '', // ampersand, for entities
+				'%' => '', // percent sign, which is used in URL encoding
+			) );
+		}
+
+		return $valid;
+	}
+
 	public function setConf( $conf ) {
 		$this->sPrefix = $conf['prefix'];
 		$this->init( $conf['patterns'] );
@@ -126,10 +140,6 @@ class StringMatcher implements StringMangler {
 	}
 
 	public function mangle( $data ) {
-		if ( !$this->sPrefix ) {
-			return $data;
-		}
-
 		if ( is_array( $data ) ) {
 			return $this->mangleArray( $data );
 		} elseif ( is_string( $data ) ) {
@@ -142,10 +152,6 @@ class StringMatcher implements StringMangler {
 	}
 
 	public function unMangle( $data ) {
-		if ( !$this->sPrefix ) {
-			return $data;
-		}
-
 		if ( is_array( $data ) ) {
 			return $this->mangleArray( $data, true );
 		} elseif ( is_string( $data ) ) {
@@ -166,11 +172,22 @@ class StringMatcher implements StringMangler {
 	protected function mangleString( $string, $reverse = false ) {
 		if ( $reverse ) {
 			return $this->unMangleString( $string );
-		} elseif ( $this->match( $string ) ) {
-			return $this->sPrefix . $string;
-		} else {
-			return $string;
 		}
+
+		if ( $this->match( $string ) ) {
+			$string = $this->sPrefix . $string;
+		}
+
+		// Apply a "quoted-printable"-like escaping
+		$valid = self::getValidKeyChars();
+		$escapedString = preg_replace_callback( "/[^$valid]/",
+			function( $match ) {
+				return '=' . sprintf( '%02X', ord( $match[0] ) );
+			},
+			$string
+		);
+
+		return $escapedString;
 	}
 
 	/**
@@ -179,10 +196,19 @@ class StringMatcher implements StringMangler {
 	 * @return \string Unmangled message key.
 	 */
 	protected function unMangleString( $string ) {
-		if ( strncmp( $string, $this->sPrefix, strlen( $this->sPrefix ) ) === 0 ) {
-			return substr( $string, strlen( $this->sPrefix ) );
+		// Unescape the "quoted-printable"-like escaping,
+		// which is applied in mangleString.
+		$unescapedString = preg_replace_callback( "/=([A-F0-9]{2})/",
+			function( $match ) {
+				return chr( hexdec( $match[0] ) );
+			},
+			$string
+		);
+
+		if ( strncmp( $unescapedString, $this->sPrefix, strlen( $this->sPrefix ) ) === 0 ) {
+			return substr( $unescapedString, strlen( $this->sPrefix ) );
 		} else {
-			return $string;
+			return $unescapedString;
 		}
 	}
 

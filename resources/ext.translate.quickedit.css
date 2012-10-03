@@ -25,7 +25,7 @@
 
 .mw-sp-translate-edit-fields fieldset {
 	line-height: normal;
-	margin: 0px;
+	margin: 0;
 	border: 1px solid #DBDBDB;
 	/* Browsers suck
 	max-height: 250px; */
@@ -68,7 +68,11 @@
 }
 
 .mw-translate-edit-deftext {
-	font-family: monospace, "Courier New";
+	/*
+	 * Some browsers will render the monospace text too small, namely Firefox, Chrome and Safari.
+	 * Specifying any valid, second value will trigger correct behaviour without forcing a different font.
+	 */
+	font-family: monospace, "Courier New", Courier;
 }
 
 .mw-translate-edit-area {
@@ -100,7 +104,7 @@
 .mw-translate-edit-tmsugs { background-color: #C0F9B6; }
 
 .mw-sp-translate-latestchange {
-	padding-bottom: 0px;
+	padding-bottom: 0;
 }
 
 
@@ -118,4 +122,14 @@
 
 .mw-translate-close {
 	float: right;
+}
+
+.mw-translate-inputs {
+	overflow: auto; /* Fix "100%" width after floats issue */
+	padding: 2px; /* Avoid random scrollbars (browsers suck) */
+}
+
+.mw-translate-bottom {
+	clear: both;
+	margin-top: -3px; /* Reduce excess whitespace */
 }

@@ -32,9 +32,9 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 	protected $targetValueName = array( 'code', 'language' );
 
 	/**
-	 * Most of the displayed numbers added together.
+	 * Most of the displayed numbers added together at the bottom of the table.
 	 */
-	protected $totals = array( 0, 0, 0 );
+	protected $totals;
 
 	/**
 	 * How long spend time calculating missing numbers, before
@@ -91,6 +91,7 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 		parent::__construct( 'LanguageStats' );
 
 		$this->target = $this->getLanguage()->getCode();
+		$this->totals = MessageGroupStats::getEmptyStats();
 	}
 
 	function execute( $par ) {
@@ -250,7 +251,7 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 		global $wgTranslateWorkflowStates;
 
 		if ( $wgTranslateWorkflowStates ) {
-			$this->states = self::getWorkflowStates();
+			$this->states = $this->getWorkflowStates();
 
 			// An array where keys are state names and values are numbers
 			$this->table->addExtraColumn( $this->msg( 'translate-stats-workflow' ) );
@@ -269,7 +270,7 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 	 * @param String $state  The workflow state id
 	 * @return string Html
 	 */
-	function getWorkflowStateCell( $target, $state ) {
+	protected function getWorkflowStateCell( $target, $state ) {
 		// This will be set by addWorkflowStatesColumn if needed
 		if ( !isset( $this->states ) ) {
 			return '';
@@ -401,8 +402,10 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 		}
 
 		$stats = $cache[$groupId];
+		$total = $stats[MessageGroupStats::TOTAL];
+		$translated = $stats[MessageGroupStats::TRANSLATED];
+		$fuzzy = $stats[MessageGroupStats::FUZZY];
 
-		list( $total, $translated, $fuzzy ) = $stats;
 		// Quick checks to see whether filters apply
 		if ( $this->noComplete && $fuzzy === 0 && $translated === $total ) {
 			return '';
@@ -425,6 +428,7 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 		$params[] = $state;
 		$params[] = $groupId;
 		$params[] = $this->getLanguage()->getCode();
+		$params[] = $this->target;
 		$cachekey = wfMemcKey( __METHOD__, implode( '-', $params ) );
 		$cacheval = wfGetCache( CACHE_ANYTHING )->get( $cachekey );
 		if ( !$this->purge && is_string( $cacheval ) ) {
@@ -449,7 +453,7 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 		$out  = "\t" . Html::openElement( 'tr', $rowParams );
 		$out .= "\n\t\t" . Html::rawElement( 'td', array(),
 			$this->table->makeGroupLink( $group, $this->target, $extra ) );
-		$out .= $this->table->makeNumberColumns( $fuzzy, $translated, $total );
+		$out .= $this->table->makeNumberColumns( $stats );
 		$out .= $this->getWorkflowStateCell( $groupId, $state );
 		$out .= "\n\t" . Html::closeElement( 'tr' ) . "\n";
 

@@ -4,7 +4,7 @@
  *
  * @file
  * @author Niklas Laxström
- * @copyright Copyright © 2011, Niklas Laxström
+ * @copyright Copyright © 2011-2012, Niklas Laxström
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
@@ -79,9 +79,9 @@ class TranslateHooks {
 			$wgJobClasses['DeleteJob'] = 'DeleteJob';
 
 			// Namespaces
-			global $wgPageTranslationNamespace, $wgExtraNamespaces;
+			global $wgPageTranslationNamespace;
 			global $wgNamespacesWithSubpages, $wgNamespaceProtection;
-			global $wgTranslateMessageNamespaces, $wgVersion;
+			global $wgTranslateMessageNamespaces;
 
 			// Define constants for more readable core
 			if ( !defined( 'NS_TRANSLATIONS' ) ) {
@@ -145,6 +145,9 @@ class TranslateHooks {
 
 			// Disable action=delete
 			$wgHooks['ArticleConfirmDelete'][] = 'PageTranslationHooks::disableDelete';
+
+			// Show page source code when export tab is opened
+			$wgHooks['SpecialTranslate::executeTask'][] = 'PageTranslationHooks::sourceExport';
 		}
 	}
 
@@ -169,8 +172,8 @@ class TranslateHooks {
 	 * @return bool
 	 */
 	public static function setupUnitTests( &$files ) {
-		$testDir = dirname( __FILE__ ) . '/tests/';
-		$files[] = $testDir . 'MessageGroupBaseTest.php';
+		$testDir = __DIR__ . '/tests/';
+		$files = array_merge( $files, glob( "$testDir/*Test.php" ) );
 		return true;
 	}
 
@@ -180,7 +183,7 @@ class TranslateHooks {
 	 * @return bool
 	 */
 	public static function schemaUpdates( $updater ) {
-		$dir = dirname( __FILE__ ) . '/sql';
+		$dir = __DIR__ . '/sql';
 
 		$updater->addExtensionUpdate( array( 'addTable', 'translate_sections', "$dir/translate_sections.sql", true ) );
 		$updater->addExtensionUpdate( array( 'addField', 'translate_sections', 'trs_order', "$dir/translate_sections-trs_order.patch.sql", true ) );
@@ -194,6 +197,7 @@ class TranslateHooks {
 		$updater->addExtensionUpdate( array( 'addTable', 'translate_metadata', "$dir/translate_metadata.sql", true ) );
 		$updater->addExtensionUpdate( array( 'addTable', 'translate_messageindex', "$dir/translate_messageindex.sql", true ) );
 		$updater->addExtensionUpdate( array( 'addIndex', 'translate_groupstats', 'tgs_lang', "$dir/translate_groupstats-indexchange.sql", true ) );
+		$updater->addExtensionUpdate( array( 'addField', 'translate_groupstats', 'tgs_proofread', "$dir/translate_groupstats-proofread.sql", true ) );
 		return true;
 	}
 
@@ -210,18 +214,16 @@ class TranslateHooks {
 	}
 
 	/**
-	 * Set the right page content language for message group translations ("Page/xx").
+	 * Set the correct page content language for translation units.
 	 * Hook: PageContentLanguage
 	 * @param $title Title
 	 * @param $pageLang
 	 * @return bool
 	 */
-	public static function onPageContentLanguage( $title, &$pageLang ) {
-		global $wgTranslateMessageNamespaces;
-		// For translation pages, parse plural, grammar etc with correct language, and set the right direction
-		if ( in_array( $title->getNamespace(), $wgTranslateMessageNamespaces ) ) {
-			list( , $code ) = TranslateUtils::figureMessage( $title->getText() );
-			$pageLang = $code;
+	public static function onPageContentLanguage( Title $title, &$pageLang ) {
+		$handle = new MessageHandle( $title );
+		if ( $handle->isMessageNamespace() ) {
+			$pageLang = $handle->getEffectiveLanguageCode();
 		}
 		return true;
 	}

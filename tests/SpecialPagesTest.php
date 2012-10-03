@@ -14,10 +14,18 @@ require_once( __DIR__ . '/SuperUser.php' );
  * @group Database
  */
 class SpecialPagesTest extends MediaWikiTestCase {
+	public function setUp() {
+		global $wgTranslateCacheDirectory, $wgTranslateMessageIndex;
+		// Only in 1.20, but who runs tests again older versions anyway?
+		$wgTranslateCacheDirectory = $this->getNewTempDirectory();
+		$wgTranslateMessageIndex = array( 'DatabaseMessageIndex' );
+		// For User::editToken
+		global $wgDeprecationReleaseLimit;
+		$wgDeprecationReleaseLimit = 1.18;
+	}
 
 	public function specialPages() {
-		global $IP;
-		require( '../_autoload.php' );
+		require( __DIR__ . '/../_autoload.php' );
 		global $wgSpecialPages;
 
 		$pages = array();
@@ -43,7 +51,10 @@ class SpecialPagesTest extends MediaWikiTestCase {
 			$page->run( null );
 		} catch ( PermissionsError $e ) {
 			// This is okay
+		} catch ( ErrorPageError $e ) {
+			// This is okay as well
 		}
+
 		$this->assertTrue( true, "Special page $name was executed succesfully with anon user" );
 
 		$user = new SuperUser();
@@ -51,7 +62,11 @@ class SpecialPagesTest extends MediaWikiTestCase {
 		$page->setContext( $context );
 
 		// This should not throw permission errors
-		$page->run( null );
+		try {
+			$page->run( null );
+		} catch ( ErrorPageError $e ) {
+			// This is okay here
+		}
 		$this->assertTrue( true, "Special page $name was executed succesfully with super user" );
 
 	}

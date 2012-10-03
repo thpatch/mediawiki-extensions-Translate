@@ -79,6 +79,22 @@ class MessageHandle {
 	}
 
 	/**
+	 * Return the code for the assumed language of the content, which might
+	 * be different from the subpage code (qqq, no subpage).
+	 * @return String
+	 * @since 2012-08-05
+	 */
+	public function getEffectiveLanguageCode() {
+		global $wgContLang;
+		$code = $this->getCode();
+		if ( $code === '' || $this->isDoc() ) {
+			return $wgContLang->getCode();
+		}
+
+		return $code;
+	}
+
+	/**
 	 * Determine whether the current handle is for message documentation.
 	 * @return bool
 	 */
@@ -99,7 +115,7 @@ class MessageHandle {
 	/**
 	 * Returns all message group ids this message belongs to.
 	 * The primary message group id is always the first one.
-	 * If the handle does not correspond to any message, the returned array 
+	 * If the handle does not correspond to any message, the returned array
 	 * is empty.
 	 * @return array
 	 */
@@ -117,6 +133,9 @@ class MessageHandle {
 	 */
 	public function getGroup() {
 		$ids = $this->getGroupIds();
+		if ( !isset( $ids[0] ) ) {
+			throw new MWException( 'called before isValid' );
+		}
 		return MessageGroups::getGroup( $ids[0] );
 	}
 

@@ -40,7 +40,7 @@ class TranslateUtils {
 	/**
 	 * Splits page name into message key and language code.
 	 * @param $text \string
-	 * @return Array \type{Tuple[String,String]} Key and language code.
+	 * @return array \type{Tuple[String,String]} Key and language code.
 	 * @todo Handle names without slash.
 	 */
 	public static function figureMessage( $text ) {
@@ -170,16 +170,33 @@ class TranslateUtils {
 	 * @return string
 	 */
 	public static function languageSelector( $language, $selectedId ) {
+		$selector = self::getLanguageSelector( $language );
+		$selector->setDefault( $selectedId );
+		$selector->setAttribute( 'id', 'language' );
+		$selector->setAttribute( 'name', 'language' );
+		return $selector->getHtml();
+	}
+
+	/**
+	 * Standard language selector in Translate extension.
+	 * @param $language \string Language code of the language the names should
+	 * be localised to.
+	 * @return XmlSelect
+	 */
+	public static function getLanguageSelector( $language, $labelOption = false ) {
 		$languages = self::getLanguageNames( $language );
 		ksort( $languages );
 
-		$selector = new XmlSelect( 'language', 'language' );
-		$selector->setDefault( $selectedId );
+		$selector = new XmlSelect();
+		if ( $labelOption !== false ) {
+			$selector->addOption( $labelOption, '-' );
+		}
+
 		foreach ( $languages as $code => $name ) {
 			$selector->addOption( "$code - $name", $code );
 		}
 
-		return $selector->getHTML();
+		return $selector;
 	}
 
 	/**
@@ -362,5 +379,15 @@ class TranslateUtils {
 			$method = "action=query&prop=info&intoken=$token&titles=Token";
 		}
 		return $method;
+	}
+
+	/**
+	 * Returns a random string that can be used as placeholder in strings.
+	 * @return string
+	 * @since 2012-07-31
+	 */
+	public static function getPlaceholder() {
+		static $i = 0;
+		return "\x7fUNIQ" . dechex( mt_rand( 0, 0x7fffffff ) ) . dechex( mt_rand( 0, 0x7fffffff ) ) . '-' . $i++;
 	}
 }

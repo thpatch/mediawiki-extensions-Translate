@@ -18,14 +18,12 @@ class SpecialAggregateGroups extends SpecialPage {
 	public function execute( $parameters ) {
 		$this->setHeaders();
 
-		$request = $this->getRequest();
 		$out = $this->getOutput();
 
 		// Check permissions
 		// TODO: allow read only for other users
 		if ( !$this->getUser()->isAllowed( 'translate-manage' ) ) {
-			$out->permissionRequired( 'translate-manage' );
-			return;
+			throw new PermissionsError( 'translate-manage' );
 		}
 
 		$groups = MessageGroups::getAllGroups();
@@ -69,7 +67,6 @@ class SpecialAggregateGroups extends SpecialPage {
 
 			$remove = Html::element( 'span', array( 'class' => 'tp-aggregate-remove-ag-button' ) );
 
-			$hid = $this->htmlIdForGroup( $group );
 			$header = Html::rawElement( 'h2', null, htmlspecialchars( $group->getLabel() ) . $remove );
 			$out->addHtml( $header );
 			$out->addWikiText( $group->getDescription() );
@@ -112,7 +109,6 @@ class SpecialAggregateGroups extends SpecialPage {
 
 	protected function listSubgroups( AggregateMessageGroup $parent ) {
 		$out = $this->getOutput();
-		$sanid = Sanitizer::escapeId( $parent->getId() );
 
 		$id = $this->htmlIdForGroup( $parent, 'mw-tpa-grouplist-' );
 		$out->addHtml( Html::openElement( 'ol', array( 'id' => $id ) ) );
@@ -138,8 +134,6 @@ class SpecialAggregateGroups extends SpecialPage {
 					'data-groupid' => $id,
 				)
 			);
-
-			$text = $note = '';
 
 			if ( $group ) {
 				$text = Linker::linkKnown( $group->getTitle() );

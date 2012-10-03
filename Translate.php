@@ -93,6 +93,8 @@ $wgAPIModules['translationreview'] = 'ApiTranslationReview';
 $wgAPIModules['groupreview'] = 'ApiGroupReview';
 $wgAPIModules['aggregategroups'] = 'ApiAggregateGroups';
 $wgAPIModules['ttmserver'] = 'ApiTTMServer';
+$wgAPIGeneratorModules['messagecollection'] = 'ApiQueryMessageCollection';
+
 // Before MW 1.20
 $wgHooks['APIQueryInfoTokens'][] = 'ApiTranslationReview::injectTokenFunction';
 $wgHooks['APIQueryInfoTokens'][] = 'ApiGroupReview::injectTokenFunction';
@@ -184,6 +186,11 @@ $wgResourceModules['ext.translate'] = array(
 	'position' => 'top',
 ) + $resourcePaths;
 
+$wgResourceModules['ext.translate.hooks'] = array(
+	'scripts' => 'resources/ext.translate.hooks.js',
+	'position' => 'top',
+) + $resourcePaths;
+
 $wgResourceModules['ext.translate.helplink'] = array(
 	'styles' => 'resources/ext.translate.helplink.css',
 	'position' => 'top',
@@ -222,6 +229,7 @@ $wgResourceModules['ext.translate.quickedit'] = array(
 	'styles' => 'resources/ext.translate.quickedit.css',
 	'messages' => array( 'translate-js-nonext', 'translate-js-save-failed' ),
 	'dependencies' => array(
+		'ext.translate.hooks',
 		'jquery.form',
 		'jquery.ui.dialog',
 		'jquery.autoresize',
@@ -458,7 +466,7 @@ $wgTranslatePermissionUrl = 'Project:Translator';
  * @defgroup PageTranslation Page Translation
  * @see http://translatewiki.net/wiki/Translating:Page_translation_feature
  */
-$wgEnablePageTranslation = false;
+$wgEnablePageTranslation = true;
 
 /**
  * Number for the Translations namespace. Change this if it conflicts with
@@ -665,6 +673,13 @@ $wgTranslateYamlLibrary = 'spyc';
  * a page without having them be transformed upon save.
  */
 $wgTranslateUsePreSaveTransform = false;
+
+/**
+ * Default action for the RecentChanges filter, which makes it possible to filter
+ * translations away or show them only.
+ * Possible values: ('noaction', 'only', 'filter', 'site')
+ */
+$wgTranslateRcFilterDefault = 'filter';
 
 # </source>
 

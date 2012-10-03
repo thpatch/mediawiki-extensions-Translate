@@ -99,7 +99,7 @@ class MessageTable {
 	}
 
 	public function contents() {
-		$optional = wfMsgHtml( 'translate-optional' );
+		$optional = wfMessage( 'translate-optional' )->escaped();
 
 		$this->doLinkBatch();
 
@@ -115,16 +115,18 @@ class MessageTable {
 			$title = $titleMap[$key];
 
 			$original = $m->definition();
+			$translation = $m->translation();
 
-			if ( $m->translation() !== null ) {
-				$message = $m->translation();
-				$rclasses = self::getLanguageAttributes( $targetLang );
-				$rclasses['class'] = 'translated';
+			$hasTranslation = $translation !== null;
+			if ( $hasTranslation ) {
+				$message = $translation;
+				$extraAttribs = self::getLanguageAttributes( $targetLang );
 			} else {
 				$message = $original;
-				$rclasses = self::getLanguageAttributes( $sourceLang );
-				$rclasses['class'] = 'untranslated';
+				$extraAttribs = self::getLanguageAttributes( $sourceLang );
 			}
+
+			wfRunHooks( 'TranslateFormatMessageBeforeTable', array( &$message, $m, $this->group, $targetLang, &$extraAttribs ) );
 
 			global $wgLang;
 			$niceTitle = htmlspecialchars( $wgLang->truncate( $title->getPrefixedText(), -35 ) );
@@ -145,29 +147,30 @@ class MessageTable {
 				$extra = '<br />' . $optional;
 			}
 
-			$tqeData = array(
+			$tqeData = $extraAttribs + array(
 				'data-title' => $title->getPrefixedText(),
 				'data-group' => $this->group->getId(),
 				'id' => 'tqe-anchor-' . substr( sha1( $title->getPrefixedText() ), 0, 12 ),
+				'class' => 'tqe-inlineeditable ' . ( $hasTranslation ? 'translated' : 'untranslated' )
 			);
 
 			$leftColumn = $this->getReviewButton( $m ) . $anchor . $tools['edit'] . $extra . $this->getReviewStatus( $m );
 
-			if ( $this->reviewMode && $original !== $message ) {
+			if ( $this->reviewMode ) {
 				$output .= Xml::tags( 'tr', array( 'class' => 'orig' ),
 					Xml::tags( 'td', array( 'rowspan' => '2' ), $leftColumn ) .
 					Xml::tags( 'td', self::getLanguageAttributes( $sourceLang ),
 						TranslateUtils::convertWhiteSpaceToHTML( $original ) )
 				);
 
-				$output .= Xml::tags( 'tr', array( 'class' => 'new tqe-inlineeditable' ) + $tqeData,
-					Xml::tags( 'td', $rclasses, TranslateUtils::convertWhiteSpaceToHTML( $message ) )
+				$output .= Xml::tags( 'tr', null,
+					Xml::tags( 'td', $tqeData, TranslateUtils::convertWhiteSpaceToHTML( $message ) )
 				);
 			} else {
-				$output .= Xml::tags( 'tr', array( 'class' => 'def tqe-inlineeditable' ) + $tqeData,
+				$output .= Xml::tags( 'tr', array( 'class' => 'def' ),
 					Xml::tags( 'td', null, $leftColumn ) .
 					Xml::tags( 'td', null, TranslateUtils::convertWhiteSpaceToHTML( $original ) ) .
-					Xml::tags( 'td', $rclasses, TranslateUtils::convertWhiteSpaceToHTML( $message ) )
+					Xml::tags( 'td', $tqeData, TranslateUtils::convertWhiteSpaceToHTML( $message ) )
 				);
 			}
 			$output .= "\n";
@@ -189,7 +192,7 @@ class MessageTable {
 
 		list( $format, $value ) = $this->headers[$type];
 		if ( $format === 'msg' ) {
-			return wfMsgExt( $value, array( 'parsemag', 'escapenoentities' ) );
+			return wfMessage( $value )->escaped();
 		} elseif ( $format === 'raw' ) {
 			return $value;
 		} else {
@@ -259,11 +262,7 @@ class MessageTable {
 
 		$you = $wgUser->getId();
 		if ( in_array( $you, $reviewers ) ) {
-			if ( count( $reviewers ) === 1 ) {
-				$msg = wfMessage( 'translate-messagereview-reviewsyou' )->parse();
-			} else {
-				$msg = wfMessage( 'translate-messagereview-reviewswithyou' )->numParams( count( $reviewers ) )->parse();
-			}
+			$msg = wfMessage( 'translate-messagereview-reviewswithyou' )->numParams( count( $reviewers ) )->parse();
 		} else {
 			$msg = wfMessage( 'translate-messagereview-reviews' )->numParams( count( $reviewers ) )->parse();
 		}

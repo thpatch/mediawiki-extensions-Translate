@@ -538,7 +538,7 @@ PHP;
 
 	protected static function escape( $line ) {
 		// There may be \ as a last character, for keeping trailing whitespace
-		$line = preg_replace( '/\\\\$/', '', $line );
+		$line = preg_replace( '/(\s)\\\\$/', '\1', $line );
 		$line = addcslashes( $line, '\\"' );
 		$line = str_replace( "\n", '\n', $line );
 		$line = '"' . $line . '"';
@@ -567,16 +567,22 @@ PHP;
 			return $text;
 		}
 
+		$placeholder = TranslateUtils::getPlaceholder();
+		# |/| is commonly used in KDE to support inflections
+		$text = str_replace( '|/|', $placeholder, $text );
+
+		$plurals = array();
+		$match = preg_match_all( '/{{PLURAL:GETTEXT\|(.*)}}/iUs', $text, $plurals );
+		if ( !$match ) {
+			throw new GettextPluralException( "Failed to find plural in: $text" );
+		}
+
 		$splitPlurals = array();
 		for ( $i = 0; $i < $forms; $i++ ) {
-			$plurals = array();
-			$match = preg_match_all( '/{{PLURAL:GETTEXT\|(.*)}}/iUs', $text, $plurals );
-
-			if ( !$match ) {
-				throw new GettextPluralException( "Failed to find plural in: $text" );
-			}
-
+			# Start with the hole string
 			$pluralForm = $text;
+			# Loop over *each* {{PLURAL}} instance and replace
+			# it with the plural form belonging to this index
 			foreach ( $plurals[0] as $index => $definition ) {
 				$parsedFormsArray = explode( '|', $plurals[1][$index] );
 				if ( !isset( $parsedFormsArray[$i] ) ) {
@@ -586,6 +592,8 @@ PHP;
 					$pluralForm = str_replace( $pluralForm, $definition, $parsedFormsArray[$i] );
 				}
 			}
+
+			$pluralForm = str_replace( $placeholder, '|/|', $pluralForm );
 			$splitPlurals[$i] = $pluralForm;
 		}
 

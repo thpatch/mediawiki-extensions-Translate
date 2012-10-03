@@ -19,8 +19,8 @@ class PremadeMediawikiExtensionGroups {
 	protected $namespace = NS_MEDIAWIKI;
 
 	/**
-	 * @param $def Path to file
-	 * @param $path Path to extensions
+	 * @param $def string Path to file
+	 * @param $path string Path to extensions
 	 */
 	public function __construct( $def, $path ) {
 		$this->definitionFile = $def;
@@ -86,7 +86,15 @@ class PremadeMediawikiExtensionGroups {
 		if ( isset( $info['prefix'] ) ) {
 			$mangler = new StringMatcher( $info['prefix'], $info['mangle'] );
 			$group->setMangler( $mangler );
+		} else {
+			$mangler = StringMatcher::emptyMatcher();
+			// No need to set to the group
+		}
+
+		if ( isset( $info['ignored'] ) ) {
 			$info['ignored'] = $mangler->mangle( $info['ignored'] );
+		}
+		if ( isset( $info['optional'] ) ) {
 			$info['optional'] = $mangler->mangle( $info['optional'] );
 		}
 

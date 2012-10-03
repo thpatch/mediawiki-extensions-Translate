@@ -19,9 +19,10 @@ class MessageGroupStats {
 	/// Name of the database table
 	const TABLE = 'translate_groupstats';
 
-	const TOTAL = 0;
-	const TRANSLATED = 1;
-	const FUZZY = 2;
+	const TOTAL = 0; ///< Array index
+	const TRANSLATED = 1;  ///< Array index
+	const FUZZY = 2; ///< Array index
+	const PROOFREAD = 3; ///< Array index
 
 	/// @var float
 	protected static $timeStart = null;
@@ -37,6 +38,16 @@ class MessageGroupStats {
 	public static function setTimeLimit( $limit ) {
 		self::$timeStart = microtime( true );
 		self::$limit = $limit;
+	}
+
+	/**
+	 * Returns empty stats array. Useful because the number of elements
+	 * may change.
+	 * @return array
+	 * @since 2012-09-21
+	 */
+	public static function getEmptyStats() {
+		return array( 0, 0, 0, 0 );
 	}
 
 	/**
@@ -152,8 +163,8 @@ class MessageGroupStats {
 		);
 
 		$values = array();
-		foreach ( array( 'total', 'translated', 'fuzzy' ) as $type ) {
-			if ( !isset( $changes[$type] ) ) {
+		foreach ( array( 'total', 'translated', 'fuzzy', 'proofread' ) as $type ) {
+			if ( isset( $changes[$type] ) ) {
 				$values[] = "tgs_$type=tgs_$type" .
 					self::stringifyNumber( $changes[$type] );
 			}
@@ -169,9 +180,10 @@ class MessageGroupStats {
 	 */
 	protected static function extractNumbers( $row ) {
 		return array(
-			(int)$row->tgs_total,
-			(int)$row->tgs_translated,
-			(int)$row->tgs_fuzzy
+			self::TOTAL => (int)$row->tgs_total,
+			self::TRANSLATED => (int)$row->tgs_translated,
+			self::FUZZY => (int)$row->tgs_fuzzy,
+			self::PROOFREAD => (int)$row->tgs_proofread,
 		);
 	}
 
@@ -187,13 +199,16 @@ class MessageGroupStats {
 		return $stats;
 	}
 
-	protected static function expandAggregates( MessageGroup $group ) {
-		$flattened = array( $group->getId() );
-		if ( $group instanceof AggregateMessageGroup ) {
-			foreach ( $group->getGroups() as $subgroup ) {
-				$flattened = array_merge( $flattened, self::expandAggregates( $subgroup ) );
+	protected static function expandAggregates( AggregateMessageGroup $agg ) {
+		$flattened = array();
+		foreach ( $agg->getGroups() as $group ) {
+			if ( $group instanceof AggregateMessageGroup ) {
+				$flattened += self::expandAggregates( $group );
+			} else {
+				$flattened[$group->getId()] = $group;
 			}
 		}
+
 		return $flattened;
 	}
 
@@ -229,7 +244,7 @@ class MessageGroupStats {
 			$conds['tgs_lang'] = $codes;
 		}
 
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_MASTER );
 		$res = $dbr->select( self::TABLE, '*', $conds, __METHOD__ );
 		return $res;
 	}
@@ -238,16 +253,16 @@ class MessageGroupStats {
 		$id = $group->getId();
 
 		if ( self::$timeStart !== null && ( microtime( true ) - self::$timeStart ) > self::$limit ) {
-			return $stats[$id][$code] = array( null, null, null );
+			return $stats[$id][$code] = array( null, null, null, null );
 		}
 
 		if ( $group instanceof AggregateMessageGroup ) {
-			$ids = array_unique( self::expandAggregates( $group ) );
-			$res = self::selectRowsIdLang( $ids, $code );
+			$expanded = self::expandAggregates( $group );
+			$res = self::selectRowsIdLang( array_keys( $expanded ), $code );
 			$stats = self::extractResults( $res, $stats );
 
-			$aggregates = array( 0, 0, 0 );
-			foreach ( $group->getGroups() as $sid => $subgroup ) {
+			$aggregates = self::getEmptyStats();
+			foreach ( $expanded as $sid => $subgroup ) {
 				# Discouraged groups may belong to a another group, usually if there
 				# is a aggregate group for all translatable pages. In that case
 				# calculate and store the statistics, but don't count them as part of
@@ -268,30 +283,28 @@ class MessageGroupStats {
 			$aggregates = self::calculateGroup( $group, $code );
 		}
 
-		list( $total, $translated, $fuzzy ) = $aggregates;
-
 		// Don't add nulls to the database, causes annoying warnings
-		if ( $total === null ) {
+		if ( $aggregates[self::TOTAL] === null ) {
 			return $aggregates;
 		}
 
 		$data = array(
 			'tgs_group' => $id,
 			'tgs_lang' => $code,
-			'tgs_total' => $total,
-			'tgs_translated' => $translated,
-			'tgs_fuzzy' => $fuzzy,
+			'tgs_total' => $aggregates[self::TOTAL],
+			'tgs_translated' => $aggregates[self::TRANSLATED],
+			'tgs_fuzzy' => $aggregates[self::FUZZY],
+			'tgs_proofread' => $aggregates[self::PROOFREAD],
 		);
 
 		$dbw = wfGetDB( DB_MASTER );
-		$errors = $dbw->ignoreErrors( true );
 		$dbw->insert(
 			self::TABLE,
 			$data,
-			__METHOD__
+			__METHOD__,
+			array( 'IGNORE' )
 		);
 
-		$dbw->ignoreErrors( $errors );
 		return $aggregates;
 	}
 
@@ -309,6 +322,7 @@ class MessageGroupStats {
 		global $wgTranslateDocumentationLanguageCode;
 		# Calculate if missing and store in the db
 		$collection = $group->initCollection( $code );
+		$collection->setReviewMode( true );
 
 
 		if ( $code === $wgTranslateDocumentationLanguageCode ) {
@@ -338,7 +352,17 @@ class MessageGroupStats {
 		$collection->filter( 'hastranslation', false );
 		$translated = count( $collection );
 
-		return array( $total, $translated, $fuzzy );
+		// Count how many of the completed translations
+		// have been proofread
+		$collection->filter( 'reviewer', false );
+		$proofread = count( $collection );
+
+		return array(
+			self::TOTAL => $total,
+			self::TRANSLATED => $translated,
+			self::FUZZY => $fuzzy,
+			self::PROOFREAD => $proofread,
+		);
 	}
 
 	/**

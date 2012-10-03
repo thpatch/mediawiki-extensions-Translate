@@ -69,6 +69,7 @@ $messages['en'] = array(
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] delivers an offline, text-only version of Wikipedia on a mobile device',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] is a cross-platform mobile and tablet application for reading and contributing to Wikipedia',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] is a cross-platform mobile and tablet application for reading and contributing to Wiktionary',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] is a mobile application for contributing to the [[:meta:Wiki Loves Monuments|Wiki Loves Monuments project]]',
 );
 
 /** Message documentation (Message documentation)
@@ -95,6 +96,7 @@ $messages['qqq'] = array(
 	'translate-group-desc-statusnet-plugin' => 'Do not translate the link target <code>Translating:StatusNet</code>.',
 	'bw-desc-wikiblame' => 'Do not translate the link target <code>Translating:WikiBlame</code>.',
 	'bw-desc-wikireader' => 'Do not translate the link target <code>Translating:WikiReader</code>.',
+	'translate-group-desc-wlmmobile' => 'Do not translate the link targets "<code>Translating:WLMMobile</code>" and "<code>:meta:Wiki Loves Monuments</code>".',
 );
 
 /** Afrikaans (Afrikaans)
@@ -234,6 +236,7 @@ $messages['ast'] = array(
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] ufre una versión de Wikipedia ensin conexón, en mou sólo testu, nun preséu móvil',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] ye una aplicación de plataforma cruzada pa móviles y tabletes pa lleer y collaborar con Wikipedia',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] ye una aplicación de plataforma cruzada pa móviles y tabletes pa lleer y collaborar con Wiktionary',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] ye una aplicación pa preseos móviles que val pa collaborar col [[:meta:Wiki Loves Monuments|proyeutu Wiki Loves Monuments]]',
 );
 
 /** Azerbaijani (azərbaycanca)
@@ -255,7 +258,7 @@ $messages['ba'] = array(
 	'translate-group-desc-flaggedrevs' => 'MediaWiki проектының [http://www.mediawiki.org/wiki/Extension:FlaggedRevs FlaggedRevs] киңәйеүенең бөтә яҙмаларын үҙ эсенә алыусы мета төркөм.',
 );
 
-/** Belarusian (Taraškievica orthography) (‪беларуская (тарашкевіца)‬)
+/** Belarusian (Taraškievica orthography) (беларуская (тарашкевіца)‎)
  * @author EugeneZelenko
  * @author Jim-by
  * @author Renessaince
@@ -516,11 +519,13 @@ Vysvětlení klíčů u funkce PLURAL najdete na [http://unicode.org/repos/cldr-
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] je projekt nabízející offline čistě textovou verzi Wikipedie pro mobilní zařízení.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] je mnohoplatformní mobilní a tabletová aplikace pro čtení Wikipedie a přispívání do ní',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] je mnohoplatformní mobilní a tabletová aplikace pro čtení Wikislovníku a přispívání do něj',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] je mobilní aplikace pro přispívání do [[:meta:Wiki Loves Monuments|projektu Wiki miluje památky]]',
 );
 
 /** Danish (dansk)
  * @author Byrial
  * @author Emilkris33
+ * @author Hylle
  * @author Peter Alberti
  */
 $messages['da'] = array(
@@ -574,6 +579,7 @@ $messages['da'] = array(
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] giver en frakoblet tekstudgave af Wikipedia på en mobil enhed.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] er et flerplatforms mobil- og tabletprogram til at læse og bidrage til Wikipedia',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] er et flerplatforms mobil- og tabletprogram til at læse og bidrage til Wiktionary',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] er en mobil applikation der bidrager til [[:meta:Wiki Loves Monuments|Wiki Elsker Monumenter projektet]]',
 );
 
 /** German (Deutsch)
@@ -636,6 +642,7 @@ Weitere Information finden sich unter [[mw:Extension:PDF Writer]] und http://cod
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] ist ein Projekt für eine offline, nur-Text-Version der Wikipedia auf Kleingeräte.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] ist eine plattformübergreifende Mobiltelefon- und Tablet-PC-Applikation zum Lesen und Bearbeiten der Wikipedia',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] ist eine plattformübergreifende Mobiltelefon- und Tablet-PC-Applikation zum Lesen und Bearbeiten des Wiktionarys',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] ist eine Mobiltelefon- und Tablet-PC-Applikation zum Mitmachen beim Projekt [[:meta:Wiki Loves Monuments|Wiki Loves Monuments]]',
 );
 
 /** Zazaki (Zazaki)
@@ -709,6 +716,7 @@ Pšosym glědaj [[mw:Extension:PDF_Writer]] a http://code.pediapress.com/wiki/wi
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] jo projekt, kótaryž stoj tekstowu wersiju Wikipedije offline na mobilnem rěźe k dispoziciji.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] jo platformu pśesegajuca aplikacija za mobilne telefony a tabletowe licadła za cytanje a wobźěłowanje Wikipedije',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] jo platformu pśesegajuca aplikacija za mobilne telefony a tabletowe licadła za cytanje a wobźěłowanje Wikisłownika',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] jo mobilna aplikacija, kótaraž pśinosujo k [[:meta:Wiki Loves Monuments|projektoju Wiki Loves Monuments]]',
 );
 
 /** Greek (Ελληνικά)
@@ -816,6 +824,7 @@ Por favor mira [[mw:Extension:PDF_Writer]] y http://code.pediapress.com/wiki/wik
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] es un proyecto para proveer una versión offline, sólo texto de Wikipedia para dispositivos móviles.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] es una aplicación para dispositivos móviles y tabletas-PC para leer y colaborar en Wikipedia',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] es una aplicación para dispositivos móviles y tabletas-PC para leer y colaborar en Wikipedia',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] es una aplicación móvil para contribuir al [[:meta:Wiki Loves Monuments|proyecto Wiki Loves Monuments]]',
 );
 
 /** Estonian (eesti)
@@ -1033,6 +1042,7 @@ Por favor, bótelle unha ollada a [[mw:Extension:PDF_Writer]] e a http://code.pe
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] é un proxecto para ollar unha versión da Wikipedia sen conexión e en modo de só lectura nun dispositivo móbil.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] é unha aplicación para dispositivos móbiles e tabletas para ler e colaborar na Wikipedia',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] é unha aplicación para dispositivos móbiles e tabletas para ler e colaborar no Galizionario',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] é unha aplicación para dispositivos móbiles que serve para contribuír no [[:meta:Wiki Loves Monuments|proxecto Wiki Loves Monuments]]',
 );
 
 /** Swiss German (Alemannisch)
@@ -1146,6 +1156,7 @@ $messages['he'] = array(
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] מביא גרסת טקסט של ויקיפדיה למכשיר נייד.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] הוא יישום מרובה־פלטפורמות לקריאה ועריכה של ויקיפדיה במכשירים ניידים ובמחשבי לוח',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|ויקימילון נייד]] הוא יישום מרובה־פלטפורמות למכשירים ניידים ומחשבי לוח לקריאה ותרומה לוויקימילון',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|ויקי אוהבת אתרי מורשת לניידים]] הוא יישום למכשירים ניידים שמיועד לתרומה ל[[:meta:Wiki Loves Monuments|מיזם ויקי אוהבת אתרי מורשת]]',
 );
 
 /** Croatian (hrvatski)
@@ -1225,6 +1236,7 @@ Prošu hlej [[mw:Extension:PDF_Writer]] a http://code.pediapress.com/wiki/wiki/m
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] je projekt, kotryž skići tekstowu wersiju Wikipedije offline na mobilnym graće.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] je platformu přesahaca aplikacija za mobilne telefony a tabletowe ličaki za čitanje a wobdźěłowanje Wikipedije',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] je platformu přesahaca aplikacija za mobilne telefony a tabletowe ličaki za čitanje a wobdźěłowanje Wikisłownika',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] je mobilna aplikacija, kotraž k [[:meta:Wiki Loves Monuments|projektej Wiki Loves Monuments]] přinošuje',
 );
 
 /** Hungarian (magyar)
@@ -1402,7 +1414,7 @@ $messages['it'] = array(
 	'translate-group-desc-translate' => "Meta gruppo di messaggi contenente tutti i messaggi dell'estensione MediaWiki [http://www.mediawiki.org/wiki/Extension:Translate Translate]",
 	'translate-group-desc-wikiaextensions' => 'Meta gruppo di messaggi contenente tutti i messaggi per le estensioni di MediaWiki supportate usate da [http://www.wikia.com Wikia]',
 	'translate-group-desc-wikimediaextensions' => 'Meta gruppo di messaggi contenente tutti i messaggi per le estensioni di MediaWiki usate dalla [http://wikimedia.org/ Wikimedia Foundation]',
-	'translate-group-desc-wikimediaextensions-main' => 'Meta gruppo di messaggi contenente tutti i messaggi delle estensioni MediaWiki supportate che devono essere tradotte per il [http://meta.wikimedia.org/wiki/Language_committee Language committee] di Wikimedia',
+	'translate-group-desc-wikimediaextensions-main' => 'Meta gruppo di messaggi contenente tutti i messaggi delle estensioni MediaWiki supportate che devono essere tradotte per il [http://meta.wikimedia.org/wiki/Language_committee Comitato linguistico] di Wikimedia',
 	'translate-group-desc-uniwiki' => 'Meta gruppo di messaggi contenente tutti i messaggi delle estensioni relative a [http://unicefinnovation.org/wiki.php Uniwiki]',
 	'translate-group-desc-ui' => 'Meta gruppo di messaggi contenente tutti i messaggi delle estensioni relative al [http://meta.wikimedia.org/wiki/Wikipedia_Usability_Initiative Progetto usabilità di Wikipedia]',
 	'translate-group-desc-translatablepages' => 'Tutte le pagine traducibili',
@@ -1440,6 +1452,7 @@ Vedi [http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] è un progetto per fornire una versione offline, solo testo di Wikipedia per dispositivi mobili.',
 	'translate-group-desc-wikipediamobile' => "[[Translating:WikipediaMobile|WikipediaMobile]] è un'applicazione multipiattaforma per dispositivi mobili e tavolette per leggere e modificare Wikipedia",
 	'translate-group-desc-wiktionarymobile' => "[[Translating:WiktionaryMobile|WiktionaryMobile]] è un'applicazione multipiattaforma per dispositivi mobili e tavolette per leggere e modificare Wiktionary",
+	'translate-group-desc-wlmmobile' => "[[Translating:WLMMobile|WikiLovesMonuments Mobile]] è un'applicazione per dispositivi mobili per contribuire al [[:meta:Wiki Loves Monuments|progetto Wiki Loves Monuments]]",
 );
 
 /** Japanese (日本語)
@@ -1453,8 +1466,8 @@ Vedi [http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_
 $messages['ja'] = array(
 	'translategroupdescriptions-desc' => '[http://mediawiki.org/wiki/Extension:Translate Translate]拡張機能で利用可能な製品のメッセージ群の概略',
 	'translate-group-desc-nodesc' => 'このメッセージ群には説明がありません',
-	'translate-group-desc-mediawikicore' => 'このメッセージ群には[[Translating:MediaWiki|MediaWiki]]の現在のアルファ版({{CURRENTVERSION}})で使われているメッセージが含まれています',
-	'translate-group-desc-mediawikimostused' => 'このメッセージ群には[[Translating:MediaWiki|MediaWiki]]で[http://translatewiki.net/wiki/Most_often_used_messages_in_MediaWiki もっともよく使われている500のメッセージ]が含まれています',
+	'translate-group-desc-mediawikicore' => 'このメッセージ群は、[[Translating:MediaWiki|MediaWiki]]の現在のアルファ版({{CURRENTVERSION}})で使用しているメッセージを含んでいます',
+	'translate-group-desc-mediawikimostused' => 'このメッセージ群は、[[Translating:MediaWiki|MediaWiki]]で[http://translatewiki.net/wiki/Most_often_used_messages_in_MediaWiki もっともよく使われている500のメッセージ]を含んでいます',
 	'translate-group-desc-mediawikiextensions' => 'サポート対象の[[Translating:MediaWiki|MediaWiki]]拡張機能のすべてのメッセージを含む上位メッセージ群',
 	'translate-group-desc-collection' => 'MediaWiki拡張機能[http://www.mediawiki.org/wiki/Extension:Collection Collection]のすべてのメッセージを含む上位メッセージ群',
 	'translate-group-desc-flaggedrevs' => 'MediaWiki拡張機能[http://www.mediawiki.org/wiki/Extension:FlaggedRevs FlaggedRevs]のすべてのメッセージを含む上位メッセージ群',
@@ -1501,6 +1514,32 @@ $messages['ja'] = array(
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]]は、携帯可能な機器で、オフラインかつ文字のみのウィキペディアを提供します',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]]はウィキペディアを閲覧・編集するためのクロスプラットフォームな携帯・タブレット端末向けアプリケーションです',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]]はウィクショナリーを閲覧・編集するためのクロスプラットフォームな携帯・タブレット端末向けアプリケーションです',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]]は[[:meta:Wiki Loves Monuments|ウィキラブモニュメント プロジェクト]]を閲覧・編集するための携帯端末向けアプリケーションです',
+);
+
+/** Georgian (ქართული)
+ * @author David1010
+ */
+$messages['ka'] = array(
+	'translate-group-desc-nodesc' => 'ამ ჯგუფის შეტყობინებებისათვის აღწერა არ არის ხელმისაწვდომი',
+	'translate-group-desc-mediawikiextensions' => 'შეტყობინებების მეტა-ჯგუფი, შეიცავს [[Translating:MediaWiki|მედიავიკის]] მხარდაჭერილი გაფართოებების ყველა შეტყობინებას',
+	'translate-group-desc-collection' => 'შეტყობინებების მეტა-ჯგუფი, შეიცავს მედიავიკის გაფართოებების ყველა შეტყობინებას [http://www.mediawiki.org/wiki/Extension:Collection Collection]',
+	'translate-group-desc-flaggedrevs' => 'შეტყობინებების მეტა-ჯგუფი, შეიცავს მედიავიკის გაფართოებების ყველა შეტყობინებას [http://www.mediawiki.org/wiki/Extension:FlaggedRevs FlaggedRevs]',
+	'translate-group-desc-readerfeedback' => 'შეტყობინებების მეტა-ჯგუფი, შეიცავს მედიავიკის გაფართოებების ყველა შეტყობინებას [http://www.mediawiki.org/wiki/Extension:ReaderFeedback ReaderFeedback]',
+	'translate-group-desc-semantic' => 'შეტყობინებების მეტა-ჯგუფი, შეიცავს ყველა გაფართოების ყველა შეტყობინებას [http://semantic-mediawiki.org/ Semantic MediaWiki]',
+	'translate-group-desc-translate' => 'შეტყობინებების მეტა-ჯგუფი, შეიცავს მედიავიკის გაფართოებების ყველა შეტყობინებას [http://www.mediawiki.org/wiki/Extension:Translate თარგმნა]',
+	'translate-group-desc-translatablepages' => 'ყველა თარგმნადი გვერდი',
+	'bw-desc-freecol' => '[[Translating:FreeCol|FreeCol]] არის სტარატეგიული თამაში',
+	'translate-group-desc-eol' => 'შეტყობინებათა ჯგუფი [[Translating:EOL|Encyclopedia of Life]]-თვის',
+	'translate-group-desc-ihris' => 'შეტყობინებათა ჯგუფი [[Translating:iHRIS|iHRIS]]-თვის',
+	'translate-group-desc-ihris-common' => 'შეტყობინებათა ჯგუფი [[Special:Translate/out-ihris-common-0-all|iHRIS Common]]-თვის, [[Translating:iHRIS|iHRIS]]-ის ნაწილი',
+	'translate-group-desc-ihris-i2ce' => 'შეტყობინებათა ჯგუფი [[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]]-თვის, [[Translating:iHRIS|iHRIS]]-ის ნაწილი',
+	'translate-group-desc-ihris-manage' => 'შეტყობინებათა ჯგუფი [[Special:Translate/out-ihris-manage-0-all|iHRIS Manage]]-თვის, [[Translating:iHRIS|iHRIS]]-ის ნაწილი',
+	'translate-group-desc-ihris-qualify' => 'შეტყობინებათა ჯგუფი [[Special:Translate/out-ihris-qualify-0-all|iHRIS Qualify]]-თვის, [[Translating:iHRIS|iHRIS]]-ის ნაწილი',
+	'translate-group-desc-kiwix' => 'შეტყობინებათა ჯგუფი [[Translating:Kiwix|Kiwix]]-თვის',
+	'translate-group-desc-mantisbt-plugin-core' => 'ძირითადი პლაგინი [[Translating:MantisBT|MantisBT]]-თვის',
+	'translate-group-desc-mediawiki-core-branch' => 'შეტყობინებები [[Translating:MediaWiki|მედიავიკის]] სტაბილური ვერსიისათვის',
+	'bw-desc-openstreetmap' => 'შეტყობინებების ჯგუფი [[Translating:OpenStreetMap|OpenStreetMap]]-ის ყველა შეტყობინებისათვის',
 );
 
 /** Адыгэбзэ (Адыгэбзэ)
@@ -1543,7 +1582,7 @@ $messages['ko'] = array(
 	'translate-group-desc-translatablepages' => '모든 번역 가능한 문서',
 	'bw-desc-freecol' => '[[Translating:FreeCol|FreeCol]]은 턴제 전략 게임입니다',
 	'bw-desc-fudforum' => '[[Translating:FUDforum|FUDforum]]는 웹 기반 토론 포럼 소프트웨어입니다',
-	'bw-desc-mantisbt' => '[[Translating:MantisBT|MantisBT]]는 웹 기반 문제 추적 소프트웨어입니다',
+	'bw-desc-mantisbt' => '[[Translating:MantisBT|MantisBT]]는 웹 기반 이슈 추적 소프트웨어입니다',
 	'translate-group-desc-eol' => '[[Translating:EOL|생명의 백과사전]]에 대한 메시지 그룹입니다',
 	'translate-group-desc-ihris' => '[[Translating:iHRIS|iHRIS]]에 대한 메시지 그룹입니다',
 	'translate-group-desc-ihris-common' => '[[Translating:iHRIS|iHRIS]] 모듈 [[Special:Translate/out-ihris-common-0-all|iHRIS Common]]에 대한 메시지 그룹입니다',
@@ -1574,6 +1613,7 @@ $messages['ko'] = array(
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]]는 모바일 장치에서 위키백과의 오프라인, 텍스트 전용 버전을 제공합니다',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]]은 위키백과 문서를 읽고 기여하는 용도로 쓰이는 크로스 플랫폼 모바일 및 태블릿 어플리케이션입니다.',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]]은 위키낱말사전 문서를 읽고 기여하는 용도로 쓰이는 크로스 플랫폼 모바일 및 태블릿 어플리케이션입니다.',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]]은 [[:meta:Wiki Loves Monuments|Wiki Loves Monuments project]]에 기여하기 위한 모바일 어플리케이션입니다',
 );
 
 /** Colognian (Ripoarisch)
@@ -1636,6 +1676,7 @@ Jangk op di Sigge „<i lang="en">[[mw:Extension:PDF_Writer]]</i>“ un „<i la
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] es e Projäk för en offlain Version vun de Wikipedia, ävver bloß Täx, op klein Jeräte.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] es a Projramm för ongerscheidlijje Bedriefssyßteeme för de Wikipeedija op draachbaare Jerääte un Tablät-PCs ze lässe un ze schrieve.',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] en e Projramm för et Wikiwööterbooch ze beloore udder ze ändeere för et Funktellefoon un der Tablätt-PC.',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] es e Projramm för Händitellefonne, Tablättkompjuere, un esu, öm beim Projäk [[:meta:Wiki Loves Monuments|Wiki Loves Monuments]] mezemaache.',
 );
 
 /** Luxembourgish (Lëtzebuergesch)
@@ -1644,7 +1685,7 @@ Jangk op di Sigge „<i lang="en">[[mw:Extension:PDF_Writer]]</i>“ un „<i la
  * @author Robby
  */
 $messages['lb'] = array(
-	'translategroupdescriptions-desc' => 'Beschreiwung vun de Gruppe vu Message vu Projeten, déi vun der Programmerweiterung [http://mediawiki.org/wiki/Extension:Translate Translate] ënnerstëtzt ginn',
+	'translategroupdescriptions-desc' => 'Beschreiwung vun de Gruppe vu Message vu Projeten, déi vun der Programmerweiderung [http://mediawiki.org/wiki/Extension:Translate Translate] ënnerstëtzt ginn',
 	'translate-group-desc-nodesc' => 'Fir dëse Grupp vu Messagen ass keng Beschreiwung disponibel.',
 	'translate-group-desc-mediawikicore' => "An dëser Grupp mat Message sinn d'Messagen aus der aktueller alpha-Versioun vu MediaWiki ({{CURRENTVERSION}}) dran",
 	'translate-group-desc-mediawikimostused' => 'An dësem Grupp sinn déi [http://translatewiki.net/wiki/Most_often_used_messages_in_MediaWiki 500 am dackste gebrauchte Systemmessagen] vu MediaWiki',
@@ -1762,6 +1803,7 @@ $messages['mk'] = array(
 	'bw-desc-wikireader' => '[[Translating:WikiReader|ВикиЧитач]] (WikiReader) е проект за создавање на текстуална верзија на Википедија наменета за мобилен уред.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|ВикипедијаМобилен]] е повеќеподложен додаток за мобилни и таблични уреди наменет за читање и уредување на Википедија',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|ВикиречникМобилен]] е повеќеподложен додаток за мобилни и таблични уреди наменет за читање и уредување на Викиречникот',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|ВикиГиСакаСпомениците - Мобилен]] е мобилен прилог за учествување во проектот „[[:meta:Wiki Loves Monuments|Вики ги сака спомениците]]“',
 );
 
 /** Malayalam (മലയാളം)
@@ -1827,6 +1869,7 @@ $messages['ms'] = array(
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] menyampaikan versi teks sahaja Wikipedia di luar talian pada peranti mudah alih.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] merupakan aplikasi merentas platform mudah alih/tablet yang digunakan untuk membaca dan menyumbang kepada Wikipedia',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] merupakan aplikasi merentas platform mudah alih/tablet yang digunakan untuk membaca dan menyumbang kepada Wiktionary',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] merupakan aplikasi mudah alih untuk menyumbang kepada [[:meta:Wiki Loves Monuments|projek Wiki Loves Monuments]]',
 );
 
 /** Maltese (Malti)
@@ -1837,7 +1880,7 @@ $messages['mt'] = array(
 	'bw-desc-wikiblame' => "[http://wikipedia.ramselehof.de/wikiblame.php Wikiblame] hu kapaċi li jsib veloċement l-awturi ta' paġna fuq sit tal-Wikimedia.",
 );
 
-/** Norwegian Bokmål (‪norsk (bokmål)‬)
+/** Norwegian Bokmål (norsk (bokmål)‎)
  * @author Audun
  * @author Laaknor
  * @author Nghtwlkr
@@ -1871,7 +1914,7 @@ $messages['nb'] = array(
 	'translate-group-desc-ihris-qualify' => 'En meldingsgruppe for [[Special:Translate/out-ihris-qualify-0-all|iHRIS Qualify]], en modul av [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-kiwix' => 'En beskjedgruppe for [[Translating:Kiwix|Kiwix]]',
 	'translate-group-desc-mantisbt-plugin-core' => 'A kjerneutvidelse for [[Translating:MantisBT|MantisBT]]',
-	'translate-group-desc-mediawiki-core-branch' => 'Beskjeder for en stabil versjon av [[Translating:MediaWiki|]]',
+	'translate-group-desc-mediawiki-core-branch' => 'Beskjeder for en stabil versjon av [[Translating:MediaWiki|MediaWiki]]',
 	'translate-group-desc-mifos' => '[[Translating:Mifos|Mifos]] er et informasjonhåndteringssystem for mikrofinans',
 	'bw-desc-mwlibrl' => '[[Translating:Mwlib.rl|Mwlib.rl]] er et bibliotek for oppritting av PDF-dokumenter fra MediaWiki-sider',
 	'bw-desc-nocc' => '[[Translating:NOCC|NOCC]] er en nettbasert e-postklient',
@@ -1958,14 +2001,16 @@ $messages['nl'] = array(
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] levert een offlineversie van Wikipedia met alleen tekst op een mobiel apparaat',
 	'translate-group-desc-wikipediamobile' => "[[Translating:WikipediaMobile|WikipediaMobile]] is een platformonafhankelijke toepassing voor mobiele telefoons en tablet-pc's voor het lezen van en bijdragen aan Wikipedia",
 	'translate-group-desc-wiktionarymobile' => "[[Translating:WiktionaryMobile|WiktionaryMobile]] is een platformonafhankelijke toepassing voor mobiele telefoons en tablet-pc's voor het lezen van en bijdragen aan Wikiwoordenboek",
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] is een mobiele toepassing voor het bijdragen aan het[[:meta:Wiki Loves Monuments|Wiki Loves Monuments-project]]',
 );
 
-/** Norwegian Nynorsk (‪norsk (nynorsk)‬)
+/** Norwegian Nynorsk (norsk (nynorsk)‎)
  * @author Harald Khan
  * @author Njardarlogar
  */
 $messages['nn'] = array(
 	'translate-group-desc-nodesc' => 'Inga skildring er tilgjengeleg for denne meldingsgruppa',
+	'translate-group-desc-translatablepages' => 'Alle sider som kan setjast om',
 	'bw-desc-freecol' => 'Før du set om FreeCol til språket ditt, les gjennom [[Translating:FreeCol]]. FreeCol nyttar GPL-lisens.',
 	'bw-desc-mantisbt' => '[http://www.mantisbt.org MantisBT] er eit gratis nettbasert feilsporingssystem. Meld frå om problem på [[Support]].',
 	'bw-desc-mwlibrl' => "'''mwlib.rl''' er eit Python-bibliotek for skriving av PDF-dokument frå MediaWiki-artiklar som har vorte tolka av mwlib-biblioteket.
@@ -2064,6 +2109,7 @@ $messages['pfl'] = array(
 /** Polish (polski)
  * @author BeginaFelicysym
  * @author Leinad
+ * @author Matma Rex
  * @author Sp5uhe
  * @author ToSter
  */
@@ -2113,9 +2159,12 @@ $messages['pl'] = array(
 	'bw-desc-statusnet' => '[[Translating:StatusNet|StatusNet]] jest opartym na otwartym kodzie serwerem mikroblogów',
 	'translate-group-desc-statusnet-plugin' => 'Te komunikaty są częścią wtyczki do [[Translating:StatusNet|StatusNet]]',
 	'translate-group-desc-tsint' => 'Grupa wiadomości dla [http://toolserver.org/~krinkle/TsIntuition Toolserver Intuition] - systemu i18n narzędzia [http://toolserver.org Toolserver] (·<span class="plainlinks">[[Translating talk:Toolserver|wsparcie]] &middot; [https://wiki.toolserver.org/view/Toolserver_Intuition szczegóły techniczne]</span>)',
+	'translate-group-desc-waymarked-trails' => '[[Translating:Waymarked Trails|Waymarked Trails]] jest usługą wyświetlającą trasy wycieczek pieszych, rowerowych, kolarstwa górskiego i łyżworolkowych na całym świecie. Na licencji GNU GPL',
 	'bw-desc-wikiblame' => '[http://wikipedia.ramselehof.de/wikiblame.php Wikiblame] pozwala szybko odnaleźć autorów strony w Wikimedia wiki.',
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] jest projektem udostępniania offline, wyłącznie tekstowej wersji Wikipedii dla uradzeń mobilnych.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] jest wieloplatformową aplikacją na telefony i tablety do czytania i dodawania treści do Wikipedii',
+	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] jest wieloplatformową aplikacją na telefony i tablety do czytania i dodawania treści do Wiktionary',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] jest aplikacją mobilną do wzbogacania [[:meta:Wiki Loves Monuments|projektu Wiki Lubi Zabytki]]',
 );
 
 /** Piedmontese (Piemontèis)
@@ -2175,6 +2224,14 @@ Për piasì varda [[mw:Extension:PDF_Writer]]  e http://code.pediapress.com/wiki
 	'bw-desc-wikireader' => "[[Translating:WikiReader|WikiReader]] a l'é un proget për fé na version ëd Wikipedia fòra linia, ëd sol test, dzora a na perifèrica mòbil.",
 	'translate-group-desc-wikipediamobile' => "[[Translating:WikipediaMobile|WikipediaMobile]] a l'é n'aplicassion për sacociàbil e taulëtta antër-piataforme për lese e contribuì a Wikipedia",
 	'translate-group-desc-wiktionarymobile' => "[[Translating:WiktionaryMobile|WiktionaryMobile]] a l'é n'aplicassion për sacociàbil e taulëtta antër-piataforme për lese e contribuì a Wiktionary",
+	'translate-group-desc-wlmmobile' => "[[Translating:WLMMobile|WikiLovesMonuments Mobile]] a l'é n'aplicassion për ij sacociàbij për contribuì al [[:meta:Wiki Loves Monuments|proget Wiki Loves Monuments]]",
+);
+
+/** Pashto (پښتو)
+ * @author Ahmed-Najib-Biabani-Ibrahimkhel
+ */
+$messages['ps'] = array(
+	'translate-group-desc-translatablepages' => 'د ژباړې وړ ټول مخونه',
 );
 
 /** Portuguese (português)
@@ -2335,6 +2392,7 @@ $messages['ro'] = array(
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] este un proiect ce are ca scop furnizarea unei versiuni off-line (care să conțină doar text) a Wikipediei pe un dispozitiv mobil.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] este o aplicație multiplatformă destinată dispozitivelor mobile cu ajutorul căreia se poate lectura sau contribui la conținutul Wikipediei',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] este o aplicație multiplatformă destinată dispozitivelor mobile cu ajutorul căreia se poate lectura sau contribui la conținutul Wikționarului',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] este o aplicație mobilă prin intermediul căreia se poate contribui la [[:meta:Wiki Loves Monuments|proiectul Wiki Loves Monuments]]',
 );
 
 /** Russian (русский)
@@ -2399,6 +2457,24 @@ $messages['ru'] = array(
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] — это проект, предоставляющий автономную текстовую версию Википедии на мобильном устройстве.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] является кросс-платформенным приложением для мобильных и планшетных устройств для чтения и внесения вклада в Википедию.',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] — это кросс-платформенное приложение для мобильных и планшетных устройств, предназначенное для чтения и редактирования Викисловаря',
+);
+
+/** Rusyn (русиньскый)
+ * @author Gazeb
+ */
+$messages['rue'] = array(
+	'translategroupdescriptions-desc' => 'Пописы ґруп повідомлїн продкуктів підпророваных росшырїнём [http://mediawiki.org/wiki/Extension:Translate Translate]',
+	'translate-group-desc-nodesc' => 'Тота ґрупа повідомлїнь не мать попис',
+	'translate-group-desc-mediawikicore' => 'Тота ґрупа повідомлїнь обсягує повідомлїня хоснованы в сучасній алфаверзії alfaverzi MediaWiki ({{CURRENTVERSION}})',
+	'translate-group-desc-mediawikimostused' => 'Тота ґрупа повідомлїнь обсягує [http://translatewiki.net/wiki/Most_often_used_messages_in_MediaWiki 500 найхоснованїшых повідомлїнь] в MediaWiki',
+	'translate-group-desc-mediawikiextensions' => 'Тота метаґрупа обсягує повідомлїня вшыткых підпорованых росшырїнь [[Translating:MediaWiki|MediaWiki]]',
+	'translate-group-desc-collection' => 'Тота метаґрупа овсягує повідомлня росшырїня [http://www.mediawiki.org/wiki/Extension:Collection Collection]',
+	'translate-group-desc-flaggedrevs' => 'Тота метаґрупа обсягує повідомлїня росшырїня  [http://www.mediawiki.org/wiki/Extension:FlaggedRevs FlaggedRevs]',
+	'translate-group-desc-readerfeedback' => 'Тота метаґрупа овсягує повідомлня росшырїня [http://www.mediawiki.org/wiki/Extension:ReaderFeedback ReaderFeedback]',
+	'translate-group-desc-semantic' => 'Тота метаґрупа обсягує вшыткы повідомлїня вшыткых росшырїнь [http://semantic-mediawiki.org/ Semantic MediaWiki]',
+	'translate-group-desc-socialprofile' => 'Тота метаґрупа обсягує вшыткы повідомлїня росшырїня [http://www.mediawiki.org/wiki/Extension:SocialProfile Social Profile]',
+	'translate-group-desc-translate' => 'Тота метаґрупа обсягує повідомлїня росшырїня  [http://www.mediawiki.org/wiki/Extension:Translate Translate]',
+	'translate-group-desc-wikiaextensions' => 'Тота метаґрупа обсягує повідомлїня MediaWiki-росшырїнь, котры ся хоснують на [http://www.wikia.com Wikia]',
 );
 
 /** Slovak (slovenčina)
@@ -2485,9 +2561,10 @@ Oglejte si [http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_p
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] je projekt za dostavljanje nepovezane, samo tekstovne različice Wikipedije na mobilne naprave.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] je večplatformni mobilni in tablični program za branje in prispevanje k Wikipediji',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] je večplatformni mobilni in tablični program za branje in prispevanje k Wikislovarju',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] je mobilna aplikacija za prispevanje k [[:meta:Wiki Loves Monuments|projektu Wiki Loves Monuments]]',
 );
 
-/** Serbian (Cyrillic script) (‪српски (ћирилица)‬)
+/** Serbian (Cyrillic script) (српски (ћирилица)‎)
  * @author Rancher
  */
 $messages['sr-ec'] = array(
@@ -2537,7 +2614,7 @@ $messages['sr-ec'] = array(
 	'bw-desc-wikireader' => '[[Translating:WikiReader|Викиридер]] пружа текстуалну верзију Википедије којој се може приступити ван мреже, и то на мобилном уређају',
 );
 
-/** Serbian (Latin script) (‪srpski (latinica)‬)
+/** Serbian (Latin script) (srpski (latinica)‎)
  * @author Rancher
  */
 $messages['sr-el'] = array(
@@ -2651,6 +2728,13 @@ Se [http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_ru
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] är en korsplattform för mobil- and surfplattor för att läsa och bidra till Wikipedia',
 );
 
+/** Tamil (தமிழ்)
+ * @author Karthi.dr
+ */
+$messages['ta'] = array(
+	'translate-group-desc-translatablepages' => 'எல்லா மொழிபெயர்க்கக்கூடிய பக்கங்கள்',
+);
+
 /** Telugu (తెలుగు)
  * @author Veeven
  */
@@ -2732,6 +2816,7 @@ Mangyaring tingnan ang [[mw:Extension:PDF_Writer]] at ang http://code.pediapress
 	'bw-desc-wikireader' => 'Ang [[Translating:WikiReader|WikiReader]] ay isang proyekto upang dalhin ang isang bersyon ng Wikipediang hindi nakakunekta sa internet at may bersyong teksto lamang mula sa isang aparatong mobil.',
 	'translate-group-desc-wikipediamobile' => 'Ang [[Translating:WikipediaMobile|WikipediaMobile]] ay isang platapormang tumatawid ng mobil at aplikasyon ng tablet para sa pagbasa at pag-aambag sa Wikipedia',
 	'translate-group-desc-wiktionarymobile' => 'Ang [[Translating:WiktionaryMobile|WiktionaryMobile]] ay isang platapormang tumatawid ng mobil at aplikasyon ng tablet para sa pagbabasa at pag-aambag sa Wiktionary',
+	'translate-group-desc-wlmmobile' => 'Ang [[Translating:WLMMobile|Mobil na Maibigin ang Wiki sa mga Bantayog]] ay isang aplikasyong naililipat-lipat para sa pag-aambag sa [[:meta:Wiki Loves Monuments|proyektong Maibigin ang Wiki sa mga Bantayog]]',
 );
 
 /** Tatar (Cyrillic script) (татарча)
@@ -2775,6 +2860,7 @@ $messages['uk'] = array(
 	'bw-desc-freecol' => 'Перед тим, як перекладати FreeCol на вашу мову, прочитайте, будь ласка, [[Translating:FreeCol]]. Freecol використовує ліцензію GPL.',
 	'bw-desc-fudforum' => '[http://fudforum.org/ FUDforum] — веб-форум, написаний на PHP.',
 	'bw-desc-mantisbt' => '[http://www.mantisbt.org MantisBT] це вільна веб-система для відслідковування багів. Будь ласка, повідомляйте будь-які проблеми у [[Support|службу підтримки]].',
+	'translate-group-desc-eol' => 'Група повідомлень для перекладу [[Translating:EOL|Енциклопедії життя]]',
 	'translate-group-desc-mediawiki-core-branch' => 'Повідомлення для стабільної версії [[Translating:MediaWiki|MediaWiki]]',
 	'translate-group-desc-mifos' => '[[Translating:Mifos|Mifos]] — система керування інформацією для мікрофінансування',
 	'bw-desc-mwlibrl' => "'''mwlib.rl''' це бібліотека на мові python для створення PDF-документів зі сторінок MediaWiki, які були проаналізовані mwlib.
@@ -2792,6 +2878,15 @@ $messages['uk'] = array(
 	'translate-group-desc-statusnet-plugin' => 'Ці повідомлення є частиною плагіна для [[Translating:StatusNet|StatusNet]]',
 	'bw-desc-wikiblame' => '[http://wikipedia.ramselehof.de/wikiblame.php Wikiblame] дозволяє швидко знайти авторів сторінки в проектах Вікімедіа.',
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] є проектом для випуску автономної текстової версії Вікіпедії на мобільному пристрої.',
+	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] є багатоплатформним застосунком для мобільних та планшетних пристроїв, який призначено для читання Вікіпедії та дописування до неї',
+);
+
+/** Uzbek (oʻzbekcha)
+ * @author CoderSI
+ */
+$messages['uz'] = array(
+	'translate-group-desc-mediawikicore' => "Ushbu xabarlar guruhi MediaWiki ({{CURRENTVERSION}})ning joriy alfa-versiyasida foydalanilayotgan xabarlarni o'z ichiga oladi",
+	'translate-group-desc-mediawikimostused' => "Ushbu xabarlar guruhi MediaWikida [http://translatewiki.net/wiki/Most_often_used_messages_in_MediaWiki 500 tadan ziyod juda ko'p ishlatiladigan xabarlardan] tashkil topgan",
 );
 
 /** Veps (vepsän kel’)
@@ -2823,7 +2918,7 @@ $messages['vi'] = array(
 	'translate-group-desc-collection' => 'Siêu nhóm thông điệp chứa các thông điệp của phần mở rộng [http://www.mediawiki.org/wiki/Extension:Collection Collection] cho MediaWiki',
 	'translate-group-desc-flaggedrevs' => 'Siêu nhóm thông điệp chứa các thông điệp của phần mở rộng [http://www.mediawiki.org/wiki/Extension:FlaggedRevs FlaggedRevs] cho MediaWiki',
 	'translate-group-desc-readerfeedback' => 'Siêu nhóm thông điệp chứa tất cả các thông điệp dùng cho phần mở rộng MediaWiki [http://www.mediawiki.org/wiki/Extension:ReaderFeedback ReaderFeedback]',
-	'translate-group-desc-semantic' => 'Siêu nhóm thông điệp chứa các thông điệp của phần mở rộng [http://semantic-mediawiki.org/ Semantic MediaWiki]',
+	'translate-group-desc-semantic' => 'Siêu nhóm thông điệp chứa các thông điệp của phần mở rộng [http://semantic-mediawiki.org/?uselang=vi MediaWiki Ngữ nghĩa]',
 	'translate-group-desc-socialprofile' => 'Siêu nhóm thông điệp chứa thông điệp của các phần mở rộng có liên quan đến phần mở rộng [http://www.mediawiki.org/wiki/Extension:SocialProfile Social Profile] cho MediaWiki',
 	'translate-group-desc-translate' => 'Siêu nhóm thông điệp chứa các thông điệp của phần mở rộng [http://www.mediawiki.org/wiki/Extension:Translate Translate] cho MediaWiki',
 	'translate-group-desc-wikiaextensions' => 'Siêu nhóm thông điệp chứa thông điệp của các phần mở rộng MediaWiki được sử dụng tại [http://www.wikia.com Wikia]',
@@ -2867,6 +2962,7 @@ Xem thêm chi tiết tại [[MW:Extension:PDF Writer]] và http://code.pediapres
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] là dự án sản xuất phiên bản Wikipedia ngoại tuyến có văn bản thuần để đọc trên thiết bị di động.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] là một ứng dụng đa nền tảng dành cho máy tính di động và bảng để đọc và đóng góp vào Wikipedia.',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] là một ứng dụng đa nền tảng dành cho máy tính di động và bảng để đọc và đóng góp vào Wiktionary.',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Di động]] là một ứng dụng di động cho phép đóng góp vào dự án [[:meta:Wiki Loves Monuments|Wiki Yêu mến Đài tưởng niệm]]',
 );
 
 /** Yiddish (ייִדיש)
@@ -2882,7 +2978,7 @@ $messages['yi'] = array(
 	'translate-group-desc-kiwix' => 'א מעלדונג גרופע פאר [[Translating:Kiwix|קיוויקס]]',
 );
 
-/** Simplified Chinese (‪中文（简体）‬)
+/** Simplified Chinese (中文（简体）‎)
  * @author Anakmalaysia
  * @author Bencmq
  * @author Hydra
@@ -2949,28 +3045,63 @@ $messages['zh-hans'] = array(
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]]是用语阅读和贡献维基词典的跨平台手机／平板应用程序。',
 );
 
-/** Traditional Chinese (‪中文（繁體）‬)
+/** Traditional Chinese (中文（繁體）‎)
  * @author Liangent
  * @author Mark85296341
+ * @author Simon Shek
  */
 $messages['zh-hant'] = array(
 	'translategroupdescriptions-desc' => '消息組說明 [http://mediawiki.org/wiki/Extension:Translate 翻譯] 擴展所支持的產品',
 	'translate-group-desc-nodesc' => '沒有描述用於此消息組',
 	'translate-group-desc-mediawikicore' => '此介面訊息群組包含了目前 MediaWiki alpha 版本所使用的訊息（{{CURRENTVERSION}}）',
+	'translate-group-desc-mediawikimostused' => '此消息組包含在[[Translating:MediaWiki|MediaWiki]]使用的[http://translatewiki.net/wiki/Most_often_used_messages_in_MediaWiki 500條最常用的消息]。',
+	'translate-group-desc-mediawikiextensions' => '包含[[Translating:MediaWiki|MediaWiki]]支持擴展所有消息的元消息組。',
+	'translate-group-desc-collection' => '包含MediaWiki [http://www.mediawiki.org/wiki/Extension:Collection Collection]擴展使用所有消息的元消息組。',
+	'translate-group-desc-flaggedrevs' => '包含MediaWiki [http://www.mediawiki.org/wiki/Extension:FlaggedRevs FlaggedRevs]擴展使用所有消息的元消息組。',
+	'translate-group-desc-readerfeedback' => '包含MediaWiki [http://www.mediawiki.org/wiki/Extension:ReaderFeedback ReaderFeedback]擴展使用所有消息的元消息組。',
+	'translate-group-desc-semantic' => '包含所有[http://semantic-mediawiki.org/ Semantic MediaWiki]擴展使用所有消息的元消息組。',
+	'translate-group-desc-socialprofile' => '包含與MediaWiki [http://www.mediawiki.org/wiki/Extension:SocialProfile Social Profile]擴展有關的擴展使用所有消息的元消息組。',
+	'translate-group-desc-translate' => '包含MediaWiki [http://www.mediawiki.org/wiki/Extension:Translate Translate]擴展使用所有消息的元消息組。',
+	'translate-group-desc-wikiaextensions' => '包含[http://www.wikia.com Wikia]專用受支持的MediaWiki擴展使用所有消息的元消息組。',
+	'translate-group-desc-wikimediaextensions' => '包含[http://wikimedia.org/ Wikimedia Foundation]專用受支持的MediaWiki擴展使用所有消息的元消息組。',
+	'translate-group-desc-wikimediaextensions-main' => '包含為維基媒體[http://meta.wikimedia.org/wiki/Language_committee 語言委員會]必須翻譯的受支持的MediaWiki擴展使用所有消息的元消息組。',
+	'translate-group-desc-uniwiki' => '包含與[http://unicefinnovation.org/wiki.php Uniwiki]有關的擴展使用所有消息的元消息組',
+	'translate-group-desc-ui' => '包含與[http://meta.wikimedia.org/wiki/Wikipedia_Usability_Initiative 維基百科可用性倡議]有關的擴展使用所有消息的元消息組',
 	'translate-group-desc-translatablepages' => '所有翻譯網頁',
 	'bw-desc-freecol' => '在翻譯 FreeCol 到您的語言之前，請閱讀 [[Translating:FreeCol]]。Freecol 使用 GPL 協議。',
 	'bw-desc-fudforum' => '[http://fudforum.org/ FUDforum]，一個用 PHP 編寫的論壇。',
 	'bw-desc-mantisbt' => '[http://www.mantisbt.org MantisBT] 是一個基於 Web 的 Bug 追蹤系統。請在[[Support|技術支援頁面]]報告任何問題。',
+	'translate-group-desc-eol' => '[[Translating:EOL|Encyclopedia of Life]]的消息組',
+	'translate-group-desc-ihris' => '[[Translating:iHRIS|iHRIS]]的消息組',
+	'translate-group-desc-ihris-common' => '[[Translating:iHRIS|iHRIS]]模塊之一，[[Special:Translate/out-ihris-common-0-all|iHRIS Common]]的消息組',
+	'translate-group-desc-ihris-i2ce' => '[[Translating:iHRIS|iHRIS]]模塊之一，[[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]]的消息組',
+	'translate-group-desc-ihris-manage' => '[[Translating:iHRIS|iHRIS]]模塊之一，[[Special:Translate/out-ihris-manage-0-all|iHRIS Manage]]的消息組',
+	'translate-group-desc-ihris-qualify' => '[[Translating:iHRIS|iHRIS]]模塊之一，[[Special:Translate/out-ihris-qualify-0-all|iHRIS Qualify]]的消息組',
+	'translate-group-desc-kiwix' => '[[Translating:Kiwix|Kiwix]]的消息組',
+	'translate-group-desc-mantisbt-plugin-core' => '[[Translating:MantisBT|MantisBT]]的核心插件',
+	'translate-group-desc-mediawiki-core-branch' => '用於 [[Translating:MediaWiki|MediaWiki]] 穩定版本的消息。',
+	'translate-group-desc-mifos' => '[[Translating:Mifos|Mifos]]是一種小額信貸管理信息系統。',
 	'bw-desc-mwlibrl' => "'''mwlib.rl'''是一個使用mwlib庫解析的python庫，用以將MediaWiki條目轉化為PDF文件。
 
 更多信息請見[[mw:Extension:PDF_Writer]]和http://code.pediapress.com/wiki/wiki/mwlibrl。",
 	'bw-desc-nocc' => '[http://nocc.sourceforge.net NOCC] 是一個使用 PHP 編寫的 Web 郵件客戶端。請在 [[Support]] 內報告問題。',
+	'translate-group-desc-okawix' => '[[Translating:Okawix|Okawix]]是一個離線閱讀維基百科的軟件',
+	'bw-desc-openimages' => '[[Translating:Open Images|Open Images]]是一個開放媒體平台',
+	'translate-group-desc-openimages-verifyemailtemplate' => '這些消息屬於[[Translating:Open Images|Open Images]]電子郵件驗證模板',
+	'translate-group-desc-openimages-all' => '這些消息屬於[[Translating:Open Images|Open Images]]項目',
 	'bw-desc-openlayers' => 'OpenLayers 是一個開源的動態地圖生成器。請在 [[support]] 頁面內報告問題。',
 	'bw-desc-openstreetmap' => '本群組包含所有 [[Translating:OpenStreetMap|OpenStreetMap]] 的介面訊息',
 	'bw-desc-osm-site' => '本群組包含了 [[Translating:Open Street Map|Open Street Map]] 的介面訊息。',
+	'translate-group-desc-potlatch2' => '[[Translating:OpenStreetMap|Potlatch2]]是基於Flash的OpenStreetMap編輯軟件',
+	'translate-group-desc-pywikipedia' => '[[Translating:Pywikipedia|Pywikipedia]]是一個維基百科編輯工具集合。',
 	'bw-desc-shapado' => '本組包含免費開源問答軟件[[Translating:Shapado|Shapado]]的信息',
 	'bw-desc-statusnet' => '[[Translating:StatusNet|StatusNet]] 是一個開源微網誌服務',
+	'translate-group-desc-statusnet-plugin' => '這些消息屬於[[Translating:StatusNet|StatusNet]]的插件',
+	'translate-group-desc-tsint' => '[http://toolserver.org Toolserver]工具的國際化系統，[http://toolserver.org/~krinkle/TsIntuition Toolserver Intuition]的消息組（<span class="plainlinks">[[Translating talk:Toolserver|幫助]] &middot; [https://wiki.toolserver.org/view/Toolserver_Intuition 技術細節]</span>）',
+	'translate-group-desc-waymarked-trails' => '[[Translating:Waymarked Trails|Waymarked Trails]]是一個使用GNU GPL許可證的顯示世界範圍內遠足、騎行、山地騎行、 輪滑路線的服務。',
 	'bw-desc-wikiblame' => '[http://wikipedia.ramselehof.de/wikiblame.php Wikiblame] 可以快速找到 Wikimedia 的維基某一個頁面的作者。',
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] 是一個將離線、僅文字版本的維基百科傳送到手機上的計畫。',
+	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]]是一個用於閱讀並編輯維基百科的手機、平板跨平台應用程序。',
+	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]]是用語閱讀和貢獻維基詞典的跨平台手機／平板應用程序。',
 );
 

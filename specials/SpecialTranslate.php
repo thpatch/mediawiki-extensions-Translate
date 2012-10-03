@@ -16,9 +16,8 @@
  * @ingroup SpecialPage TranslateSpecialPage
  */
 class SpecialTranslate extends SpecialPage {
-
 	/**
-	 * @var Task
+	 * @var TranslateTask
 	 */
 	protected $task = null;
 
@@ -95,10 +94,16 @@ class SpecialTranslate extends SpecialPage {
 			array( $this, 'cbAddPagingNumbers' )
 		);
 
+		$params = array( $this->getContext(), $this->task, $this->group, $this->options );
+		if ( !wfRunHooks( 'SpecialTranslate::executeTask', $params ) ) {
+			return;
+		}
+
 		// Initialise and get output.
 		if ( !$this->task ) {
 			return;
 		}
+
 		$this->task->init( $this->group, $taskOptions );
 		$output = $this->task->execute();
 
@@ -181,7 +186,11 @@ class SpecialTranslate extends SpecialPage {
 				);
 			}
 			if ( $description ) {
-				$description = Xml::fieldset( $this->msg( 'translate-page-description-legend' )->text(), $description );
+				$description = Xml::fieldset(
+					$this->msg( 'translate-page-description-legend' )->text(),
+					$description,
+					array( 'class' => 'mw-sp-translate-description' )
+				);
 			}
 
 			$links = $this->doStupidLinks();
@@ -283,8 +292,9 @@ class SpecialTranslate extends SpecialPage {
 
 		$this->defaults    = $defaults;
 		$this->nondefaults = $nondefaults;
-		$this->options     = $nondefaults + $defaults;
+		wfRunHooks( 'TranslateGetSpecialTranslateOptions', array( &$defaults, &$nondefaults ) );
 
+		$this->options     = $nondefaults + $defaults;
 		$this->group = MessageGroups::getGroup( $this->options['group'] );
 		$this->task  = TranslateTasks::getTask( $this->options['task'] );
 
@@ -295,7 +305,6 @@ class SpecialTranslate extends SpecialPage {
 
 	protected function settingsForm( $errors ) {
 		global $wgScript;
-		$user = $this->getUser();
 
 		$taction = $this->options['taction'];
 
@@ -332,8 +341,12 @@ class SpecialTranslate extends SpecialPage {
 
 		$button = Xml::submitButton( $this->msg( 'translate-submit' )->text() );
 
+		$formAttributes = array( 'class' => 'mw-sp-translate-settings' );
+		if ( $this->group ) {
+			$formAttributes['data-grouptype'] = get_class( $this->group );
+		}
 		$form =
-			Html::openElement( 'fieldset', array( 'class' => 'mw-sp-translate-settings' ) ) .
+			Html::openElement( 'fieldset', $formAttributes ) .
 				Html::element( 'legend', null, $this->msg( 'translate-page-settings-legend' )->text() ) .
 				Html::openElement( 'form', array( 'action' => $wgScript, 'method' => 'get' ) ) .
 					Html::hidden( 'title', $this->getTitle()->getPrefixedText() ) .
@@ -402,11 +415,6 @@ class SpecialTranslate extends SpecialPage {
 	}
 
 	protected function groupSelector() {
-		$activeId = false;
-		if ( $this->group ) {
-			$activeId = $this->group->getId();
-		}
-
 		$groups = MessageGroups::getAllGroups();
 		$dynamic = MessageGroups::getDynamicGroups();
 		$groups = array_keys( array_merge( $groups, $dynamic ) );
@@ -417,21 +425,14 @@ class SpecialTranslate extends SpecialPage {
 		$selector->setDefault( $selected );
 
 		foreach ( $groups as $id ) {
-			if ( $id === $activeId ) {
-				$activeId = false;
-			}
 			$group = MessageGroups::getGroup( $id );
 			$hide = MessageGroups::getPriority( $group ) === 'discouraged';
 
-			if ( !$group->exists() || $hide ) {
+			if ( !$group->exists() || ( $hide && $id !== $selected ) ) {
 				continue;
 			}
 
 			$selector->addOption( $group->getLabel(), $id );
-		}
-
-		if ( $activeId ) {
-			$selector->addOption( $this->group->getLabel(), $activeId );
 		}
 
 		return $selector->getHTML();
@@ -472,7 +473,6 @@ class SpecialTranslate extends SpecialPage {
 		}
 
 		$start = $this->paging['start'] + 1 ;
-		$stop  = $start + $this->paging['count'] - 1;
 		$total = $this->paging['total'];
 
 		$allInThisPage = $start === 1 && $total <= $this->options['limit'];
@@ -705,7 +705,7 @@ class SpecialTranslate extends SpecialPage {
 		global $wgRequest, $wgOut;
 
 		$title = $skin->getTitle();
-		list( $alias, $sub ) = SpecialPage::resolveAliasWithSubpage( $title->getText() );
+		list( $alias, $sub ) = SpecialPageFactory::resolveAlias( $title->getText() );
 
 		$pagesInGroup = array( 'Translate', 'LanguageStats', 'MessageGroupStats' );
 		if ( !in_array( $alias, $pagesInGroup, true ) ) {

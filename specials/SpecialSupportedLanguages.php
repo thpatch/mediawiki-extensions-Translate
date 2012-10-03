@@ -52,6 +52,14 @@ class SpecialSupportedLanguages extends SpecialPage {
 		TranslateUtils::addSpecialHelpLink( $out, 'Help:Extension:Translate/Statistics_and_reporting#List_of_languages_and_translators' );
 
 		$this->outputHeader();
+		$dbr = wfGetDB( DB_SLAVE );
+		if ( $dbr->getType() === 'sqlite' ) {
+			// @TODO
+			$out->addWikiText( '<div class=errorbox>SQLite is not supported.</div>' );
+			return;
+		}
+
+
 		$out->addWikiMsg( 'supportedlanguages-colorlegend', $this->getColorLegend() );
 		$out->addWikiMsg( 'supportedlanguages-localsummary' );
 
@@ -297,7 +305,7 @@ class SpecialSupportedLanguages extends SpecialPage {
 				$styles['border-bottom'] = '3px solid #' . $this->getActivityColour( $period - $last, $period );
 				# $styles['color'] = '#' . $this->getBackgroundColour( $period - $last, $period );
 			} else {
-				$enc = "<s>$enc</s>";
+				$enc = "<del>$enc</del>";
 			}
 
 			$stylestr = $this->formatStyle( $styles );

@@ -307,8 +307,7 @@ class PageTranslationHooks {
 		$out .= Html::openElement( 'tbody' );
 		$out .= Html::openElement( 'tr', array( 'valign' => 'top' ) );
 		$out .= Html::rawElement( 'td',
-			array( 'class' => 'mw-pt-languages-label',
-				   'lang' => $lang->getCode() ),
+			array( 'class' => 'mw-pt-languages-label' ),
 			wfMessage( 'tpt-languages-legend' )->escaped()
 		);
 		$out .= Html::rawElement( 'td',
@@ -380,9 +379,7 @@ class PageTranslationHooks {
 
 		// Add the ready tag
 		$page = TranslatablePage::newFromTitle( $article->getTitle() );
-		if ( $page->getParse()->countSections() > 0 ) {
-			$page->addReadyTag( $revision->getId() );
-		}
+		$page->addReadyTag( $revision->getId() );
 
 		return true;
 	}
@@ -462,18 +459,33 @@ class PageTranslationHooks {
 	 * @since 2012-03-01
 	 */
 	public static function preventRestrictedTranslations( Title $title, User $user, $action, &$result ) {
+		// Preventing editing (includes creation) should be enough
+		if ( $action !== 'edit' ) {
+			return true;
+		}
+
 		$handle = new MessageHandle( $title );
 		if ( !$handle->isValid() ) {
 			return true;
 		}
 
-		$groupId = $handle->getGroup()->getId();
-		$priorityForce = TranslateMetadata::get( $groupId, 'priorityforce' );
-		$priorityLangs = TranslateMetadata::get( $groupId, 'prioritylangs' );
-		$priorityReason = TranslateMetadata::get( $groupId, 'priorityreason' );
-		$filter = array_flip( explode( ',', $priorityLangs ) );
-		if ( !isset( $filter[$handle->getCode()] ) && $priorityForce === 'on' ) {
-			$result = array( 'tpt-translation-restricted', $priorityReason );
+		// Get the primary group id
+		$ids = $handle->getGroupIds();
+		$groupId = $ids[0];
+
+		// Check if anything is prevented for the group in the first place
+		$force = TranslateMetadata::get( $groupId, 'priorityforce' );
+		if ( $force !== 'on' ) {
+			return true;
+		}
+
+		// And finally check whether the language is not included in whitelist
+		$languages = TranslateMetadata::get( $groupId, 'prioritylangs' );
+		$filter = array_flip( explode( ',', $languages ) );
+		if ( !isset( $filter[$handle->getCode()] ) ) {
+			// TODO: default reason if none provided
+			$reason = TranslateMetadata::get( $groupId, 'priorityreason' );
+			$result = array( 'tpt-translation-restricted', $reason );
 			return false;
 		}
 
@@ -568,7 +580,7 @@ class PageTranslationHooks {
 			);
 
 			$translate = SpecialPage::getTitleFor( 'Translate' );
-			$linkDesc  = '<span lang="' . $wgLang->getCode(). '">'. wfMsgHtml( 'translate-tag-translate-link-desc' ) . '</span>';
+			$linkDesc  = '<span lang="' . $wgLang->getCode(). '">'. wfMessage( 'translate-tag-translate-link-desc' ) . '</span>';
 			$actions[] = Linker::link( $translate, $linkDesc, array(), $par );
 		}
 
@@ -580,14 +592,14 @@ class PageTranslationHooks {
 			if ( $wgUser->isAllowed( 'pagetranslation' ) ) {
 				// This page has never been marked
 				if ( $marked === false ) {
-					$linkDesc  = wfMsgHtml( 'translate-tag-markthis' );
+					$linkDesc  = '<span lang="' . $wgLang->getCode(). '">'. wfMessage( 'translate-tag-markthis' )->escaped()  . '</span>';
 					$actions[] = Linker::link( $translate, $linkDesc, array(), $par );
 				} else {
 					$markUrl = $translate->getFullUrl( $par );
-					$actions[] = wfMsgExt( 'translate-tag-markthisagain', 'parseinline', $diffUrl, $markUrl );
+					$actions[] = '<span lang="' . $wgLang->getCode(). '">'. wfMessage( 'translate-tag-markthisagain', $diffUrl, $markUrl )->parse()  . '</span>';
 				}
 			} else {
-				$actions[] = wfMsgExt( 'translate-tag-hasnew', 'parseinline', $diffUrl );
+				$actions[] = '<span lang="' . $wgLang->getCode(). '">'. wfMessage( 'translate-tag-hasnew', $diffUrl )->parse() . '</span>';
 			}
 		}
 
@@ -664,7 +676,6 @@ class PageTranslationHooks {
 		global $wgLang, $wgContLang;
 
 		$language = $forUI === null ? $wgContLang : $wgLang;
-		$opts = array( 'parseinline', 'language' => $language );
 
 		// New logging system already unserializes it for us
 		if ( isset( $params['user'] ) ) {
@@ -675,39 +686,84 @@ class PageTranslationHooks {
 		$user =  $_['user'];
 
 		if ( $action === 'mark' ) {
-			return wfMsgExt( 'pt-log-mark', $opts, $title->getPrefixedText(), $user, $_['revision'] );
+			return wfMessage(
+				'pt-log-mark',
+				$title->getPrefixedText(),
+				$user, $_['revision'] )->inLanguage( $language )->parse();
 		} elseif ( $action === 'unmark' ) {
-			return wfMsgExt( 'pt-log-unmark', $opts, $title->getPrefixedText(), $user );
+			return wfMessage(
+				'pt-log-unmark',
+				$title->getPrefixedText(),
+				$user )->inLanguage( $language )->parse();
 		} elseif ( $action === 'moveok' ) {
 			// Old entries are missing the target
 			$target = isset( $_['target'] ) ? $_['target'] : '[[]]';
-			return wfMsgExt( 'pt-log-moveok', $opts, $title->getPrefixedText(), $user, $target );
+			return wfMessage(
+				'pt-log-moveok',
+				$title->getPrefixedText(),
+				$user,
+				$target )	->inLanguage( $language )->parse();
 		} elseif ( $action === 'movenok' ) {
-			return wfMsgExt( 'pt-log-movenok', $opts, $title->getPrefixedText(), $user, $_['target'] );
+			return wfMessage( 'pt-log-movenok',
+				$title->getPrefixedText(),
+				$user, $_['target'] )->inLanguage( $language )->parse();
 		} elseif ( $action === 'deletefnok' ) {
-			return wfMsgExt( 'pt-log-delete-full-nok', $opts, $title->getPrefixedText(), $user, $_['target'] );
+			return wfMessage(
+				'pt-log-delete-full-nok',
+			 	$title->getPrefixedText(),
+			 	$user, $_['target'] )->inLanguage( $language )->parse();
 		} elseif ( $action === 'deletelnok' ) {
-			return wfMsgExt( 'pt-log-delete-lang-nok', $opts, $title->getPrefixedText(), $user, $_['target'] );
+			return wfMessage(
+				'pt-log-delete-lang-nok',
+				$title->getPrefixedText(),
+				$user, $_['target'] )->inLanguage( $language )->parse();
 		} elseif ( $action === 'deletefok' ) {
-			return wfMsgExt( 'pt-log-delete-full-ok', $opts, $title->getPrefixedText(), $user );
+			return wfMessage(
+				'pt-log-delete-full-ok',
+				$title->getPrefixedText(), $user )->inLanguage( $language )->parse();
 		} elseif ( $action === 'deletelok' ) {
-			return wfMsgExt( 'pt-log-delete-lang-ok', $opts, $title->getPrefixedText(), $user );
+			return wfMessage(
+				'pt-log-delete-lang-ok',
+				$title->getPrefixedText(), $user )->inLanguage( $language )->parse();
 		} elseif ( $action === 'encourage' ) {
-			return wfMsgExt( 'pt-log-encourage', $opts, $title->getPrefixedText(), $user );
+			return wfMessage(
+				'pt-log-encourage',
+				$title->getPrefixedText(),
+				$user )->inLanguage( $language )->parse();
 		} elseif ( $action === 'discourage' ) {
-			return wfMsgExt( 'pt-log-discourage', $opts, $title->getPrefixedText(), $user );
+			return wfMessage( 'pt-log-discourage',
+				$title->getPrefixedText(),
+				$user )->inLanguage( $language )->parse();
 		} elseif ( $action === 'prioritylanguages' ) {
 			if ( $_['languages'] === false ) {
-				return wfMsgExt( 'pt-log-priority-langs-unset', $opts, $title->getPrefixedText(), $user );
+				return wfMessage(
+					'pt-log-priority-langs-unset',
+					$title->getPrefixedText(),
+					$user )->inLanguage( $language )->parse();
 			} elseif ( $_['force'] === 'on' ) {
-				return wfMsgExt( 'pt-log-priority-langs-force', $opts, $title->getPrefixedText(), $user, $_['languages'], $_['reason'] );
+				return wfMessage(
+					'pt-log-priority-langs-force',
+					$title->getPrefixedText(), $user,
+					$_['languages'],
+					$_['reason'] )->inLanguage( $language )->parse();
 			} else {
-				return wfMsgExt( 'pt-log-priority-langs', $opts, $title->getPrefixedText(), $user , $_['languages'], $_['reason'] );
+				return wfMessage(
+					'pt-log-priority-langs',
+					$title->getPrefixedText(),
+					$user , $_['languages'],
+					$_['reason'] )->inLanguage( $language )->parse();
 			}
 		} elseif ( $action === 'associate' ) {
-			return wfMsgExt( 'pt-log-aggregategroup-associate', $opts, $title->getPrefixedText(), $user, $_['aggregategroup'] );
+			return wfMessage(
+				'pt-log-aggregategroup-associate',
+				$title->getPrefixedText(),
+				$user,
+				$_['aggregategroup'] )->inLanguage( $language )->parse();
 		} elseif ( $action === 'dissociate' ) {
-			return wfMsgExt( 'pt-log-aggregategroup-dissociate', $opts, $title->getPrefixedText(), $user, $_['aggregategroup'] );
+			return wfMessage(
+				'pt-log-aggregategroup-dissociate',
+				$title->getPrefixedText(),
+				$user, $_['aggregategroup'] )->inLanguage( $language )->parse();
 		}
 		return '';
 	}
@@ -777,7 +833,7 @@ class PageTranslationHooks {
 						$c++;
 
 						if ( $c > 1 ) {
-							$subpages .= wfMsgExt( 'pipe-separator', 'escapenoentities' );
+							$subpages .= wfMessage( 'pipe-separator' )->plain();
 						} else  {
 							// This one is stupid imho, doesn't work with chihuahua
 							// $subpages .= '&lt; ';
@@ -796,4 +852,27 @@ class PageTranslationHooks {
 
 		return true;
 	}
+
+	/// Hook: SpecialTranslate::executeTask
+	public static function sourceExport( RequestContext $context,
+		TranslateTask $task = null, MessageGroup $group, array $options
+	) {
+		if ( $task || $options['taction'] !== 'export'
+			|| !$group instanceof WikiPageMessageGroup ) {
+			return true;
+		}
+
+		$page = TranslatablePage::newFromTitle( $group->getTitle() );
+		$collection = $group->initCollection( $options['language'] );
+		$collection->loadTranslations( DB_MASTER );
+		$text = $page->getParse()->getTranslationPageText( $collection );
+		$display = $page->getPageDisplayTitle( $options['language']  );
+		if ( $display ) {
+			$text = "{{DISPLAYTITLE:$display}}$text";
+		}
+		$output = Html::element( 'textarea', array( 'rows' => 25 ), $text );
+		$context->getOutput()->addHtml( $output );
+		return false;
+	}
+
 }

@@ -133,6 +133,7 @@ class TranslatablePage {
 				break;
 			case 'title':
 				$this->revision = $this->getMarkedTag();
+				// @todo FIXME: Needs break;?
 			case 'revision':
 				$rev = Revision::newFromTitle( $this->getTitle(), $this->revision );
 				$this->text = $rev->getText();
@@ -227,7 +228,7 @@ class TranslatablePage {
 		$displaytitle = new TPSection;
 		$displaytitle->id = $this->displayTitle;
 		$displaytitle->text = $this->getTitle()->getPrefixedText();
-		$sections[self::getUniq()] = $displaytitle;
+		$sections[TranslateUtils::getPlaceholder()] = $displaytitle;
 
 		$tagPlaceHolders = array();
 
@@ -241,7 +242,7 @@ class TranslatablePage {
 			}
 
 			// Do-placehold for the whole stuff
-			$ph    = self::getUniq();
+			$ph    = TranslateUtils::getPlaceholder();
 			$start = $matches[0][0][1];
 			$len   = strlen( $matches[0][0][0] );
 			$end   = $start + $len;
@@ -311,7 +312,7 @@ class TranslatablePage {
 		$re = '~(<nowiki>)(.*?)(</nowiki>)~s';
 
 		while ( preg_match( $re, $text, $matches ) ) {
-			$ph = self::getUniq();
+			$ph = TranslateUtils::getPlaceholder();
 			$text = str_replace( $matches[0], $ph, $text );
 			$holders[$ph] = $matches[0];
 		}
@@ -330,15 +331,6 @@ class TranslatablePage {
 		}
 
 		return $text;
-	}
-
-	/**
-	 * Returns a random string that can be used as placeholder.
-	 * @return string
-	 */
-	protected static function getUniq() {
-		static $i = 0;
-		return "\x7fUNIQ" . dechex( mt_rand( 0, 0x7fffffff ) ) . dechex( mt_rand( 0, 0x7fffffff ) ) . '|' . $i++;
 	}
 
 	/**
@@ -369,7 +361,7 @@ class TranslatablePage {
 			if ( trim( $_ ) === '' ) {
 				$template .= $_;
 			} else {
-				$ph = self::getUniq();
+				$ph = TranslateUtils::getPlaceholder();
 				$sections[$ph] = $this->shakeSection( $_ );
 				$template .= $ph;
 			}
@@ -434,8 +426,7 @@ class TranslatablePage {
 	/**
 	 * Adds a tag which indicates that this page is
 	 * suitable for translation.
-	 * @param $revision integer|Revision
-	 * @param $value string
+	 * @param $revision integer
 	 */
 	public function addMarkedTag( $revision, $value = null ) {
 		$this->addTag( 'tp:mark', $revision, $value );
@@ -445,16 +436,13 @@ class TranslatablePage {
 	/**
 	 * Adds a tag which indicates that this page source is
 	 * ready for marking for translation.
-	 * @param $revision integer|Revision
+	 * @param $revision integer
 	 */
 	public function addReadyTag( $revision ) {
 		$this->addTag( 'tp:tag', $revision );
 	}
 
 	/**
-	 * @param $tag
-	 * @param $revision Revision
-	 * @param $value string
 	 * @throws MWException
 	 */
 	protected function addTag( $tag, $revision, $value = null ) {
@@ -618,6 +606,80 @@ class TranslatablePage {
 		return $filtered;
 	}
 
+	/**
+	 * Returns a list section ids.
+	 * @return List of string
+	 * @since 2012-08-06
+	 */
+	protected function getSections() {
+		$dbw = wfGetDB( DB_MASTER );
+		$conds = array( 'trs_page' => $this->getTitle()->getArticleID() );
+		$res = $dbw->select( 'translate_sections', 'trs_key', $conds, __METHOD__ );
+
+		$sections = array();
+		foreach ( $res as $row ) {
+			$sections[] = $row->trs_key;
+		}
+
+		return $sections;
+	}
+
+	/**
+	 * Returns a list of translation unit pages.
+	 * @param $set  String Can be either 'all', or 'active'
+	 * @param $code String Only list unit pages in given language.
+	 * @return List of Titles.
+	 * @since 2012-08-06
+	 */
+	public function getTranslationUnitPages( $set = 'active', $code = false ) {
+		$dbw = wfGetDB( DB_MASTER );
+		$base = $this->getTitle()->getPrefixedDBKey();
+		// Including the / used as separator
+		$baseLength = strlen( $base ) +1;
+
+		if ( $code !== false ) {
+			$like = $dbw->buildLike( "$base/", $dbw->anyString(), "/$code" );
+		} else {
+			$like = $dbw->buildLike( "$base/", $dbw->anyString() );
+		}
+
+		$fields = array( 'page_namespace', 'page_title' );
+		$conds = array(
+			'page_namespace' => NS_TRANSLATIONS,
+			'page_title ' . $like
+		);
+		$res = $dbw->select( 'page', $fields, $conds, __METHOD__ );
+
+		// Only include pages which belong to this translatable page.
+		// Problematic cases are when pages Foo and Foo/bar are both
+		// translatable. Then when querying for Foo, we also get units
+		// belonging to Foo/bar.
+		$sections = array_flip( $this->getSections() );
+		$units = array();
+		foreach ( $res as $row ) {
+			$title = Title::newFromRow( $row );
+
+			// Strip the language code and the name of the
+			// translatable to get plain section key
+			$handle = new MessageHandle( $title );
+			$key = substr( $handle->getKey(), $baseLength );
+			if ( strpos( $key, '/' ) !== false ) {
+				// Probably belongs to translatable subpage
+				continue;
+			}
+
+			// Check against list of sections if requested
+			if ( $set === 'active' && !isset( $sections[$key] ) ) {
+				continue;
+			}
+
+			// We have a match :)
+			$units[] = $title;
+		}
+		return $units;
+	}
+
+
 	public function getTranslationPercentages( $force = false ) {
 		global $wgRequest;
 
@@ -730,7 +792,9 @@ class TranslatablePage {
 	 * @return bool|TranslatablePage
 	 */
 	public static function isTranslationPage( Title $title ) {
-		list( $key, $code ) = TranslateUtils::figureMessage( $title->getText() );
+		$handle = new MessageHandle( $title );
+		$key = $handle->getKey();
+		$code = $handle->getCode();
 
 		if ( $key === '' || $code === '' ) {
 			return false;

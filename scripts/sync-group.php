@@ -131,7 +131,7 @@ foreach ( $groups as &$group ) {
 
 		STDOUT( "Modify time for $code: " . wfTimestamp( TS_ISO_8601, $ts ) );
 
-		$count = $cs->checkConflicts( $code, $start, $end, $ts );
+		$cs->checkConflicts( $code, $start, $end, $ts );
 	}
 
 	unset( $group );
@@ -273,22 +273,13 @@ class ChangeSyncer {
 				$wikiDate = 'Unknown';
 			}
 
-			// TODO: $startDate is unused
 			if ( $startTs ) {
 				$startTs = wfTimestamp( TS_UNIX, $startTs );
-				$startDate = $wgLang->sprintfDate( $iso, wfTimestamp( TS_MW, $startTs ) );
-			} else {
-				$startDate = 'Unknown';
 			}
 
-			// TODO: $endDate is unused
 			if ( $endTs ) {
 				$endTs = wfTimestamp( TS_UNIX, $endTs );
-				$endDate = $wgLang->sprintfDate( $iso, wfTimestamp( TS_MW, $endTs ) );
-			} else {
-				$endDate = 'Unknown';
 			}
-
 			if ( $changeTs ) {
 				$changeTs = wfTimestamp( TS_UNIX, $changeTs );
 				$changeDate = $wgLang->sprintfDate( $iso, wfTimestamp( TS_MW, $changeTs ) );
