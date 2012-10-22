@@ -32,7 +32,7 @@ class PythonSingleFFS extends SimpleFFS {
 		}
 
 		if ( !isset( self::$data[$this->group->getId()][$code] ) ) {
-			self::$data[$this->group->getId()][$code] = array();
+			return false;
 		}
 
 		return array( 'MESSAGES' => self::$data[$this->group->getId()][$code] );
@@ -98,7 +98,7 @@ PHP;
 		$messages = array();
 
 		foreach ( $collection as $message ) {
-			if ( $message->translation() === '' ) {
+			if ( $message->translation() == '' ) {
 				continue;
 			}
 

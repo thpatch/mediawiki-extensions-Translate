@@ -164,8 +164,15 @@ $messages['ar'] = array(
  * @author Bishnu Saikia
  */
 $messages['as'] = array(
+	'firststeps' => 'প্ৰথম পৰ্যায়',
 	'translate-fs-pagetitle-done' => ' - কৰা হ’ল!',
 	'translate-fs-signup-title' => 'সদস্য ভুক্তি',
+	'translate-fs-userpage-title' => 'আপোনাৰ সদস্য পৃষ্ঠা সৃষ্টি কৰক',
+	'translate-fs-target-title' => 'ভাঙনি আৰম্ভ কৰক',
+	'translate-fs-email-title' => 'আপোনাৰ ই-মেইল ঠিকনাটো প্ৰমাণিত কৰক',
+	'translate-fs-settings-planguage' => 'প্ৰাথমিক ভাষা:',
+	'translate-fs-permissions-planguage' => 'প্ৰাথমিক ভাষা:',
+	'translate-fs-permissions-submit' => 'অনুৰোধ প্ৰেৰণ কৰক',
 );
 
 /** Asturian (asturianu)
@@ -310,6 +317,7 @@ $messages['be-tarask'] = array(
 	'translate-fs-settings-submit' => 'Захаваць налады',
 	'translate-fs-userpage-level-N' => 'Мая родная мова',
 	'translate-fs-userpage-level-5' => 'Я — прафэсійны перакладчык на',
+	'translate-fs-userpage-level-4' => 'Ведаю яе як родную',
 	'translate-fs-userpage-submit' => 'Стварыць маю старонку ўдзельніка',
 	'translate-fs-userpage-done' => 'Выдатна! Цяпер Вы маеце старонку ўдзельніка.',
 	'translate-fs-permissions-planguage' => 'Асноўная мова:',
@@ -1647,6 +1655,7 @@ $messages['hu'] = array(
 	'firststeps' => 'Első lépések',
 	'firststeps-desc' => '[[Special:FirstSteps|Speciális lap]], ami felkészíti az új felhasználókat a fordító kiterjesztés használatára',
 	'translate-fs-pagetitle-done' => ' - kész!',
+	'translate-fs-pagetitle-pending' => ' - függőben',
 	'translate-fs-pagetitle' => 'Első lépések varázsló – $1',
 	'translate-fs-signup-title' => 'Regisztráció',
 	'translate-fs-settings-title' => 'Nézd át a beállításaidat!',
@@ -1659,10 +1668,12 @@ Lépésről lépésre segítünk a fordítóvá válás folyamatában.
 A végén hozzákezdhetsz bármelyik, {{SITENAME}} által támogatott projekt ''felületének üzeneteinek'' fordításához.",
 	'translate-fs-selectlanguage' => 'Válassz egy nyelvet!',
 	'translate-fs-settings-planguage' => 'Elsődleges nyelv:',
+	'translate-fs-settings-slanguage' => 'Segédnyelv $1:',
 	'translate-fs-settings-submit' => 'Beállítások mentése',
 	'translate-fs-userpage-submit' => 'Felhasználói lap létrehozása',
 	'translate-fs-userpage-done' => 'Felhasználói lap létrehozva.',
 	'translate-fs-permissions-planguage' => 'Elsődleges nyelv:',
+	'translate-fs-permissions-submit' => 'Kérelem elküldése',
 	'translate-fs-target-text' => "Gratulálunk!
 Most már elkezdhetsz fordítani.
 
@@ -2409,10 +2420,10 @@ $messages['ml'] = array(
  */
 $messages['mr'] = array(
 	'firststeps' => 'पहिल्या पायर्‍या',
-	'firststeps-desc' => '[[महत्त्वाचे; पहिली पायरी महत्त्वाचे पान]] भाषांतर विस्तार वापरून सुरु केलेल्या युजर्सना मिळण्यासाठी .',
+	'firststeps-desc' => '[[महत्त्वाचे; पहिली पायरी महत्त्वाचे पान]] भाषांतर विस्तार वापरून सुरु केलेल्या युजर्सना मिळण्यासाठी .', # Fuzzy
 	'translate-fs-pagetitle-done' => ' - झाले!',
 	'translate-fs-pagetitle-pending' => 'अनिर्णीत,राहिलेले,',
-	'translate-fs-pagetitle' => 'सुरु झालेले विझार्ड मिळण्यासाठी ‌-$१',
+	'translate-fs-pagetitle' => 'सुरु झालेले विझार्ड मिळण्यासाठी ‌-$१', # Fuzzy
 	'translate-fs-signup-title' => 'करार करणे.',
 	'translate-fs-userpage-title' => 'माझे सदस्यपान तयार करा.',
 	'translate-fs-permissions-title' => 'भाषांतर करण्याची परवानगी मिळण्यासाठी विनंती करा. (भाषांतर करणाऱ्या व्यक्तीस)',
@@ -2424,7 +2435,7 @@ $messages['mr'] = array(
 	'translate-fs-selectlanguage' => '(योग्य) भाषा निवडा.',
 	'translate-fs-settings-planguage' => 'मुख्य(महत्त्वाची) भाषा निवडा.',
 	'translate-fs-settings-planguage-desc' => 'तुमची मुख्य भाषा ही विकीवर तुमची दुवा साधणारी भाषा आणि भाषांतरासाठी दिफॉल्ट भाषा म्हणुन वापरली जाते.',
-	'translate-fs-settings-slanguage' => 'उप‌-भाषा $१:',
+	'translate-fs-settings-slanguage' => 'उप‌-भाषा $१:', # Fuzzy
 	'translate-fs-settings-slanguage-desc' => 'भाषांतर एडिटर मध्ये संदेशाचे  दुसऱ्या भाषेमध्ये भाषांतर सहज शक्य आहे.
 जर तुम्हाला एखादी भाषा पाहण्यासाठी आवडेल; तर इथे तुम्ही ती भाषा निवडू शकता.',
 	'translate-fs-settings-submit' => 'माझ्या पसंती जतन करा.',
@@ -2902,8 +2913,8 @@ Se não deseja receber as newsletters, pode optar por não recebê-las no separa
 );
 
 /** Brazilian Portuguese (português do Brasil)
- * @author 555
  * @author Giro720
+ * @author 555
  */
 $messages['pt-br'] = array(
 	'firststeps' => 'Primeiros passos',
@@ -3162,7 +3173,7 @@ Dokumentácia môže byť bohužiaľ niekedy zastaraná.
 Ak nájdete niečo, čo si myslíte, že by ste {{gender:|mal byť schopný|mala byť schopná|mali byť schopní}} robiť, ale nejde to, neváhajte sa opýtať na [[Support|stránke podpory]].
 
 Môžete tiež kontaktovať spoluprekladateľa do rovnakého jazyka pomocou [[Portal_talk:$1|diskusnej stránky]] [[Portal:$1|vášho jazykového portálu]].
-Ak ste tak dosiaľ {{gender:|neurobil|neurobila|neurobili}}, [[Special:Preferences|nastavte svoj jazyk rozhrania]] na jazyk, do ktorého chcete prekladať, aby vám táto wiki bola schopná zobrazovať čo najrelevantnejšie odkazy.",
+Ak ste tak dosiaľ {{gender:|neurobil|neurobila|neurobili}}, [[Special:Preferences|nastavte svoj jazyk rozhrania]] na jazyk, do ktorého chcete prekladať, aby vám táto wiki bola schopná zobrazovať čo najrelevantnejšie odkazy.", # Fuzzy
 );
 
 /** Slovenian (slovenščina)
@@ -3210,19 +3221,19 @@ V spodnjem polju lahko omenite tudi druge jezike in druge pripombe.',
 Če potrdite svoj e-poštni naslov, boste prejeli e-poštno obvestilo takoj, ko se to zgodi.',
 	'translate-fs-permissions-submit' => 'Pošlji zahtevo',
 	'translate-fs-target-text' => "Čestitamo!
-Sedaj lahko začnete prevajati.
+Zdaj lahko začnete prevajati.
 
-Ne bojte se, če se vam še vedno zdi novo in zmedeno.
-Na [[Project list|Seznamu projektov]] se nahaja pregled projektov, h katerim lahko prispevate s prevajanjem.
+Ne bojte se, če se vam vse še vedno zdi novo in zmedeno.
+Na [[Project list|Seznamu projektov]] boste našli pregled projektov, h katerim lahko prispevate prevode.
 Večina projektov ima kratko opisno stran s povezavo »''Prevedi ta projekt''«, ki vas bo ponesla na stran s seznamom neprevedenih sporočil.
-Na razpolago je tudi seznam vseh skupin sporočil s [[Special:LanguageStats|trenutnim stanjem prevodov za jezik]].
+Na razpolago je tudi seznam vseh skupin sporočil s [[Special:LanguageStats|trenutnim stanjem prevodov za  posamezen jezik]].
 
-Če menite, da morate razumeti več stvari, preden začnete prevajati, lahko preberete [[FAQ|Pogosto zastavljena vprašanja]].
-Žal je lahko dokumentacija ponekod zastarela.
-Če je kaj takega, kar bi morali storiti, vendar ne ugotovite kako, ne oklevajte in povprašajte na [[Support|podporni strani]].
+Če ste mnenja, da morate pred začetkom prevajanja okolje bolje spoznati, si lahko preberete odgovore na [[FAQ|Pogosto zastavljena vprašanja]].
+Žal je lahko dokumentacija na nekaterih mestih zastarela.
+Če se pojavi kaj, kar bi želeli storiti, vendar ne veste, kako, ne oklevajte in nas povprašajte na [[Support|podporni strani]].
 
 Prav tako lahko stopite v stik s kolegi prevajalci istega jezika na [[Portal_talk:$1|pogovorni strani]] [[Portal:$1|vašega jezikovnega portala]].
-Če še tega niste storili, nastavite [[Special:Preferences|jezik vašega uporabniškega vmesnika na jezik v katerega želite prevajati]], da bo wiki lahko prikazal povezave, ki vam najbolje ustrezajo.",
+Če tega niste morda že storili, lahko nastavite [[Special:Preferences|jezik vašega uporabniškega vmesnika na jezik, v katerega želite prevajati]], da bo wiki lahko prikazal za vas najustreznejše povezave.",
 	'translate-fs-email-text' => 'Prosimo, navedite svoj e-poštni naslov v [[Special:Preferences|svojih nastavitvah]] in ga potrdite iz e-pošte, ki vam bo poslana.
 
 To omogoča drugim uporabnikom, da stopijo v stik z vami preko e-pošte.
@@ -3589,6 +3600,27 @@ $messages['ur'] = array(
 	'translate-fs-permissions-submit' => 'بھیجنے کی درخواست',
 );
 
+/** Uzbek (oʻzbekcha)
+ * @author CoderSI
+ */
+$messages['uz'] = array(
+	'firststeps' => 'Birinchi qadamlar',
+	'firststeps-desc' => "Vikining yangi ishtirokchilari uchun tarjima kengaytmasi o'rnatilgan [[Special:FirstSteps|maxsus sahifa]]",
+	'translate-fs-pagetitle-done' => ' — bajarildi!',
+	'translate-fs-pagetitle-pending' => ' — kutishda',
+	'translate-fs-pagetitle' => "Boshlang'ich o'rganish dasturi - $1",
+	'translate-fs-signup-title' => "Ro'yxatdan o'ting",
+	'translate-fs-settings-title' => "Moslamalarni o'rnating",
+	'translate-fs-userpage-title' => "O'z ishtirokchi sahifangizni yarating",
+	'translate-fs-permissions-title' => "Tarjimonlik huquqiga so'rov yuboring",
+	'translate-fs-target-title' => 'Tarjimani boshlang!',
+	'translate-fs-email-title' => "O'z elektron pochta manzilingizni tasdiqlang",
+	'translate-fs-selectlanguage' => 'Tilni tanlang',
+	'translate-fs-settings-planguage' => 'Asosiy til:',
+	'translate-fs-settings-slanguage' => 'Yordamchi til $1:',
+	'translate-fs-settings-submit' => 'Moslamalarni saqlash',
+);
+
 /** Veps (vepsän kel’)
  * @author Игорь Бродский
  */
@@ -3819,4 +3851,3 @@ $messages['zh-hant'] = array(
 
 如您不想收到月刊，可以到[[Special:Preferences|偏好設定]]頁面的{{int:prefs-personal}}標籤選擇停止接收。',
 );
-

@@ -40,6 +40,7 @@ $messages['en'] = array(
 	'bw-desc-fudforum' => '[[Translating:FUDforum|FUDforum]] is web-based discussion forum software',
 	'bw-desc-mantisbt' => '[[Translating:MantisBT|MantisBT]] is web-based issue tracking software',
 	'translate-group-desc-eol' => 'A message group for [[Translating:EOL|Encyclopedia of Life]]',
+	'translate-group-desc-frontlinesms' => 'A message group for [[Translating:FrontlineSMS|FrontlineSMS]]',
 	'translate-group-desc-ihris' => 'A message group for [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'A message group for [[Special:Translate/out-ihris-common-0-all|iHRIS Common]], a module of [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-i2ce' => 'A message group for [[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]], a module of [[Translating:iHRIS|iHRIS]]',
@@ -526,6 +527,7 @@ Vysvětlení klíčů u funkce PLURAL najdete na [http://unicode.org/repos/cldr-
  * @author Byrial
  * @author Emilkris33
  * @author Hylle
+ * @author Kaare
  * @author Peter Alberti
  */
 $messages['da'] = array(
@@ -550,6 +552,7 @@ $messages['da'] = array(
 	'bw-desc-fudforum' => '[[Translating:FUDforum|FUDforum]] er en webbaseret  diskussion forum software',
 	'bw-desc-mantisbt' => '[[Translating:MantisBT|MantisBT]] er en webbaseret problemsporing software',
 	'translate-group-desc-eol' => 'En besked gruppe for [[Translating:EOL|Encyclopedia of Life]]',
+	'translate-group-desc-frontlinesms' => 'En meddelelsesgruppe til [[Translating:FrontlineSMS|FrontlineSMS]]',
 	'translate-group-desc-ihris' => 'En besked gruppe for [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'En besked gruppe for [[Special:Translate/out-ihris-common-0-all|iHRIS Common]], et modul af [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-i2ce' => 'En besked gruppe for [[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]], et modul af [[Translating:iHRIS|iHRIS]]',
@@ -579,12 +582,13 @@ $messages['da'] = array(
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] giver en frakoblet tekstudgave af Wikipedia på en mobil enhed.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] er et flerplatforms mobil- og tabletprogram til at læse og bidrage til Wikipedia',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]] er et flerplatforms mobil- og tabletprogram til at læse og bidrage til Wiktionary',
-	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] er en mobil applikation der bidrager til [[:meta:Wiki Loves Monuments|Wiki Elsker Monumenter projektet]]',
+	'translate-group-desc-wlmmobile' => '[[Translating:WLMMobile|WikiLovesMonuments Mobile]] er en mobilapplikation til at bidrage til [[:meta:Wiki Loves Monuments|Wiki Loves Monuments-projektet]]',
 );
 
 /** German (Deutsch)
  * @author Kghbln
  * @author Lyzzy
+ * @author Metalhead64
  * @author Pill
  * @author The Evil IP address
  * @author Umherirrender
@@ -611,6 +615,7 @@ $messages['de'] = array(
 	'bw-desc-fudforum' => '[http://fudforum.org/ FUDforum], ein in PHP geschriebenes Web-Forum.',
 	'bw-desc-mantisbt' => '[[Translating:MantisBT|MantisBT]] ist ein internetgestütztes Bug-Tracking-System',
 	'translate-group-desc-eol' => 'Nachrichten für die [[Translating:EOL|Enzyklopädie des Lebens]]',
+	'translate-group-desc-frontlinesms' => 'Eine Nachrichtengruppe für [[Translating:FrontlineSMS|FrontlineSMS]]',
 	'translate-group-desc-ihris' => 'Nachrichten für [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'Nachrichten für [[Special:Translate/out-ihris-common-0-all|iHRIS Common]], einem Modul von [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-i2ce' => 'Nachrichten für [[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]], einem Modul von [[Translating:iHRIS|iHRIS]]',
@@ -793,6 +798,7 @@ $messages['es'] = array(
 	'bw-desc-fudforum' => '[http://fudforum.org/ FUDforum], un foro web escrito en PHP.',
 	'bw-desc-mantisbt' => '[http://www.mantisbt.org MantisBT] es un sistema de corrección de errores libre basado en web. Por favor reporta cualquier problema en [[Support]].',
 	'translate-group-desc-eol' => 'Grupo de mensajes de la [[Translating:EOL|Enciclopedia de la vida]]',
+	'translate-group-desc-frontlinesms' => 'Un grupo de mensajes de [[Translating:FrontlineSMS|FrontlineSMS]]',
 	'translate-group-desc-ihris' => 'Un grupo de mensajes de [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'Un grupo de mensajes de [[Special:Translate/out-ihris-common-0-all|iHRIS Common]], un módulo de [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-i2ce' => 'Un grupo de mensajes de[[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]], un módulo de [[Translating:iHRIS|iHRIS]]',
@@ -832,6 +838,13 @@ Por favor mira [[mw:Extension:PDF_Writer]] y http://code.pediapress.com/wiki/wik
  */
 $messages['et'] = array(
 	'bw-desc-freecol' => "Enne FreeCol'i tõlkimist oma keelde lugege palun [[Translating:FreeCol]]. FreeCol kasutab GPL litsentsi.",
+);
+
+/** Persian (فارسی)
+ * @author Huji
+ */
+$messages['fa'] = array(
+	'translate-group-desc-mediawikicore' => 'این گروه پیغام حاوی پیغام‌های مورد استفاده در نسخهٔ آلفای فعلی [[Translating:MediaWiki|مدیاویکی]] ({{CURRENTVERSION}}) است',
 );
 
 /** Finnish (suomi)
@@ -926,7 +939,7 @@ Veuillez consulter [[mw:Extension:PDF Writer]] et http://code.pediapress.com/wik
 	'translate-group-desc-potlatch2' => '[[Translating:OpenStreetMap|Potlatch2]] est un éditeur OpenStreetMap basé sur du flash',
 	'translate-group-desc-pywikipedia' => "[[Translating:Pywikipedia|Pywikipedia]] est une collection d'outils pour modifier Wikipédia",
 	'bw-desc-shapado' => 'Groupe de messages pour le logiciel libre et open-source de questions/réponses [[Translating:Shapado|Shapado]]',
-	'bw-desc-statusnet' => '[[Translating:StatusNet|StatusNet]] est un serveur de microblogging en source ouverte',
+	'bw-desc-statusnet' => '[[Translating:StatusNet|StatusNet]] est un serveur de microblogage en source ouverte',
 	'translate-group-desc-statusnet-plugin' => 'Les messages font partie d’une extension pour [[Translating:StatusNet|StatusNet]]',
 	'translate-group-desc-tsint' => 'Un groupe de messages pour [http://toolserver.org/~krinkle/TsIntuition Toolserver Intuition], le système d\'internationalisation des outils du [http://toolserver.org Toolserver] (<span class="plainlinks">[[Translating talk:Toolserver|support]] &middot; [https://wiki.toolserver.org/view/Toolserver_Intuition détails techniques]</span>)',
 	'translate-group-desc-waymarked-trails' => '[[Translating:Waymarked Trails|Waymarked Trails]] est un service affichant les chemins pour la randonnée, le cyclisme, le vélo-tourisme et le patinage à roulettes tout autour du monde. Il utilise la licence GNU GPL',
@@ -1011,6 +1024,7 @@ $messages['gl'] = array(
 	'bw-desc-fudforum' => '[http://fudforum.org/ FUDforum], un foro web escrito en PHP.',
 	'bw-desc-mantisbt' => '[http://www.mantisbt.org MantisBT] é un sistema web de xestión de erros. Por favor, informe de calquera problema en [[Support]].',
 	'translate-group-desc-eol' => 'Grupo de mensaxes da [[Translating:EOL|Enciclopedia da vida]]',
+	'translate-group-desc-frontlinesms' => 'Grupo de mensaxes de [[Translating:FrontlineSMS|FrontlineSMS]]',
 	'translate-group-desc-ihris' => 'Grupo de mensaxes de [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'Grupo de mensaxes de [[Special:Translate/out-ihris-common-0-all|iHRIS Common]], un módulo de [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-i2ce' => 'Grupo de mensaxes de [[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]], un módulo de [[Translating:iHRIS|iHRIS]]',
@@ -1205,6 +1219,7 @@ $messages['hsb'] = array(
 	'bw-desc-fudforum' => '[[Translating:FUDforum|FUDforum]] je webforum spisany w PHP.',
 	'bw-desc-mantisbt' => '[http://www.mantisbt.org MantisBT] je swobodny system na zakładźe weba za slědowanje programowych zmylkow. Zdźěl prošu problemy na stronje [[Support|Podpěra]].',
 	'translate-group-desc-eol' => 'Zdźělenska skupina za [[Translating:EOL|Encyclopedia of Life]]',
+	'translate-group-desc-frontlinesms' => 'Zdźělenska skupina za [[Translating:FrontlineSMS|FrontlineSMS]]',
 	'translate-group-desc-ihris' => 'Skupina powěsćow za [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'Skupina powěsćow za [[Special:Translate/out-ihris-common-0-all|iHRIS Common]], modul za [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-i2ce' => 'Skupina powěsćow za [[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]], modul za [[Translating:iHRIS|iHRIS]]',
@@ -1422,6 +1437,7 @@ $messages['it'] = array(
 	'bw-desc-fudforum' => '[[Translating:FUDforum|FUDforum]], un forum web scritto in PHP.',
 	'bw-desc-mantisbt' => '[[Translating:MantisBT|MantisBT]] è un sistema gratuito di tracciamento bug web-based.',
 	'translate-group-desc-eol' => 'Un gruppo di messaggi per [[Translating:EOL|Encyclopedia of Life]]',
+	'translate-group-desc-frontlinesms' => 'Un gruppo di messaggi per [[Translating:FrontlineSMS|FrontlineSMS]]',
 	'translate-group-desc-ihris' => 'Un gruppo di messaggi per [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'Un gruppo di messaggi per [[Special:Translate/out-ihris-common-0-all|iHRIS Common]], un modulo di [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-i2ce' => 'Un gruppo di messaggi per [[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]], un modulo di [[Translating:iHRIS|iHRIS]]',
@@ -1485,6 +1501,7 @@ $messages['ja'] = array(
 	'bw-desc-fudforum' => '[[Translating:FUDforum|FUDforum]]は、ウェブ上での議論フォーラムのためのソフトウェアです',
 	'bw-desc-mantisbt' => '[[Translating:MantisBT|MantisBT]]はウェブ上でのバグ追跡ソフトウェアです',
 	'translate-group-desc-eol' => '[[Translating:EOL|Encyclopedia of Life]]のメッセージ群',
+	'translate-group-desc-frontlinesms' => '[[Translating:FrontlineSMS|FrontlineSMS]]のメッセージ群',
 	'translate-group-desc-ihris' => '[[Translating:iHRIS|iHRIS]]のメッセージ群',
 	'translate-group-desc-ihris-common' => '[[Translating:iHRIS|iHRIS]]のモジュールである[[Special:Translate/out-ihris-common-0-all|iHRIS Common]]のメッセージ群',
 	'translate-group-desc-ihris-i2ce' => '[[Translating:iHRIS|iHRIS]]のモジュールである[[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]]のメッセージ群',
@@ -1584,6 +1601,7 @@ $messages['ko'] = array(
 	'bw-desc-fudforum' => '[[Translating:FUDforum|FUDforum]]는 웹 기반 토론 포럼 소프트웨어입니다',
 	'bw-desc-mantisbt' => '[[Translating:MantisBT|MantisBT]]는 웹 기반 이슈 추적 소프트웨어입니다',
 	'translate-group-desc-eol' => '[[Translating:EOL|생명의 백과사전]]에 대한 메시지 그룹입니다',
+	'translate-group-desc-frontlinesms' => '[[Translating:FrontlineSMS|FrontlineSMS]]에 대한 메시지 그룹입니다',
 	'translate-group-desc-ihris' => '[[Translating:iHRIS|iHRIS]]에 대한 메시지 그룹입니다',
 	'translate-group-desc-ihris-common' => '[[Translating:iHRIS|iHRIS]] 모듈 [[Special:Translate/out-ihris-common-0-all|iHRIS Common]]에 대한 메시지 그룹입니다',
 	'translate-group-desc-ihris-i2ce' => '[[Translating:iHRIS|iHRIS]] 모듈 [[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]]에 대한 메시지 그룹입니다',
@@ -1642,6 +1660,7 @@ $messages['ksh'] = array(
 	'bw-desc-fudforum' => '[http://fudforum.org/ FUDforum], e Forumsprojramm för et Web, jeschrevve en dä Projrammiershprooch <i lang="en">PHP</i>.',
 	'bw-desc-mantisbt' => '[http://www.mantisbt.org MantisBT] es e frei Süßteem för övver et Web Faählere un Fählermeldunge ze Verwallde. Wann Üsch jät opfällt, doht et op di Sigg „[[Support|{{int:bw-mainpage-support-title}}]]“ schriive.',
 	'translate-group-desc-eol' => 'Täxte un Nohreeschte för [[Translating:EOL|et Wööterbooch vum Levve]]',
+	'translate-group-desc-frontlinesms' => 'En Jropp för <i lang="en">[[Translating:FrontlineSMS|FrontlineSMS]]</i>',
 	'translate-group-desc-ihris' => 'En Jrop Täxte un Nohreeschte för [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'Täxte un Nohreeschte för <i lang="en">[[Special:Translate/out-ihris-common-0-all|iHRIS Common]]</i>, enem Modul vum <i lang="en">[[Translating:iHRIS|iHRIS]]</i>',
 	'translate-group-desc-ihris-i2ce' => 'Täxte un Nohreeschte för <i lang="en">[[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]]</i>, enem Modul vum <i lang="en">[[Translating:iHRIS|iHRIS]]</i>',
@@ -1770,6 +1789,7 @@ $messages['mk'] = array(
 	'bw-desc-fudforum' => '[http://fudforum.org/ FUDforum], форум напишан во PHP.',
 	'bw-desc-mantisbt' => '[http://www.mantisbt.org MantisBT] е слободен интернет-систем за следење на бубачки (грешки). Ако имате проблеми, пријавете ги на [[Support|Поддршка]].',
 	'translate-group-desc-eol' => 'Група пораки за [[Translating:EOL|Енциклопедија на живиот свет]] (Encyclopedia of Life, EOL)',
+	'translate-group-desc-frontlinesms' => 'Група пораки за [[Translating:FrontlineSMS|FrontlineSMS]]',
 	'translate-group-desc-ihris' => 'Група пораки за [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'Група пораки за [[Special:Translate/out-ihris-common-0-all|iHRIS Common]] - модул на [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-i2ce' => 'Група пораки за [[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]] - модул на [[Translating:iHRIS|iHRIS]]',
@@ -1969,6 +1989,7 @@ $messages['nl'] = array(
 	'bw-desc-fudforum' => '[[Translating:FUDforum|FUDforum]] is webgebaseerde forumsoftware',
 	'bw-desc-mantisbt' => '[[Translating:MantisBT|MantisBT]] is webgebaseerde software voor het volgen van meldingen',
 	'translate-group-desc-eol' => 'Een berichtengroep voor [[Translating:EOL|Encyclopedia of Life]]',
+	'translate-group-desc-frontlinesms' => 'Een berichtengroep voor [[Translating:FrontlineSMS|FrontlineSMS]]',
 	'translate-group-desc-ihris' => 'Een berichtengroep voor [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'Een berichtengroep voor [[Special:Translate/out-ihris-common-0-all|iHRIS Common]], een module van [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-i2ce' => 'Een berichtengroep voor [[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]], een module van [[Translating:iHRIS|iHRIS]]',
@@ -2229,6 +2250,8 @@ Për piasì varda [[mw:Extension:PDF_Writer]]  e http://code.pediapress.com/wiki
  */
 $messages['ps'] = array(
 	'translate-group-desc-translatablepages' => 'د ژباړې وړ ټول مخونه',
+	'translate-group-desc-eol' => '[[Translating:EOL|د ژوند پوهنغونډ]] يوه پيغام ډله',
+	'translate-group-desc-kiwix' => 'د [[Translating:Kiwix|کيويکس]] يوه پيغام ډله',
 );
 
 /** Portuguese (português)
@@ -2290,11 +2313,11 @@ Consulte [http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plu
 );
 
 /** Brazilian Portuguese (português do Brasil)
- * @author 555
  * @author Giro720
  * @author Hamilton Abreu
  * @author Helder.wiki
  * @author Heldergeovane
+ * @author 555
  */
 $messages['pt-br'] = array(
 	'translategroupdescriptions-desc' => 'Descrições dos grupos de mensagens dos produtos suportados pela extensão [http://mediawiki.org/wiki/Extension:Translate Translate]',
@@ -2462,8 +2485,8 @@ $messages['ru'] = array(
 $messages['rue'] = array(
 	'translategroupdescriptions-desc' => 'Пописы ґруп повідомлїн продкуктів підпророваных росшырїнём [http://mediawiki.org/wiki/Extension:Translate Translate]',
 	'translate-group-desc-nodesc' => 'Тота ґрупа повідомлїнь не мать попис',
-	'translate-group-desc-mediawikicore' => 'Тота ґрупа повідомлїнь обсягує повідомлїня хоснованы в сучасній алфаверзії alfaverzi MediaWiki ({{CURRENTVERSION}})',
-	'translate-group-desc-mediawikimostused' => 'Тота ґрупа повідомлїнь обсягує [http://translatewiki.net/wiki/Most_often_used_messages_in_MediaWiki 500 найхоснованїшых повідомлїнь] в MediaWiki',
+	'translate-group-desc-mediawikicore' => 'Тота ґрупа повідомлїнь обсягує повідомлїня хоснованы в сучасній алфаверзії alfaverzi MediaWiki ({{CURRENTVERSION}})', # Fuzzy
+	'translate-group-desc-mediawikimostused' => 'Тота ґрупа повідомлїнь обсягує [http://translatewiki.net/wiki/Most_often_used_messages_in_MediaWiki 500 найхоснованїшых повідомлїнь] в MediaWiki', # Fuzzy
 	'translate-group-desc-mediawikiextensions' => 'Тота метаґрупа обсягує повідомлїня вшыткых підпорованых росшырїнь [[Translating:MediaWiki|MediaWiki]]',
 	'translate-group-desc-collection' => 'Тота метаґрупа овсягує повідомлня росшырїня [http://www.mediawiki.org/wiki/Extension:Collection Collection]',
 	'translate-group-desc-flaggedrevs' => 'Тота метаґрупа обсягує повідомлїня росшырїня  [http://www.mediawiki.org/wiki/Extension:FlaggedRevs FlaggedRevs]',
@@ -2505,10 +2528,11 @@ $messages['sk'] = array(
 
 /** Slovenian (slovenščina)
  * @author Dbc334
+ * @author Eleassar
  */
 $messages['sl'] = array(
 	'translategroupdescriptions-desc' => 'Opisi skupin sporočil izdelkov, ki jih podpira razširitev [http://mediawiki.org/wiki/Extension:Translate Translate] extension',
-	'translate-group-desc-nodesc' => 'Za to skupino sporočil opis ni na voljo',
+	'translate-group-desc-nodesc' => 'Za to skupino sporočil opis ni na razpolago',
 	'translate-group-desc-mediawikicore' => 'Ta skupina sporočil zajema sporočila, uporabljena v trenutni alfarazličici MediaWiki ({{CURRENTVERSION}})',
 	'translate-group-desc-mediawikimostused' => 'Ta skupina sporočil vsebuje [http://translatewiki.net/wiki/Most_often_used_messages_in_MediaWiki 500 najbolj uporabljanih sporočil] v MediaWiki',
 	'translate-group-desc-mediawikiextensions' => 'Krovna skupina sporočil, ki vsebuje vsa sporočila podprtih razširitev MediaWiki',
@@ -2524,7 +2548,7 @@ $messages['sl'] = array(
 	'translate-group-desc-uniwiki' => 'Krovna skupina sporočil, ki vsebuje vsa sporočila razširitev, povezanih z [http://unicefinnovation.org/wiki.php Uniwiki]',
 	'translate-group-desc-ui' => 'Krovna skupina sporočil, ki vsebuje vsa sporočila razširitev, povezanih z [http://meta.wikimedia.org/wiki/Wikipedia_Usability_Initiative Wikipedijino Pobudo za uporabnost]',
 	'translate-group-desc-translatablepages' => 'Vse prevedljive strani',
-	'bw-desc-freecol' => 'Pred prevajanjem FreeCol v vaš jezik, prosimo, preberite [[Translating:FreeCol]]. Freecol uporablja dovoljenje GPL.',
+	'bw-desc-freecol' => 'Pred prevajanjem FreeCol v svoj jezik si, prosimo, preberite [[Translating:FreeCol]]. Freecol uporablja licenco GPL.',
 	'bw-desc-fudforum' => '[http://fudforum.org/ FUDforum], spletni forum napisan v PHP.',
 	'bw-desc-mantisbt' => '[http://www.mantisbt.org MantisBT] je prost spletni sistem za sledenje hroščem. Prosimo, sporočite morebitne težave na [[Support|Podpora]].',
 	'translate-group-desc-eol' => 'Skupina sporočil za [[Translating:EOL|Encyclopedia of Life]]',
@@ -2540,7 +2564,7 @@ $messages['sl'] = array(
 	'bw-desc-mwlibrl' => '[[Translating:Mwlib.rl|Mwlib.rl]] je knjižnica za ustvarjanje dokumentov PDF iz strani MediaWiki',
 	'bw-desc-nocc' => '[[Translating:NOCC|NOCC]] je spletni odjemalec e-pošte',
 	'translate-group-desc-okawix' => '[[Translating:Okawix|Okawix]] je nepovezan bralnik Wikipedije',
-	'bw-desc-openimages' => '[[Translating:Open Images|Open Images]] je odprta ploščad za predstavnost',
+	'bw-desc-openimages' => '[[Translating:Open Images|Open Images]] je odprto okolje za predstavnostne vsebine',
 	'translate-group-desc-openimages-verifyemailtemplate' => 'Ta sporočila so del predloge [[Translating:Open Images|Open Images]] za preverjanje e-pošte',
 	'translate-group-desc-openimages-all' => 'Ta sporočila so del projekta [[Translating:Open Images|Open Images]]',
 	'bw-desc-openlayers' => 'OpenLayers je odprtokodni dinamični ustvarjalnik zemljevidov. Prosimo, sporočite morebitne težave na [[support|podpora]].',
@@ -2553,7 +2577,7 @@ Oglejte si [http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_p
 	'bw-desc-statusnet' => '[[Translating:StatusNet|StatusNet]] je odprtokodni strežnik za mikrobloganje',
 	'translate-group-desc-statusnet-plugin' => 'Ta sporočila so del vtičnika za [[Translating:StatusNet|StatusNet]]',
 	'translate-group-desc-tsint' => 'Skupina sporočil za [http://toolserver.org/~krinkle/TsIntuition Toolserverjevo Intuicijo], sistem i18n za orodja [http://toolserver.org Toolserver] (<span class="plainlinks">[[Translating talk:Toolserver|podpora]] &middot; [https://wiki.toolserver.org/view/Toolserver_Intuition tehnične podrobnosti]</span>)',
-	'translate-group-desc-waymarked-trails' => '[[Translating:Waymarked Trails|Waymarked Trails]] je storitev, ki prikazuje poti za pohodništvo, kolesarjenje, gorsko kolesarjenje in rolkanje po celem svetu.  Uporablja dovoljenje GNU GPL',
+	'translate-group-desc-waymarked-trails' => '[[Translating:Waymarked Trails|Waymarked Trails]] je storitev, ki prikazuje poti za pohodništvo, kolesarjenje, gorsko kolesarjenje in rolkanje po celem svetu. Uporablja licenco GNU GPL.',
 	'bw-desc-wikiblame' => '[http://wikipedia.ramselehof.de/wikiblame.php Wikiblame] je zmožen hitro najti avtorje strani na wikiju Wikimedije.',
 	'bw-desc-wikireader' => '[[Translating:WikiReader|WikiReader]] je projekt za dostavljanje nepovezane, samo tekstovne različice Wikipedije na mobilne naprave.',
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]] je večplatformni mobilni in tablični program za branje in prispevanje k Wikipediji',
@@ -2882,8 +2906,8 @@ $messages['uk'] = array(
  * @author CoderSI
  */
 $messages['uz'] = array(
-	'translate-group-desc-mediawikicore' => "Ushbu xabarlar guruhi MediaWiki ({{CURRENTVERSION}})ning joriy alfa-versiyasida foydalanilayotgan xabarlarni o'z ichiga oladi",
-	'translate-group-desc-mediawikimostused' => "Ushbu xabarlar guruhi MediaWikida [http://translatewiki.net/wiki/Most_often_used_messages_in_MediaWiki 500 tadan ziyod juda ko'p ishlatiladigan xabarlardan] tashkil topgan",
+	'translate-group-desc-mediawikicore' => "Ushbu xabarlar guruhi MediaWiki ({{CURRENTVERSION}})ning joriy alfa-versiyasida foydalanilayotgan xabarlarni o'z ichiga oladi", # Fuzzy
+	'translate-group-desc-mediawikimostused' => "Ushbu xabarlar guruhi MediaWikida [http://translatewiki.net/wiki/Most_often_used_messages_in_MediaWiki 500 tadan ziyod juda ko'p ishlatiladigan xabarlardan] tashkil topgan", # Fuzzy
 );
 
 /** Veps (vepsän kel’)
@@ -3080,7 +3104,7 @@ $messages['zh-hant'] = array(
 	'translate-group-desc-mifos' => '[[Translating:Mifos|Mifos]]是一種小額信貸管理信息系統。',
 	'bw-desc-mwlibrl' => "'''mwlib.rl'''是一個使用mwlib庫解析的python庫，用以將MediaWiki條目轉化為PDF文件。
 
-更多信息請見[[mw:Extension:PDF_Writer]]和http://code.pediapress.com/wiki/wiki/mwlibrl。",
+更多信息請見[[mw:Extension:PDF_Writer]]和http://code.pediapress.com/wiki/wiki/mwlibrl。", # Fuzzy
 	'bw-desc-nocc' => '[http://nocc.sourceforge.net NOCC] 是一個使用 PHP 編寫的 Web 郵件客戶端。請在 [[Support]] 內報告問題。',
 	'translate-group-desc-okawix' => '[[Translating:Okawix|Okawix]]是一個離線閱讀維基百科的軟件',
 	'bw-desc-openimages' => '[[Translating:Open Images|Open Images]]是一個開放媒體平台',
@@ -3101,4 +3125,3 @@ $messages['zh-hant'] = array(
 	'translate-group-desc-wikipediamobile' => '[[Translating:WikipediaMobile|WikipediaMobile]]是一個用於閱讀並編輯維基百科的手機、平板跨平台應用程序。',
 	'translate-group-desc-wiktionarymobile' => '[[Translating:WiktionaryMobile|WiktionaryMobile]]是用語閱讀和貢獻維基詞典的跨平台手機／平板應用程序。',
 );
-

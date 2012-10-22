@@ -13,18 +13,24 @@
  */
 class JsonFFSTest extends MediaWikiTestCase {
 
-	protected $groupConfiguration = array(
-		'BASIC' => array(
-			'class' => 'FileBasedMessageGroup',
-			'id' => 'test-id',
-			'label' => 'Test Label',
-			'namespace' => 'NS_MEDIAWIKI',
-			'description' => 'Test description',
-		),
-		'FILES' => array(
-			'class' => 'JsonFFS',
-		),
-	);
+	public function setUp() {
+		$this->groupConfiguration = array(
+			'BASIC' => array(
+				'class' => 'FileBasedMessageGroup',
+				'id' => 'test-id',
+				'label' => 'Test Label',
+				'namespace' => 'NS_MEDIAWIKI',
+				'description' => 'Test description',
+			),
+			'FILES' => array(
+				'class' => 'JsonFFS',
+				'sourcePattern' =>  __DIR__ . '/data/jsontest_%CODE%.json',
+				'targetPattern' => 'jsontest_%CODE%.json',
+			),
+		);
+	}
+
+	protected $groupConfiguration;
 
 	/**
 	 * @dataProvider jsonProvider
@@ -33,7 +39,11 @@ class JsonFFSTest extends MediaWikiTestCase {
 		$group = MessageGroupBase::factory( $this->groupConfiguration );
 		$ffs = new JsonFFS( $group );
 		$parsed = $ffs->readFromVariable( $file );
-		$expected = array( 'MESSAGES' => $messages, 'AUTHORS' => $authors );
+		$expected = array(
+			'MESSAGES' => $messages,
+			'AUTHORS' => $authors,
+			'METADATA' => array(),
+		);
 		$this->assertEquals( $expected, $parsed );
 
 		if ( $messages === array() ) {
@@ -94,5 +104,22 @@ JSON;
 		);
 
 		return $values;
+	}
+
+	public function testExport() {
+		$collection = new MockMessageCollectionForExport();
+		$group = MessageGroupBase::factory( $this->groupConfiguration );
+		$ffs = new JsonFFS( $group );
+		$data = $ffs->writeIntoVariable( $collection );
+		$parsed = $ffs->readFromVariable( $data );
+
+		$this->assertEquals( array( 'Nike the bunny' ), $parsed['AUTHORS'], 'Authors are exported' );
+		$this->assertArrayHasKey( 'fuzzymsg', $parsed['MESSAGES'], 'fuzzy message is exported' );
+		$this->assertArrayHasKey( 'translatedmsg', $parsed['MESSAGES'], 'translated message is exported' );
+		if ( array_key_exists( 'untranslatedmsg', $parsed['MESSAGES'] ) ) {
+			$this->fail( 'Untranslated messages should not be exported' );
+		}
+
+		$this->assertEquals( 'metavalue', $parsed['METADATA']['metakey'], 'metadata is preserved' );
 	}
 }

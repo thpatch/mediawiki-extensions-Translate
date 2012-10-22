@@ -77,8 +77,9 @@ $wgAutoloadClasses['FuzzyBot'] = "$dir/utils/FuzzyBot.php";
 $wgAutoloadClasses['HTMLJsSelectToInputField'] = "$dir/utils/HTMLJsSelectToInputField.php";
 $wgAutoloadClasses['JsSelectToInput'] = "$dir/utils/JsSelectToInput.php";
 $wgAutoloadClasses['MessageGroupCache'] = "$dir/utils/MessageGroupCache.php";
+$wgAutoloadClasses['MessageGroupStates'] = "$dir/utils/MessageGroupStates.php";
+$wgAutoloadClasses['MessageGroupStatesUpdaterJob'] = "$dir/utils/MessageGroupStatesUpdaterJob.php";
 $wgAutoloadClasses['MessageGroupStats'] = "$dir/utils/MessageGroupStats.php";
-$wgAutoloadClasses['MessageGroupWorkflowStateUpdaterJob'] = "$dir/utils/MessageGroupWorkflowStateUpdaterJob.php";
 $wgAutoloadClasses['MessageHandle'] = "$dir/utils/MessageHandle.php";
 $wgAutoloadClasses['MessageIndex'] = "$dir/utils/MessageIndex.php";
 $wgAutoloadClasses['MessageIndexRebuildJob'] = "$dir/utils/MessageIndexRebuildJob.php";
@@ -173,6 +174,7 @@ $wgAutoloadClasses['GettextPluralException'] = "$dir/ffs/GettextFFS.php";
 $wgAutoloadClasses['JavaFFS'] = "$dir/ffs/JavaFFS.php";
 $wgAutoloadClasses['JavaScriptFFS'] = "$dir/ffs/JavaScriptFFS.php";
 $wgAutoloadClasses['JsonFFS'] = "$dir/ffs/JsonFFS.php";
+$wgAutoloadClasses['MediaWikiExtensionFFS'] = "$dir/ffs/MediaWikiExtensionFFS.php";
 $wgAutoloadClasses['PythonSingleFFS'] = "$dir/ffs/PythonSingleFFS.php";
 $wgAutoloadClasses['RubyYamlFFS'] = "$dir/ffs/RubyYamlFFS.php";
 $wgAutoloadClasses['ShapadoJsFFS'] = "$dir/ffs/JavaScriptFFS.php";
@@ -224,6 +226,7 @@ $wgAutoloadClasses['CoreMostUsedMessageGroup'] = "$dir/messagegroups/CoreMostUse
 $wgAutoloadClasses['ExtensionMessageGroup'] = "$dir/messagegroups/ExtensionMessageGroup.php";
 $wgAutoloadClasses['FileBasedMessageGroup'] = "$dir/messagegroups/FileBasedMessageGroup.php";
 $wgAutoloadClasses['MediaWikiMessageGroup'] = "$dir/messagegroups/MediaWikiMessageGroup.php";
+$wgAutoloadClasses['MediaWikiExtensionMessageGroup'] = "$dir/messagegroups/MediaWikiExtensionMessageGroup.php";
 $wgAutoloadClasses['MessageGroup'] = "$dir/messagegroups/MessageGroup.php";
 $wgAutoloadClasses['MessageGroupBase'] = "$dir/messagegroups/MessageGroupBase.php";
 $wgAutoloadClasses['MessageGroupOld'] = "$dir/messagegroups/MessageGroupOld.php";
@@ -233,4 +236,13 @@ $wgAutoloadClasses['VoctrainMessageGroup'] = "$dir/ffs/Voctrain.php";
 $wgAutoloadClasses['WikiMessageGroup'] = "$dir/messagegroups/WikiMessageGroup.php";
 $wgAutoloadClasses['WikiPageMessageGroup'] = "$dir/messagegroups/WikiPageMessageGroup.php";
 $wgAutoloadClasses['WorkflowStatesMessageGroup'] = "$dir/messagegroups/WorkflowStatesMessageGroup.php";
+/**@}*/
+
+/**
+ * @name   Test classes
+ * @{
+ */
+$wgAutoloadClasses['MockMessageCollectionForExport'] = "$dir/tests/MockMessageCollectionForExport.php";
+$wgAutoloadClasses['MockSuperUser'] = "$dir/tests/MockSuperUser.php";
+$wgAutoloadClasses['MockWikiMessageGroup'] = "$dir/tests/MockWikiMessageGroup.php";
 /**@}*/

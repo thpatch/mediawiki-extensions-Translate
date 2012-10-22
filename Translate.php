@@ -15,7 +15,7 @@ if ( !defined( 'MEDIAWIKI' ) ) die();
 /**
  * Version number used in extension credits and in other placed where needed.
  */
-define( 'TRANSLATE_VERSION', '2012-07-04' );
+define( 'TRANSLATE_VERSION', '2012-10-15' );
 
 /**
  * Extension credits properties.
@@ -116,7 +116,13 @@ $wgHooks['SkinTemplateTabs'][] = 'TranslateEditAddons::tabs';
 $wgHooks['LanguageGetTranslatedLanguageNames'][] = 'TranslateHooks::translateMessageDocumentationLanguage';
 $wgHooks['ArticlePrepareTextForEdit'][] = 'TranslateEditAddons::disablePreSaveTransform';
 // Fuzzy tags for speed.
-$wgHooks['ArticleSaveComplete'][] = 'TranslateEditAddons::onSave';
+if ( !defined( 'MW_SUPPORTS_CONTENTHANDLER' ) ) {
+	// BC 1.20
+	$wgHooks['ArticleSaveComplete'][] = 'TranslateEditAddons::onSave';
+} else {
+	$wgHooks['PageContentSaveComplete'][] = 'TranslateEditAddons::onSave';
+}
+
 $wgHooks['Translate:newTranslation'][] = 'TranslateEditAddons::updateTransverTag';
 
 $wgHooks['SkinTemplateNavigation::SpecialPage'][] = 'SpecialTranslate::tabify';
@@ -155,8 +161,8 @@ $wgHooks['Translate:MessageGroupStats:isIncluded'][] = 'TranslateHooks::hideRest
 // Internal event listeners
 $wgHooks['TranslateEventTranslationEdit'][] = 'MessageGroupStats::clear';
 $wgHooks['TranslateEventTranslationReview'][] = 'MessageGroupStats::clear';
-$wgHooks['TranslateEventTranslationEdit'][] = 'MessageGroupWorkflowStateUpdaterJob::onChange';
-$wgHooks['TranslateEventTranslationReview'][] = 'MessageGroupWorkflowStateUpdaterJob::onChange';
+$wgHooks['TranslateEventTranslationEdit'][] = 'MessageGroupStatesUpdaterJob::onChange';
+$wgHooks['TranslateEventTranslationReview'][] = 'MessageGroupStatesUpdaterJob::onChange';
 
 // New rights
 $wgAvailableRights[] = 'translate';
@@ -180,6 +186,7 @@ $wgLogNames['translationreview'] = 'log-name-translationreview';
 // New jobs
 $wgJobClasses['MessageIndexRebuildJob'] = 'MessageIndexRebuildJob';
 $wgJobClasses['MessageUpdateJob'] = 'MessageUpdateJob';
+$wgJobClasses['MessageGroupStatesUpdaterJob'] = 'MessageGroupStatesUpdaterJob';
 
 $resourcePaths = array(
 	'localBasePath' => dirname( __FILE__ ),
@@ -505,6 +512,15 @@ $wgPageTranslationNamespace = 1198;
  */
 
 $wgTranslateBlacklist = array();
+
+/**
+ * File containing checks that are to be skipped. See
+ * https://gerrit.wikimedia.org/r/gitweb?p=translatewiki.git;a=blob;f=check-blacklist.php;hb=HEAD
+ * for example.
+ *
+ * @since 2012-10-15
+ */
+$wgTranslateCheckBlacklist = false;
 
 /**
  * Two-dimensional array of rules that blacklists certain authors from appearing

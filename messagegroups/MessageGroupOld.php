@@ -26,7 +26,9 @@ abstract class MessageGroupOld implements MessageGroup {
 	/**
 	 * @return string
 	 */
-	public function getLabel() { return $this->label; }
+	public function getLabel( IContextSource $context = null ) {
+		return $this->label;
+	}
 
 	/**
 	 * @param $value string
@@ -95,7 +97,9 @@ abstract class MessageGroupOld implements MessageGroup {
 	 * gives information about this group to translators.
 	 */
 	protected $description = null;
-	public function getDescription() { return $this->description; }
+	public function getDescription( IContextSource $context = null ) {
+		return $this->description;
+	}
 	public function setDescription( $value ) { $this->description = $value; }
 
 	/**
@@ -303,29 +307,31 @@ abstract class MessageGroupOld implements MessageGroup {
 	public function getConfiguration() { }
 	public function getFFS() { return null; }
 
+
 	/**
-	 * Get the workflow configuration for the group.
+	 * @deprecated Use getMessageGroupStates
 	 */
 	public function getWorkflowConfiguration() {
 		global $wgTranslateWorkflowStates;
-		// If set to false or empty string, return false;
-		if( !$wgTranslateWorkflowStates ) {
-			return false;
+		if ( !$wgTranslateWorkflowStates ) {
+			// Not configured
+			$conf = array();
+		} else {
+			$conf = $wgTranslateWorkflowStates;
 		}
-		if ( isset( $wgTranslateWorkflowStates[$this->getId()] ) ) {
-			return $wgTranslateWorkflowStates[$this->getId()];
-		}
-		// return default configuration
-		if ( isset( $wgTranslateWorkflowStates["default"] ) ) {
-			return $wgTranslateWorkflowStates['default'];
-		}
-		if( is_array( $wgTranslateWorkflowStates ) ) {
-			// It is not null, it does not have default entry, but still array.
-			// Assuming it is worflow states in old format.
-			return $wgTranslateWorkflowStates;
-		}
-		return false;
+
+		return $conf;
 	}
+
+	/**
+	 * Get the message group workflow state configuration.
+	 * @return MessageGroupStates
+	 */
+	public function getMessageGroupStates() {
+		$conf = $this->getWorkflowConfiguration();
+		return new MessageGroupStates( $conf );
+	}
+
 	/**
 	 * Get all the translatable languages for a group, considering the whitelisting
 	 * and blacklisting.
@@ -333,5 +339,12 @@ abstract class MessageGroupOld implements MessageGroup {
 	 */
 	public function getTranslatableLanguages() {
 		return null;
+	}
+
+	protected static function addContext( Message $message, IContextSource $context = null ) {
+		if ( $context ) {
+			$message->inLanguage( $context->getLanguage() );
+		}
+		return $message;
 	}
 }

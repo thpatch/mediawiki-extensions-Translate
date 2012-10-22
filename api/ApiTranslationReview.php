@@ -17,8 +17,7 @@ class ApiTranslationReview extends ApiBase {
 	protected static $salt = 'translate-messagereview';
 
 	public function execute() {
-		global $wgUser;
-		if ( !$wgUser->isallowed( self::$right ) ) {
+		if ( !$this->getUser()->isallowed( self::$right ) ) {
 			$this->dieUsage( 'Permission denied', 'permissiondenied' );
 		}
 
@@ -39,36 +38,51 @@ class ApiTranslationReview extends ApiBase {
 			$this->dieUsage( 'Cannot review fuzzy translations', 'fuzzymessage' );
 		}
 
-		if ( $revision->getUser() == $wgUser->getId() ) {
+		if ( $revision->getUser() == $this->getUser()->getId() ) {
 			$this->dieUsage( 'Cannot review own translations', 'owntranslation' );
 		}
 
-		$dbw = wfGetDB( DB_MASTER );
-		$table = 'translate_reviews';
-		$row = array(
-			'trr_user' => $wgUser->getId(),
-			'trr_page' => $revision->getPage(),
-			'trr_revision' => $revision->getId(),
-		);
-		$options = array( 'IGNORE' );
-		$dbw->insert( $table, $row, __METHOD__, $options );
-		if ( !$dbw->affectedRows() ) {
+		$ok = self::doReview( $this->getUser(), $revision );
+		if ( !$ok ) {
 			$this->setWarning( 'Already marked as reviewed by you' );
-		} else {
-			$logger = new LogPage( 'translationreview' );
-			$params = array( $revision->getId() );
-			$logger->addEntry( 'message', $title, null, $params, $wgUser );
-
-			wfRunHooks( 'TranslateEventTranslationReview', array( $handle ) );
 		}
 
 		$output = array( 'review' => array(
-			'title' => $title->getPrefixedText(),
+			'title' => $revision->getTitle()->getPrefixedText(),
 			'pageid' => $revision->getPage(),
 			'revision' => $revision->getId()
 		) );
 
 		$this->getResult()->addValue( null, $this->getModuleName(), $output );
+	}
+
+	/**
+	 * Executes the real stuff. No checks done!
+	 * @return Bool, whether the action was recorded.
+	 */
+	public static function doReview( User $user, Revision $revision ) {
+		$dbw = wfGetDB( DB_MASTER );
+		$table = 'translate_reviews';
+		$row = array(
+			'trr_user' => $user->getId(),
+			'trr_page' => $revision->getPage(),
+			'trr_revision' => $revision->getId(),
+		);
+		$options = array( 'IGNORE' );
+		$dbw->insert( $table, $row, __METHOD__, $options );
+
+		if ( !$dbw->affectedRows() ) {
+			return false;
+		}
+
+		$title = $revision->getTitle();
+		$logger = new LogPage( 'translationreview' );
+		$params = array( $revision->getId() );
+		$logger->addEntry( 'message', $title, null, $params, $user );
+
+		$handle = new MessageHandle( $title );
+		wfRunHooks( 'TranslateEventTranslationReview', array( $handle ) );
+		return true;
 	}
 
 	public function isWriteMode() {
