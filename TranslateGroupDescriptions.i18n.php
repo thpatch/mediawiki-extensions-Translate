@@ -208,6 +208,7 @@ $messages['ast'] = array(
 	'bw-desc-fudforum' => '[[Translating:FUDforum|FUDforum]] ye software pa un foru de discutiniu basáu na web',
 	'bw-desc-mantisbt' => "[[Translating:MantisBT|MantisBT]] ye software web pa xestión d'errores",
 	'translate-group-desc-eol' => 'Grupu de mensaxes de la [[Translating:EOL|Enciclopedia de la vida]]',
+	'translate-group-desc-frontlinesms' => 'Un grupu de mensaxes pa [[Translating:FrontlineSMS|FrontlineSMS]]',
 	'translate-group-desc-ihris' => 'Grupu de mensaxes de [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'Grupu de mensaxes de [[Special:Translate/out-ihris-common-0-all|iHRIS Common]], un módulu de [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-i2ce' => 'Grupu de mensaxes de [[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]], un módulu de [[Translating:iHRIS|iHRIS]]',
@@ -488,6 +489,7 @@ $messages['cs'] = array(
 	'bw-desc-fudforum' => '[http://fudforum.org/ FUDforum], webové fórum napsané v PHP.',
 	'bw-desc-mantisbt' => '[http://www.mantisbt.org MantisBT] je webový systém pro správu chyb. Problémy hlaste na stránku [[Support]].',
 	'translate-group-desc-eol' => 'Skupina zpráv pro [[Translating:EOL|Encyclopedia of Life]]',
+	'translate-group-desc-frontlinesms' => 'Skupina zpráv pro [[Translating:FrontlineSMS|FrontlineSMS]]',
 	'translate-group-desc-ihris' => 'Skupina zpráv pro [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'Skupina zpráv pro [[Special:Translate/out-ihris-common-0-all|iHRIS Common]], modul [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-i2ce' => 'Skupina zpráv pro [[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]], modul [[Translating:iHRIS|iHRIS]]',
@@ -655,7 +657,7 @@ Weitere Information finden sich unter [[mw:Extension:PDF Writer]] und http://cod
  * @author Mirzali
  */
 $messages['diq'] = array(
-	'translate-group-desc-mediawikiextensions' => 'Meta ra qandê grub mesacanê [[Translating:MediaWiki|MediaWiki]]y dezgeyê destegdayışiyo',
+	'translate-group-desc-mediawikiextensions' => 'Mesacê gruba meta de mesacê ke pêro dezgehê destegdayışi rê qandê [[Translating:MediaWiki|MediaWiki]]y estê',
 	'translate-group-desc-collection' => 'MediaWiki ra qandê [http://www.mediawiki.org/wiki/Extension:Collection Koleksiyonanê] grube mesacê MediaWiki',
 	'translate-group-desc-translate' => 'MediaWiki ra qandê [http://www.mediawiki.org/wiki/Extension:Translate Açarnayışê] grube mesacê MediaWiki',
 	'translate-group-desc-wikiaextensions' => 'MediaWiki ra qandê mesacan dê [http://www.wikia.com Wikia] ra itad karêno',
@@ -1141,6 +1143,7 @@ $messages['he'] = array(
 	'bw-desc-fudforum' => '[[Translating:FUDforum|FUDforum]] היא תוכנה לניהול פורומים',
 	'bw-desc-mantisbt' => '[[Translating:MantisBT|MantisBT]] היא תוכנה מבוססת וב לניהול באגים',
 	'translate-group-desc-eol' => 'קבוצת הודעות לתרגום של [[Translating:EOL|אנציקלופדיית החיים]]',
+	'translate-group-desc-frontlinesms' => 'קבוצת הודעות עובר', # Fuzzy
 	'translate-group-desc-ihris' => 'קבוצת הודעה עבור [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'קבוצת הודעות ל־[[Special:Translate/out-ihris-common-0-all|iHRIS Common]], מודול של [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-i2ce' => 'קבוצת הודעות ל־[[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]], מודול של [[Translating:iHRIS|iHRIS]]',
@@ -1857,6 +1860,7 @@ $messages['ms'] = array(
 	'bw-desc-fudforum' => '[[Translating:FUDforum|FUDforum]] ialah perisian forum perbincangan berasaskan web',
 	'bw-desc-mantisbt' => '[[Translating:MantisBT|MantisBT]] ialah perisian menjejak masalah berasaskan web',
 	'translate-group-desc-eol' => 'Kumpulan mesej [[Translating:EOL|Encyclopedia of Life]]',
+	'translate-group-desc-frontlinesms' => 'Kumpulan mesej [[Translating:FrontlineSMS|FrontlineSMS]]',
 	'translate-group-desc-ihris' => 'Kumpulan mesej [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'Kumpulan mesej [[Special:Translate/out-ihris-common-0-all|iHRIS Common]], satu modul [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-i2ce' => 'Kumpulan mesej [[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]], satu modul [[Translating:iHRIS|iHRIS]]',
@@ -2552,6 +2556,7 @@ $messages['sl'] = array(
 	'bw-desc-fudforum' => '[http://fudforum.org/ FUDforum], spletni forum napisan v PHP.',
 	'bw-desc-mantisbt' => '[http://www.mantisbt.org MantisBT] je prost spletni sistem za sledenje hroščem. Prosimo, sporočite morebitne težave na [[Support|Podpora]].',
 	'translate-group-desc-eol' => 'Skupina sporočil za [[Translating:EOL|Encyclopedia of Life]]',
+	'translate-group-desc-frontlinesms' => 'Skupina sporočil za [[Translating:FrontlineSMS|FrontlineSMS]]',
 	'translate-group-desc-ihris' => 'Skupina sporočil za [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-common' => 'Skupina sporočil za [[Special:Translate/out-ihris-common-0-all|iHRIS Common]], modul [[Translating:iHRIS|iHRIS]]',
 	'translate-group-desc-ihris-i2ce' => 'Skupina sporočil za [[Special:Translate/out-ihris-i2ce-0-all|iHRIS I2CE]], modul [[Translating:iHRIS|iHRIS]]',
@@ -2857,6 +2862,7 @@ $messages['tt-cyrl'] = array(
 );
 
 /** Ukrainian (українська)
+ * @author A1
  * @author AS
  * @author Base
  * @author Olvin
@@ -2894,6 +2900,7 @@ $messages['uk'] = array(
 	'bw-desc-openstreetmap' => 'Група повідомлень [[Translating:OpenStreetMap|OpenStreetMap]]',
 	'bw-desc-osm-site' => 'Ця група містить повідомлення інтерфейсу [[Translating:Open Street Map|Open Street Map]].
 Глядіть [http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html#{{UILANGCODE}} сторінку Unicode CLDR для пояснень щодо творення форми множини].',
+	'translate-group-desc-pywikipedia' => '[[Translating:Pywikipedia|Pywikipedia]] — набір інструментів для редагування Вікіпедії',
 	'bw-desc-shapado' => 'Група повідомлень відкритого та вільного програмного забезпечення питань та відповідей [[Translating:Shapado|Shapado]]',
 	'bw-desc-statusnet' => '[[Translating:StatusNet|StatusNet]] — сервер мікроблогінгу з відкритим вихідним кодом',
 	'translate-group-desc-statusnet-plugin' => 'Ці повідомлення є частиною плагіна для [[Translating:StatusNet|StatusNet]]',

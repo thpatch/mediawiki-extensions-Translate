@@ -591,6 +591,7 @@ $messages['as'] = array(
 $messages['ast'] = array(
 	'pagetranslation' => 'Traducción de páxines',
 	'right-pagetranslation' => 'Marcar versiones de páxines pa traducir',
+	'action-pagetranslation' => 'alministrar les páxines traducibles',
 	'tpt-desc' => 'Estensión pa traducir páxines de conteníu',
 	'tpt-section' => 'Unidá de traducción $1',
 	'tpt-section-new' => 'Nueva unidá de traducción.
@@ -1055,9 +1056,9 @@ $messages['be-tarask'] = array(
 Тэкст тэгу: <pre>$1</pre>',
 	'pt-shake-multiple' => 'Некалькі маркераў сэкцыяў у адной сэкцыі.
 Тэкст сэкцыі: <pre>$1</pre>',
-	'pt-shake-position' => 'Меткі сэкцыі ў нечаканых пазыцыях.
-Тэкст сэкцыі: <pre>$1</pre>', # Fuzzy
-	'pt-shake-empty' => 'Пустая сэкцыя для меткі $1.', # Fuzzy
+	'pt-shake-position' => 'Меткі сэкцыі перакладу ў нечаканых пазыцыях.
+Тэкст сэкцыі: <pre>$1</pre>',
+	'pt-shake-empty' => 'Пустая сэкцыя перакладу для меткі «$1».',
 	'pt-log-header' => 'Журнал для дзеяньняў зьвязаных з сыстэмай перакладу старонак',
 	'pt-log-name' => 'Журнал перакладу старонак',
 	'pt-log-mark' => '{{GENDER:$2|пазначыў|пазначыла}} вэрсію $3 старонкі «[[:$1]]» для перакладу.',
@@ -1068,16 +1069,20 @@ $messages['be-tarask'] = array(
 	'pt-log-delete-full-nok' => '{{GENDER:$2|атрымаў|атрымала}} памылку пры выдаленьні старонкі [[:$1]], якую магчыма перакласьці',
 	'pt-log-delete-lang-ok' => '{{GENDER:$2|зьдзейсьніў|зьдзейсьніла}} выдаленьне старонкі перакладу $1',
 	'pt-log-delete-lang-nok' => '{{GENDER:$2|атрымаў|атрымала}} памылку пры выдаленьні старонкі перакладу [[:$1]]',
+	'pt-log-encourage' => '{{GENDER:$2|прапанаваў|прапанавала}} пераклад старонкі «[[:$1]]»',
+	'pt-log-discourage' => '{{GENDER:$2|прапанаваў|прапанавала}} не перакладаць старонку «[[:$1]]»',
 	'pt-log-priority-langs-unset' => '{{GENDER:$2|выдаліў|выдаліла}} прыярытэтныя мовы зь перакладанай старонкі [[:$1]]',
-	'pt-log-priority-langs' => '{{GENDER:$2|пазначыў|пазначыла}} наступныя прыярытэтныя мовы для перакладанай старонкі [[:$1]]: $3', # Fuzzy
-	'pt-log-priority-langs-force' => '{{GENDER:$2|абмежаваў|абмежавала}} сьпіс моваў да перакладу [[:$1]] да наступных: $3', # Fuzzy
+	'pt-log-priority-langs' => '{{GENDER:$2|пазначыў|пазначыла}} наступныя прыярытэтныя мовы для перакладу старонкі «[[:$1]]»: $3. Прычына: $4',
+	'pt-log-priority-langs-force' => '{{GENDER:$2|абмежаваў|абмежавала}} сьпіс моваў перакладу старонкі «[[:$1]]» да наступных: $3. Прычына: $4',
+	'pt-log-aggregategroup-associate' => '{{GENDER:$2|дадаў|дадала}} перакладальную старонку «[[:$1]]» да агрэгаванай групы $3',
+	'pt-log-aggregategroup-dissociate' => '{{GENDER:$2|выдаліў|выдаліла}} перакладальную старонку «[[:$1]]» з агрэгаванай групы $3',
 	'pt-movepage-title' => 'Перанесьці старонку $1, якую магчыма перакласьці',
 	'pt-movepage-blockers' => 'Немагчыма перанесьці старонкі, якія магчыма перакладаць, з-за {{PLURAL:$1|наступнай памылкі|наступных памылак}}:',
 	'pt-movepage-block-base-exists' => 'Існуе мэтавая базавая старонка [[:$1]].',
 	'pt-movepage-block-base-invalid' => 'Мэтавая базавая старонка мае няслушную назву.',
 	'pt-movepage-block-tp-exists' => 'Мэтавая старонка перакладу [[:$2]] існуе.',
 	'pt-movepage-block-tp-invalid' => 'Мэтавая назва старонкі да перакладу [[:$1]] будзе няслушнай (занадта доўгая?)',
-	'pt-movepage-block-section-exists' => 'Мэтавая сэкцыя старонкі [[:$2]] існуе.', # Fuzzy
+	'pt-movepage-block-section-exists' => 'Інсуе мэтавая старонка «[[:$2]]» для сэкцыі перакладу.',
 	'pt-movepage-block-section-invalid' => 'Мэтавая назва сэкцыі старонкі [[:$1]] будзе няслушнай (занадта доўгая?).', # Fuzzy
 	'pt-movepage-block-subpage-exists' => 'Мэтавая падстаронка [[:$2]] існуе.',
 	'pt-movepage-block-subpage-invalid' => 'Мэтавая назва падстаронкі [[:$1]] будзе няслушнай (занадта доўгая?).',
@@ -1714,6 +1719,7 @@ $messages['cy'] = array(
 
 /** Danish (dansk)
  * @author Byrial
+ * @author Christian List
  * @author Emilkris33
  * @author Kaare
  * @author Peter Alberti
@@ -1747,7 +1753,7 @@ Sørg for at den har <nowiki><translate></nowiki>-tags og en gyldig syntaks.',
 Siden kan nu <span class="plainlinks">[$3 oversættes]</span>.',
 	'tpt-badsect' => '"$1" er ikke et gyldig navn for oversættelsesenhed $2.',
 	'tpt-showpage-intro' => 'Herunder listes der nye, eksisterende og slettede oversættelsesenheder.
-Før denne version markeres til oversættelse, kontrolleres at ændringerne i oversættelsesenhederne er minimeret for at undgå at give oversætterne unødigt arbejde.',
+Før denne version markeres til oversættelse, skal du kontrollere, at ændringerne i oversættelsesenhederne er minimeret for at undgå at give oversætterne unødigt arbejde.',
 	'tpt-mark-summary' => 'Markerede denne version for oversættelse',
 	'tpt-edit-failed' => 'Kunne ikke opdatere siden: $1',
 	'tpt-duplicate' => 'Oversættelsesenhedsnavnet $1 anvendes mere end en gang.',
@@ -1762,7 +1768,7 @@ Før denne version markeres til oversættelse, kontrolleres at ændringerne i ov
 	'tpt-old-pages' => 'En version af {{PLURAL:$1|denne side|disse sider}} er markeret for oversættelse.',
 	'tpt-other-pages' => '{{PLURAL:$1|En gammel version af denne side er|Ældre versioner af disse sider er}} markeret til oversættelse,
 men {{PLURAL:$1|den seneste version|de seneste versioner}} kan ikke mærkes til oversættelse.',
-	'tpt-discouraged-pages' => '{{PLURAL:$1|Denne side|Disse sider}} er blevet forhindret i yderligere oversættelse.',
+	'tpt-discouraged-pages' => '{{PLURAL:$1|Denne side|Disse sider}} er blevet frarådet yderligere oversættelse.',
 	'tpt-select-prioritylangs' => 'Liste over sprogkoder for prioriterede sprog, adskilt med kommaer:',
 	'tpt-select-prioritylangs-force' => 'Forhindring af oversættelser til andre sprog end prioritetsprogene',
 	'tpt-select-prioritylangs-reason' => 'Begrundelse:',
@@ -1797,7 +1803,7 @@ En oversættelsesadministrator besluttede at denne side kun kan oversættes til 
 
 En oversættelsesadministrator besluttede at fokusere oversættelsesarbejdet på $3.",
 	'tpt-discouraged-language-reason' => 'Begrundelse: $1',
-	'tpt-priority-languages' => 'En oversættelsesadministrator har sat prioritetssproget for denne gruppe til $1.',
+	'tpt-priority-languages' => 'En oversættelsesadministrator har sat prioritetssprogene for denne gruppe til $1.',
 	'tpt-render-summary' => 'Opdaterer for at passe til en ny version af kildesiden',
 	'tpt-download-page' => 'Eksportér side med oversættelser',
 	'aggregategroups' => 'Samlegrupper',
@@ -1830,7 +1836,7 @@ Oversættelsesenhedstekst: <pre>$1</pre>',
 	'pt-log-delete-lang-ok' => '{{GENDER:$2|Fuldførte}} sletning af oversættelses side $1',
 	'pt-log-delete-lang-nok' => '{{GENDER:$2|stødte på}} et problem under sletning oversættelses side [[:$1]]',
 	'pt-log-encourage' => '{{GENDER:$2|opfordrede}} til oversættelse af siden "[[:$1]]"',
-	'pt-log-discourage' => '{{GENDER:$2|forhindrede}} oversættelse af siden "[[:$1]]"',
+	'pt-log-discourage' => '{{GENDER:$2|frarådede}} oversættelse af siden "[[:$1]]"',
 	'pt-log-priority-langs-unset' => '{{GENDER:$2|fjernede}} prioritetssprog fra den oversætbare side "[[:$1]]"',
 	'pt-log-priority-langs' => '{{GENDER:$2|satte}} prioritetssproget for den oversætbare side "[[:$1]]" til $3. Årsag: $4',
 	'pt-log-priority-langs-force' => '{{GENDER:$2|begrænsede}} sprog for den oversætbare side "[[:$1]]" til $3. Årsag: $4',
@@ -3093,7 +3099,7 @@ mais {{PLURAL:$1|sa dernière version|leur dernière version respective}} ne peu
 	'tpt-discouraged-pages' => '{{PLURAL:$1|Cette page a été découragée|Ces pages ont été découragées}} à être {{PLURAL:$1|traduite|traduites}} davantage.',
 	'tpt-select-prioritylangs' => 'Liste de codes de langue prioritaire séparés par des virgules:',
 	'tpt-select-prioritylangs-force' => "Empêcher les traductions en d'autres langues que les langues prioritaires",
-	'tpt-select-prioritylangs-reason' => 'Motif:',
+	'tpt-select-prioritylangs-reason' => 'Motif :',
 	'tpt-sections-prioritylangs' => 'Langues prioritaires',
 	'tpt-rev-mark' => 'marquer pour traduction',
 	'tpt-rev-unmark' => 'supprimer de la traduction',
