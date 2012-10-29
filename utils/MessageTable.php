@@ -145,7 +145,7 @@ class MessageTable {
 			// It takes about 20 KiB per call, and that times 5000 is quite
 			// a lot of memory.
 			global $wgLang;
-			$niceTitle = htmlspecialchars( $wgLang->truncate( $title->getPrefixedText(), -35 ) );
+			$niceTitle = htmlspecialchars( substr($title->getText(), strlen($title->getRootText()))  );
 			$linkAttribs = array(
 				'href' => $title->getLocalUrl( array( 'action' => 'edit' ) + $this->editLinkParams ),
 			);

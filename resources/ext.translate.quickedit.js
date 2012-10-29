@@ -342,9 +342,7 @@
 				$this.removeClass( 'tqe-editor-loaded' );
 			};
 			callbacks.load = function ( editor ) {
-				var $header = $( '<div class="tqe-fakeheader"></div>' );
-				$header.text( page );
-				$header.append( '<input type=button class="mw-translate-close" value="X" />' );
+				var $header = $( '<input type=button class="mw-translate-close" value="X" />' );
 
 				$( editor ).find( 'form' ).prepend( $header );
 			};

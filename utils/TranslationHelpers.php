@@ -245,7 +245,7 @@ class TranslationHelpers {
 			'page-translation' => array( $this, 'getTranslationPageDiff' ),
 			'separator' => array( $this, 'getSeparatorBox' ),
 			'documentation' => array( $this, 'getDocumentationBox' ),
-			'definition' => array( $this, 'getDefinitionBox' ),
+			// 'definition' => array( $this, 'getDefinitionBox' ),
 			'check' => array( $this, 'getCheckBox' ),
 		);
 	}

@@ -1,4 +1,4 @@
-
+getDefinitionBox
 .mw-ajax-dialog .mw-ajax-loader {
 	margin: 2em;
 }
@@ -77,7 +77,7 @@
 
 .mw-translate-edit-area {
 	padding: 0;
-	width: 100%;
+	width: 99%;
 }
 
 /* Buttons */
