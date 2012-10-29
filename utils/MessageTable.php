@@ -110,6 +110,7 @@ class MessageTable {
 		$output =  '';
 
 		$this->collection->initMessages(); // Just to be sure
+		$fallbackLangs = $targetLang->getFallbackLanguages();
 		foreach ( $this->collection as $key => $m ) {
 			$tools = array();
 			$title = $titleMap[$key];
@@ -122,7 +123,19 @@ class MessageTable {
 				$message = $translation;
 				$extraAttribs = self::getLanguageAttributes( $targetLang );
 			} else {
+				global $wgPageTranslationNamespace;				
 				$message = $original;
+				foreach ($fallbackLangs as $fallbackLang)	{
+					$fbTitle = Title::makeTitle($wgPageTranslationNamespace,
+						$key . '/' . $fallbackLang);
+					
+					$fbPage = WikiPage::factory($fbTitle);
+					$fbMessage = $fbPage->getText();
+					if($fbMessage) 	{
+						$message = $fbMessage;
+						break;
+					}
+				}
 				$extraAttribs = self::getLanguageAttributes( $sourceLang );
 			}
 

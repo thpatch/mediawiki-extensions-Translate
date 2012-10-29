@@ -80,11 +80,13 @@ class SpecialSupportedLanguages extends SpecialPage {
 
 
 		// Requires NS_PORTAL. If not present, display error text.
-		if ( !defined( 'NS_PORTAL' ) ) {
+		// (implement this later)
+		/*if ( !defined( 'NS_PORTAL' ) ) {
 			$users = $this->fetchTranslatorsAuto();
 		} else {
 			$users = $this->fetchTranslatorsPortal( $natives );
-		}
+		}*/
+		$users = $this->fetchTranslatorsAuto();
 
 		$this->preQueryUsers( $users );
 
