@@ -148,12 +148,17 @@ class MessageTable {
 				$extra = '<br />' . $optional;
 			}
 
-			$tqeData = $extraAttribs + array(
-				'data-title' => $title->getPrefixedText(),
-				'data-group' => $this->group->getId(),
-				'id' => 'tqe-anchor-' . substr( sha1( $title->getPrefixedText() ), 0, 12 ),
-				'class' => 'tqe-inlineeditable ' . ( $hasTranslation ? 'translated' : 'untranslated' )
-			);
+			// No link data if we're viewing the source language itself
+			if($sourceLang !== $targetLang)	{
+				$tqeData = $extraAttribs + array(
+					'data-title' => $title->getPrefixedText(),
+					'data-group' => $this->group->getId(),
+					'id' => 'tqe-anchor-' . substr( sha1( $title->getPrefixedText() ), 0, 12 ),
+					'class' => 'tqe-inlineeditable ' . ( $hasTranslation ? 'translated' : 'untranslated' )
+				);
+			}	else	{
+				$tqeData = null;
+			}
 
 			$button = $this->getReviewButton( $m );
 			$status = $this->getReviewStatus( $m );

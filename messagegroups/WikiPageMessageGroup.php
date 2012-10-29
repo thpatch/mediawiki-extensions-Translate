@@ -26,7 +26,9 @@ class WikiPageMessageGroup extends WikiMessageGroup {
 	public function getSourceLanguage() {
 		global $wgLanguageCode;
 
-		return $wgLanguageCode;
+		// Article space = ja
+		// Everything else = en
+		return $this->title->mNamespace ? $wgLanguageCode : 'ja';
 	}
 
 	/**

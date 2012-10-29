@@ -198,8 +198,8 @@ class TPParse {
 				}
 			}
 			// Use the original text if no translation is available
-			if ( $sectiontext === null ) {
-				$sectiontext = $collection->code;
+			if ( $sectiontext === null && !$collection->keepEmpty) {
+				$sectiontext = $s->getTextForTrans();
 			}
 
 			// Substitute variables into section text and substitute text into document

@@ -713,9 +713,7 @@ class TranslatablePage {
 		}
 
 		// Content language is always up-to-date
-		global $wgContLang;
-
-		$temp['ja'] = 1.00;
+		$temp[$group->getSourceLanguage()] = 1.00;
 
 		wfGetCache( CACHE_ANYTHING )->set( $memcKey, $temp, 60 * 60 * 12 );
 

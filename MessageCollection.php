@@ -65,6 +65,9 @@ class MessageCollection implements ArrayAccess, Iterator, Countable {
 	/// bool Whether review info is loaded
 	protected $reviewMode = false;
 
+	/// bool Whether to keep untranslated sections empty
+	public $keepEmpty = true;
+
 	/**
 	 * Constructors. Use newFromDefinitions() instead.
 	 * @param $code \string Language code.

@@ -264,6 +264,11 @@ abstract class MessageGroupOld implements MessageGroup {
 			$collection->setTags( $type, $tags );
 		}
 
+		// Determine behavior for empty translation sections
+		global $wgLanguageCode;
+
+		$collection->keepEmpty = $this->getSourceLanguage() != $wgLanguageCode;
+
 		return $collection;
 	}
 
