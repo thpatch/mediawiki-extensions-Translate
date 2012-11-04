@@ -254,7 +254,7 @@ class PageTranslationHooks {
 		foreach ( $status as $code => $percent ) {
 			$name = TranslateUtils::getLanguageName( $code, false, $userLangCode );
 			$name = htmlspecialchars( $name ); // Unlikely, but better safe
-			$name = '<span lang="' . $code . '">'. $name . '</span>';
+			$name = $name;
 
 			/* Percentages are too accurate and take more
 			 * space than simple images */
