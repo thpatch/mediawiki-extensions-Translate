@@ -1162,9 +1162,13 @@ $messages['bn'] = array(
 	'pagetranslation' => 'পাতা অনুবাদ',
 	'tpt-diff-old' => 'পূর্বের লেখা',
 	'tpt-diff-new' => 'নতুন লেখা',
+	'tpt-select-prioritylangs-reason' => 'কারণ:',
 	'translate-tag-translate-link-desc' => 'এই পাতা অনুবাদ করুন',
 	'translate-tag-markthis' => 'অনুবাদের জন্য এই পাতা চিহ্নিত করুন',
 	'tpt-languages-legend' => 'অন্য ভাষা:',
+	'tpt-aggregategroup-add' => 'যোগ',
+	'tpt-aggregategroup-save' => 'সংরক্ষণ',
+	'tpt-aggregategroup-new-name' => 'নাম:',
 	'pt-movepage-reason' => 'কারণ:',
 	'pt-deletepage-reason' => 'কারণ:',
 );
@@ -1560,12 +1564,14 @@ $messages['ckb'] = array(
 
 /** Czech (česky)
  * @author Chmee2
+ * @author Janet11
  * @author Matěj Grabovský
  * @author Mormegil
  */
 $messages['cs'] = array(
 	'pagetranslation' => 'Překlad stránek',
 	'right-pagetranslation' => 'Označování verzí stránek pro překlad',
+	'action-pagetranslation' => 'spravovat přeložitelné stránky',
 	'tpt-desc' => 'Rozšíření pro překládání stránek s obsahem',
 	'tpt-section' => 'Část překladu $1',
 	'tpt-section-new' => 'Nová část překladu.
@@ -1598,7 +1604,7 @@ Předtím než tuto verzi označíte pro překlad zkontrolujte, že změny čás
 	'tpt-other-pages-title' => 'Rozbité stránky',
 	'tpt-discouraged-pages-title' => 'Nedoporučené stránky',
 	'tpt-new-pages' => '{{PLURAL:$1|Tato stránka obsahuje|Tyto stránky obsahují}} text se značkami pro překlad, ale žádná verze {{PLURAL:$1|této stránky|těchto stránek}} není aktuálně označena pro překlad.',
-	'tpt-old-pages' => 'Některé verze {{PLURAL:$1|této stránky|těchto stránek}} bylo označeny pro překlad.',
+	'tpt-old-pages' => 'Některé verze {{PLURAL:$1|této stránky|těchto stránek}} byly označeny pro překlad.',
 	'tpt-other-pages' => 'Starší verze {{PLURAL:$1|této stránky je označena|těchto stránek jsou označeny}} pro překlad,
 ale nejnovější verze {{PLURAL:$1|nemůže být k překladu označena|nemohou být k překladu označeny}}.',
 	'tpt-discouraged-pages' => 'Další překlady {{PLURAL:$1|této stránky|těchto stránek}} se nedoporučují.',
@@ -8421,6 +8427,7 @@ Zdá sa, že stránka, ktorú sa pokúšate upravovať nezodpovedá žiadnej str
 $messages['sl'] = array(
 	'pagetranslation' => 'Prevajanje strani',
 	'right-pagetranslation' => 'Označi različice strani za prevajanje',
+	'action-pagetranslation' => 'upravljanje prevedljivih strani',
 	'tpt-desc' => 'Razširitev za prevajanje vsebine strani',
 	'tpt-section' => 'Prevajalna enota $1',
 	'tpt-section-new' => 'Nove prevajalna enota.
@@ -8457,12 +8464,15 @@ Pred označitvijo te redakcije za prevajanje preverite, da so spremembe prevajal
 	'tpt-other-pages-title' => 'Poškodovane strani',
 	'tpt-discouraged-pages-title' => 'Zatrte strani',
 	'tpt-new-pages' => '{{PLURAL:$1|Ta stran vsebuje|Ti strani vsebujeta|Te strani vsebujejo}} besedilo z oznakami za prevajanje,
-vendar ni trenutno nobena različica {{PLURAL:$1|te strani|teh strani}} označena za prevajanje.',
+vendar trenutno ni nobena različica {{PLURAL:$1|te strani|teh strani}} označena za prevajanje.',
 	'tpt-old-pages' => 'Nekatere različice {{PLURAL:$1|te strani|teh strani}} so bile označene za prevajanje.',
 	'tpt-other-pages' => '{{PLURAL:$1|Stara različica te strani je bila označena|Stari različici teh strani sta bili označeni|Stare različice teh strani so bile označene}} za prevajanje,
 vendar {{PLURAL:$1|trenutne različice|trenutnih različic}} ni mogoče označiti za prevajanje.',
 	'tpt-discouraged-pages' => '{{PLURAL:$1|Naslednja stran je zatrta|Naslednji strani sta zatrti|Naslednje strani so zatrte}} pred nadaljnjimi prevodi.',
+	'tpt-select-prioritylangs' => 'Z vejico ločen seznam kod prednostnih jezikov:',
+	'tpt-select-prioritylangs-force' => 'Prepreči prevejanje v druge jezike, razen v prednostne jezike',
 	'tpt-select-prioritylangs-reason' => 'Razlog:',
+	'tpt-sections-prioritylangs' => 'Prednostni jeziki',
 	'tpt-rev-mark' => 'Označi za prevajanje',
 	'tpt-rev-unmark' => 'odstrani iz prevoda',
 	'tpt-rev-discourage' => 'zatri',
@@ -8478,6 +8488,7 @@ vendar {{PLURAL:$1|trenutne različice|trenutnih različic}} ni mogoče označit
 	'tpt-translation-intro' => 'Ta stran je <span class="plainlinks">[$1 prevedena različica]</span> strani [[$2]] in prevod je $3 % dokončan.',
 	'tpt-translation-intro-fuzzy' => 'Zastareli prevodi so označeni tako.',
 	'tpt-languages-legend' => 'Drugi jeziki:',
+	'tpt-languages-zero' => 'Prični s prevajanjem v ta jezik',
 	'tpt-target-page' => 'Te strani ni mogoče ročno posodobiti.
 Ta stran je prevod strani [[$1]], njen prevod lahko posodobite z uporabo [$2 prevajalskega orodja].',
 	'tpt-unknown-page' => 'Ta imenski prostor je pridržan za prevode vsebinskih strani.
@@ -8511,6 +8522,8 @@ Besedilo prevajalne enote: <pre>$1</pre>',
 	'pt-log-delete-full-nok' => 'je {{GENDER:$2|naletel|naletela}} na težavo med brisanjem prevedljive strani [[:$1]]',
 	'pt-log-delete-lang-ok' => 'je {{GENDER:$2|zaključil|zaključila}} z brisanjem strani prevoda $1',
 	'pt-log-delete-lang-nok' => 'je {{GENDER:$2|naletel|naletela}} na težavo med brisanjem strani prevoda [[:$1]]',
+	'pt-log-encourage' => 'je {{GENDER:$2|spodbudil|spodbudil|spodbudil(-a)}} prevajanje strani »[[:$1]]«',
+	'pt-log-discourage' => 'je {{GENDER:$2|zatrl|zatrla|zatrl(-a)}} prevajanje strani »[[:$1]]«',
 	'pt-movepage-title' => 'Premakni prevedljivo stran $1',
 	'pt-movepage-blockers' => 'Prevedljive strani ni mogoče prestaviti na novo ime zaradi {{PLURAL:$1|naslednje napake|naslednjih napak}}:',
 	'pt-movepage-block-base-exists' => 'Ciljna izhodiščna stran [[:$1]] obstaja.',
@@ -9670,7 +9683,7 @@ $messages['vep'] = array(
  * @author Vinhtantran
  */
 $messages['vi'] = array(
-	'pagetranslation' => 'Dịch trang',
+	'pagetranslation' => 'Biên dịch trang',
 	'right-pagetranslation' => 'Đánh dấu các phiên bản của trang là cần dịch',
 	'action-pagetranslation' => 'quản lý các trang dịch được',
 	'tpt-desc' => 'Phần mở rộng để dịch trang nội dung',

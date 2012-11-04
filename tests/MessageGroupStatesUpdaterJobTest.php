@@ -2,6 +2,7 @@
 
 /**
  * @group Database
+ * @group medium
  */
 class MessageGroupStatesUpdaterJobTest extends MediaWikiTestCase {
 
@@ -122,7 +123,7 @@ class MessageGroupStatesUpdaterJobTest extends MediaWikiTestCase {
 		$this->assertEquals( 'inprogress', $currentState, 'in progress after first translation' );
 
 		// First review
-		ApiTranslationReview::doReview( $user, self::getRevision( $status ) );
+		ApiTranslationReview::doReview( $user, self::getRevision( $status ), __METHOD__ );
 		self::runJobs();
 		$currentState = ApiGroupReview::getState( $group, 'fi' );
 		$this->assertEquals( 'inprogress', $currentState, 'in progress while untranslated messages' );
@@ -135,7 +136,7 @@ class MessageGroupStatesUpdaterJobTest extends MediaWikiTestCase {
 		$this->assertEquals( 'proofreading', $currentState, 'proofreading after second translation' );
 
 		// Second review
-		ApiTranslationReview::doReview( $user, self::getRevision( $status ) );
+		ApiTranslationReview::doReview( $user, self::getRevision( $status ), __METHOD__ );
 		self::runJobs();
 		$currentState = ApiGroupReview::getState( $group, 'fi' );
 		$this->assertEquals( 'ready', $currentState, 'ready when all proofread' );

@@ -3133,7 +3133,16 @@ $messages['bho'] = array(
  * @author Zaheen
  */
 $messages['bn'] = array(
-	'translate' => 'অনুবাদ করুন',
+	'translate' => 'অনুবাদ',
+	'translate-taskui-view' => 'সব বার্তা দেখাও',
+	'translate-taskui-untranslated' => 'অনুবাদ হয়নি এমন বার্তা দেখাও',
+	'translate-taskui-optional' => 'ঐচ্ছিক বার্তা দেখাও',
+	'translate-taskui-suggestions' => 'ট্রান্সলেশন মেমরি থেকে পরামর্শ সহ বার্তা দেখাও',
+	'translate-taction-translate' => 'অনুবাদ',
+	'translate-taction-proofread' => 'প্রুফরিড',
+	'translate-taction-lstats' => 'ভাষার পরিসংখ্যান',
+	'translate-taction-mstats' => 'বার্তা দলের পরিসংখ্যান',
+	'translate-taction-export' => 'রপ্তানি',
 	'translate-page-settings-legend' => 'সেটিং',
 	'translate-page-group' => 'দল',
 	'translate-page-language' => 'ভাষা',
@@ -3144,15 +3153,19 @@ $messages['bn'] = array(
 	'translate-next' => 'পরবর্তী পাতা',
 	'translate-prev' => 'পূর্ববর্তী পাতা',
 	'translate-page-description-legend' => 'দলের তথ্য',
+	'translate-page-description-hasoptional-open' => 'ঐচ্ছিক বার্তা দেখাও।',
 	'translate-page-edit' => 'সম্পাদনা',
 	'translate-ext-url' => '<hr />ওয়েবসাইট: $1',
 	'translate-optional' => '(ঐচ্ছিক)',
 	'translate-ignored' => '(উপেক্ষিত)',
+	'translate-edit-jsopen' => 'সম্পাদনা',
 	'translate-edit-title' => 'সম্পাদনা "$1"',
 	'translate-edit-translation' => 'অনুবাদ',
 	'translate-edit-contribute' => 'অবদান',
 	'translate-edit-tmmatch' => '$1% মিল রয়েছে',
 	'translate-edit-tab-list' => 'বার্তা তালিকা',
+	'translate-edit-askpermission' => 'অনুমোদনের আবেদন',
+	'translate-magic-module' => 'মডিউল:',
 	'translate-magic-submit' => 'বের করো',
 	'translate-magic-cm-export' => 'রপ্তানি',
 	'translate-magic-nothing-to-export' => 'এখানে রপ্তানি করার মত কিছু নেই।',
@@ -3195,24 +3208,41 @@ $messages['bn'] = array(
 	'translate-total' => 'বার্তা',
 	'translate-untranslated' => 'অনুবাদ হয়নি',
 	'translate-percentage-complete' => 'সম্পন্ন',
+	'translate-ls-submit' => 'পরিসংখ্যান দেখাও',
+	'translate-ls-column-group' => 'বার্তা দল',
+	'translate-mgs-pagename' => 'বার্তা দলের পরিসংখ্যান',
+	'translate-mgs-fieldset' => 'প্রদর্শন পছন্দসমূহ',
+	'translate-mgs-group' => 'বার্তা দল:',
+	'translate-mgs-submit' => 'পরিসংখ্যান দেখাও',
 	'translate-mgs-column-language' => 'ভাষা',
+	'translate-mgs-totals' => 'সকল ভাষায় একসাথে',
 	'supportedlanguages' => 'সমর্থিত ভাষাসমূহ',
 	'supportedlanguages-translators' => '{{PLURAL:$2|অনুবাদক|অনুবাদকগণ}}: $1',
 	'supportedlanguages-recenttranslations' => 'সাম্প্রতিক অনুবাদ',
 	'translate-save' => 'সংরক্ষণ ($1)',
 	'translate-jssti-add' => 'তালিকায় যোগ করো',
+	'managemessagegroups' => 'বার্তা দল ব্যবস্থাপনা',
 	'translate-manage-action-import' => 'আমদানি',
 	'translate-manage-action-ignore' => 'উপেক্ষা',
+	'translate-js-summary' => 'সারাংশ:',
+	'translate-js-save' => 'সংরক্ষণ',
+	'translate-js-next' => 'সংরক্ষণ এবং পরবর্তী',
 	'translate-js-skip' => 'বাতিল ও পরবর্তী',
 	'translate-js-history' => 'অনুবাদ ইতিহাস',
 	'translate-gs-code' => 'কোড',
 	'translate-gs-continent' => 'উপমহাদেশ',
 	'translate-gs-speakers' => 'বক্তা',
 	'translate-gs-score' => 'স্কোর',
+	'translate-gs-multiple' => 'একাধিক',
+	'translate-gs-count' => 'গণনা',
 	'translate-gs-total' => 'সর্বমোট',
 	'translate-gs-avgscore' => 'গড় স্কোর',
+	'translate-searchprofile' => 'অনুবাদসমূহ',
+	'translate-searchprofile-tooltip' => 'সকল অনুবাদে অনুসন্ধান',
 	'translate-messagereview-submit' => 'গ্রহণ',
 	'translate-stats-workflow' => 'অবস্থা',
+	'translate-dynagroup-recent-label' => 'সাম্প্রতিক অনুবাদ',
+	'translate-gethelp' => 'সাহায্য',
 );
 
 /** Tibetan (བོད་ཡིག)
@@ -4359,6 +4389,8 @@ Změny se neuloží, dokud nekliknete na tlačítko „Uložit změny“ dole.',
 	'translate-checks-xhtml' => 'Opravte následující {{PLURAL:$2|značku|značky}}:
 <strong><nowiki>$1</nowiki></strong>',
 	'translate-checks-plural' => 'Zdroj používá <nowiki>{{PLURAL:}}</nowiki>, ale překlad nikoliv.',
+	'translate-checks-plural-forms' => 'Do <nowiki>{{PLURAL:}}</nowiki> {{PLURAL:$1|byla vložena 1 varianta|byly vloženy $1 varianty|bylo vloženo $1 variant}}, ale {{PLURAL:$2|je podporována pouze jedna|jsou podporovány pouze $2|je podporováno pouze $2}} (kromě variant 0= a 1=).',
+	'translate-checks-plural-dupe' => 'Na konci <nowiki>{{PLURAL:}}</nowiki> jsou uvedeny duplicitní varianty. Místo <nowiki>{{PLURAL:$1|náměstí|náměstí|náměstí}}</nowiki> má být zadáno jen <nowiki>{{PLURAL:$1|náměstí}}</nowiki>.',
 	'translate-checks-pagename' => 'Oproti definici se změnil jmenný prostor',
 	'translate-checks-format' => 'Tento překlad neodpovídá definici nebo má neplatnou syntaxi: $1',
 	'translate-checks-escape' => 'Následující escape sekvence možná nebyly zamýšleny: <strong>$1</strong>',
@@ -4481,6 +4513,7 @@ Barva podtržení znázorňuje, jak nedávno zde byl překladatel aktivní.',
 	'translate-smg-postponed' => 'Některé změny se nepodařilo zpracovat. [[{{FULLPAGENAME}}|Zkuste to znovu]].',
 	'translate-smg-left' => 'Obsah zprávy ve wiki',
 	'translate-smg-right' => 'Příchozí změny',
+	'translate-manage-import-diff' => 'Zpráva $1 | Akce: $2',
 	'translate-manage-import-new' => 'Nová zpráva $1',
 	'translate-manage-import-deleted' => 'Odstraněná zpráva $1',
 	'translate-manage-action-import' => 'Importovat',
@@ -5578,7 +5611,7 @@ $messages['diq'] = array(
 	'translate-taskui-acceptqueue' => 'Mesacê ke mı kerdê qebul',
 	'translate-taskui-reviewall' => 'Açarnayışan pêro çım ra raviyarnê',
 	'translate-taction-translate' => 'Açarnayış',
-	'translate-taction-proofread' => 'Timar ke',
+	'translate-taction-proofread' => 'Vurnayış',
 	'translate-taction-lstats' => 'İstatistikê zıwani',
 	'translate-taction-mstats' => 'İstatıstıkê mesacan dê gruban',
 	'translate-taction-export' => 'Teber de',
@@ -5659,8 +5692,8 @@ No mesac wesiqe niyo. Şıma nêzanê na açarnayış konca dı sazkerê se, Aç
 	'translate-langstats-collapse' => 'Kılm ke',
 	'translate-langstats-expandall' => 'Pêron hera ke',
 	'translate-langstats-collapseall' => 'Pêron  Kılm ke',
-	'translate-language-code' => 'Koda zıwani',
-	'translate-language-code-field-name' => 'Koda zıwani:',
+	'translate-language-code' => 'Qodê zıwani',
+	'translate-language-code-field-name' => 'Qodê zıwani:',
 	'translate-suppress-complete' => 'Peleyê kı açarneyayê êna biya',
 	'translate-ls-noempty' => 'Peleyê kı nè açarneyayê êna pıploğnê',
 	'translate-language' => 'Zıwan',
@@ -8173,6 +8206,7 @@ Tiedot: $1',
  * @author Gomoko
  * @author Grondin
  * @author Guillom
+ * @author Hello71
  * @author IAlex
  * @author Jean-Frédéric
  * @author Litlok
@@ -8301,7 +8335,7 @@ Les modifications ne sont pas enregistrées tant que vous n’avez pas cliqué s
 <strong><nowiki>$1</nowiki></strong>',
 	'translate-checks-plural' => 'La définition utilise <nowiki>{{PLURAL:}}</nowiki> mais pas sa traduction.',
 	'translate-checks-plural-forms' => '<nowiki>{{PLURAL:}}</nowiki> a reçu {{PLURAL:$1|une forme|$1 formes}} mais {{PLURAL:$2|une seule est supportée|seules $2 sont supportées}} (hors les formes 0= et 1=).',
-	'translate-checks-plural-dupe' => '<nowiki>{{PLURAL:}}</nowiki> a des formes dupliquées au final. <nowiki>{{PLURAL:$1|souris|souris}}</nowiki> devrait être écrit ainsi: <nowiki>{{PLURAL:$1|souris}}</nowiki>.', # Fuzzy
+	'translate-checks-plural-dupe' => '<nowiki>{{PLURAL:}}</nowiki> a des formes dupliquées au final. <nowiki>{{PLURAL:$1|mouton|moutons}}</nowiki> devrait être écrit ainsi: <nowiki>{{PLURAL:$1|moutons}}</nowiki>.',
 	'translate-checks-pagename' => 'Espace de noms modifié depuis la définition',
 	'translate-checks-format' => 'Cette traduction ne suit pas la définition ou a une syntaxe incorrecte : $1',
 	'translate-checks-escape' => 'Les échappements suivants peuvent être accidentels : <strong>$1</strong>',
@@ -13481,7 +13515,7 @@ $messages['ka'] = array(
 	'translate-magic-words' => 'მაგიური სიტყვები',
 	'translate-magic-namespace' => 'სახელთა სივრცე',
 	'translate-magic-notsaved' => 'თქვენი რედაქტირება არ შენახულა!',
-	'translate-magic-saved' => 'თქვენი ცვლილებები წარმატებით იქნა შენახული',
+	'translate-magic-saved' => 'თქვენი ცვლილებები წარმატებით შეინახა.',
 	'translate-checks-malformed' => '<nowiki>$1</nowiki> არაკორექტულია.',
 	'translate-pref-nonewsletter' => 'არ გამომიგზავნო სიახლეები ელ. ფოსტით',
 	'translate-pref-editassistlang' => 'დამხმარე ენები:',
@@ -14575,18 +14609,18 @@ $1',
 	'translate-search-languagefilter' => '언어에 대한 필터:',
 	'translate-search-nofilter' => '필터링하지 않음',
 	'translate-messagereview-submit' => '수락',
-	'translate-messagereview-progress' => '승인 중...',
-	'translate-messagereview-failure' => '승인 중... 실패: $1',
-	'translate-messagereview-done' => '승인함',
-	'translate-messagereview-reviews' => '{{PLURAL:$1|한 사용자|사용자 $1명}}에 의해 승인함',
-	'translate-messagereview-reviewswithyou' => '{{PLURAL:$1|당신|당신을 포함한 사용자 $1명}}에 의해 승인함',
+	'translate-messagereview-progress' => '수락 중...',
+	'translate-messagereview-failure' => '수락 중... 실패: $1',
+	'translate-messagereview-done' => '수락함',
+	'translate-messagereview-reviews' => '{{PLURAL:$1|한 사용자|사용자 $1명}}에 의해 수락함',
+	'translate-messagereview-reviewswithyou' => '{{PLURAL:$1|당신|당신을 포함한 사용자 $1명}}에 의해 수락함',
 	'api-error-invalidrevision' => '번역을 찾을 수 없습니다.',
 	'api-error-unknownmessage' => '메시지를 찾을 수 없습니다.',
 	'api-error-fuzzymessage' => '번역이 퍼지 처리되었습니다.',
-	'api-error-owntranslation' => '자신의 번역은 승인할 수 없습니다.',
-	'translate-messagereview-no-fuzzy' => '퍼지 번역은 승인할 수 없습니다.',
-	'translate-messagereview-no-own' => '자신의 번역은 승인할 수 없습니다.',
-	'translate-messagereview-doit' => '올바른 번역으로 이 번역을 승인합니다.',
+	'api-error-owntranslation' => '자신의 번역은 수락할 수 없습니다.',
+	'translate-messagereview-no-fuzzy' => '퍼지 번역은 수락할 수 없습니다.',
+	'translate-messagereview-no-own' => '자신의 번역은 수락할 수 없습니다.',
+	'translate-messagereview-doit' => '올바른 번역으로 이 번역을 수락합니다.',
 	'group-translate-proofr' => '번역 평론가',
 	'group-translate-proofr-member' => '{{GENDER:$1|번역 평론가}}',
 	'grouppage-translate-proofr' => '{{ns:project}}:번역 평론가',
@@ -14594,7 +14628,7 @@ $1',
 	'group-translate-proofr.js' => '/* 이 자바스크립트 설정은 번역 평론가에만 적용됩니다 */',
 	'log-name-translationreview' => '번역 검토 기록',
 	'log-description-translationreview' => '번역과 메시지 그룹에 대한 모든 검토 기록입니다.',
-	'logentry-translationreview-message' => '$1 사용자가 $3 번역을 {{GENDER:$2|승인했습니다}}',
+	'logentry-translationreview-message' => '$1 사용자가 $3 번역을 {{GENDER:$2|수락했습니다}}',
 	'logentry-groupreview-message' => '$1 사용자가 $5부터 $6까지 $3 메시지 그룹의 $4 번역의 상태를 {{GENDER:$2|바꾸었습니다}}',
 	'translate-workflow-state-' => '(미설정)',
 	'translate-workflowstatus' => '상태: $1',
@@ -21256,6 +21290,7 @@ $messages['rtm'] = array(
  * @author NBS
  * @author Rubin
  * @author Tempodivalse
+ * @author Volkov
  * @author Александр Сигачёв
  */
 $messages['ru'] = array(
@@ -21323,16 +21358,16 @@ $messages['ru'] = array(
 	'translate-edit-nopermission' => 'Для перевода сообщений необходимо разрешение.',
 	'translate-edit-askpermission' => 'Запросить разрешение',
 	'translate-magic-pagename' => 'Углублённый перевод MediaWiki',
-	'translate-magic-help' => 'Вы можете переводить псевдонимы служебных страниц, магические слова и названия пространств имён.
+	'translate-magic-help' => 'Вы можете переводить псевдонимы служебных страниц, «волшебные слова» и названия пространств имён.
 
-Служебные страницы и магические слова могут иметь несколько переводов.
+Служебные страницы и «волшебные слова» могут иметь несколько переводов.
 Переводы разделяются запятой (,).
 Названия пространств имён могут иметь только один вариант перевода.
 
-Перевод названий пространств имён, содержащих страницы обсуждений («<code>$1 talk</code>») может оказаться сложнее, так как «<code>$1</code>» здесь будет заменено на имя сайта (например, «<code>{{ns:project_talk}}</code>»).
-Если подобная грамматическая конструкция для вашего языка некорректна без изменения имени сайта, дайте нам знать об этом на странице [[Support]].
+Перевод названий пространств имён, содержащих страницы обсуждений («<code>$1 talk</code>»), может оказаться сложнее, так как «<code>$1</code>» здесь будет заменено на имя сайта (например, «<code>{{ns:project_talk}}</code>»).
+Если подобная грамматическая конструкция для вашего языка некорректна без изменения имени сайта, сообщите нам об этом на странице [[Support]].
 
-Чтобы сохранить изменения вы должны входить в группу переводчиков.
+Чтобы сохранить изменения, вы должны входить в группу переводчиков.
 Изменения не будут сохранены, пока вы не нажмёте кнопку ниже.',
 	'translate-magic-module' => 'Модуль:',
 	'translate-magic-submit' => 'Вывести',
@@ -22743,7 +22778,7 @@ Spremembe niso shranjene dokler ne kliknete spodnjega gumba za shranjevanje.',
 <strong><nowiki>$1</nowiki></strong>',
 	'translate-checks-parameters-unknown' => '{{PLURAL:$2|Naslednji parameter je neznan|Naslednja parametra sta neznana|Naslednji parametri so neznani}}:
 <strong><nowiki>$1</nowiki></strong>',
-	'translate-checks-balance' => 'V sporočilu je neparno število {{PLURAL:$2|narekovajev}}:
+	'translate-checks-balance' => 'V sporočilu je neparno število {{PLURAL:$2|oklepajev}}:
 <strong><nowiki>$1</nowiki></strong>',
 	'translate-checks-links' => '{{PLURAL:$2|Naslednja povezava je sporna|Naslednji povezavi sta sporni|Naslednje povezave so sporne}}:
 <strong><nowiki>$1</nowiki></strong>',
@@ -26427,6 +26462,7 @@ $1',
 );
 
 /** Urdu (اردو)
+ * @author Tahir mq
  * @author පසිඳු කාවින්ද
  */
 $messages['ur'] = array(
@@ -26449,12 +26485,16 @@ $messages['ur'] = array(
 	'translate-page-description-hasoptional-open' => 'کچھ اختیاری پیغامات دکھائیں ۔',
 	'translate-page-edit' => 'ترمیم کریں',
 	'translate-edit-jsopen' => 'ترمیم کریں',
+	'translate-edit-translation' => 'ترجمہ',
 	'translate-edit-contribute' => 'میں شراکت',
 	'translate-edit-in-other-languages' => 'دیگر زبانوں میں پیغام',
 	'translate-edit-tab-list' => 'پیغام کی فہرست',
 	'translate-magic-cm-current' => 'موجودہ',
 	'translate-magic-cm-comment' => 'تبصرہ:',
 	'translate-magic-cm-save' => 'محفوظ کریں',
+	'translate-magic-cm-savefailed' => 'ناکام محفوظ',
+	'translate-magic-words' => 'جادوئی الفاظ',
+	'translate-stats-users' => 'مترجمین',
 	'translate-stats-reviewers' => 'مبصرین',
 	'translate-statsf-options' => 'مخطط کے اختیارات',
 	'translate-statsf-start' => 'تاریخ شروع ہو رہا ہے:',
