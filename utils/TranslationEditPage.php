@@ -183,6 +183,7 @@ class TranslationEditPage {
 	/**
 	 * Gets the edit token and timestamps in some ugly array structure. Needs to
 	 * be cleaned up.
+	 * @throws MWException
 	 * @return \array
 	 */
 	protected function getEditInfo() {
