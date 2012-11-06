@@ -62,6 +62,7 @@ class GettextFFS extends SimpleFFS {
 	 * or use msgctxt (non-standard po-files)
 	 * @param StringMangler $mangler
 	 * @param string $keyAlgorithm Key generation algorithm, see generateKeyFromItem
+	 * @throws MWException
 	 * @return array
 	 */
 	public static function parseGettextData( $data, $useCtxtAsKey, $mangler, $keyAlgorithm ) {
@@ -193,7 +194,7 @@ class GettextFFS extends SimpleFFS {
 			$pluralMessageText = self::processGettextPluralMessage( $pluralCount, $section );
 
 			// Keep the translation empty if no form has translation
-			if( $pluralMessageText !== '' ) {
+			if ( $pluralMessageText !== '' ) {
 				$item['str'] = $pluralMessageText;
 			}
 		} else {
@@ -307,6 +308,7 @@ class GettextFFS extends SimpleFFS {
 	 * and use the trim action instead.
 	 * @param $data
 	 * @param $whitespace string
+	 * @throws MWException
 	 * @return string
 	 */
 	public static function formatForWiki( $data, $whitespace = 'mark' ) {

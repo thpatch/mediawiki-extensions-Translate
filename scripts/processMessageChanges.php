@@ -230,7 +230,7 @@ class ProcessMessageChanges extends Maintenance {
 
 		$filtered = array();
 		foreach ( $whitelist as $id ) {
-			if( isset( $groups[$id] ) ) {
+			if ( isset( $groups[$id] ) ) {
 				$filtered[$id] = $groups[$id];
 			}
 		}
