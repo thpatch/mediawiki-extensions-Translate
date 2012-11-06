@@ -111,6 +111,7 @@ class MessageTable {
 
 		$this->collection->initMessages(); // Just to be sure
 		$fallbackLangs = $targetLang->getFallbackLanguages();
+		$niceTitleFilter = explode(' ', $this->group->getLabel());
 		foreach ( $this->collection as $key => $m ) {
 			$tools = array();
 			$title = $titleMap[$key];
@@ -144,8 +145,7 @@ class MessageTable {
 			// Using Html::element( a ) because Linker::link is memory hog.
 			// It takes about 20 KiB per call, and that times 5000 is quite
 			// a lot of memory.
-			global $wgLang;
-			$niceTitle = htmlspecialchars( substr($title->getText(), strlen($this->group->getLabel()))  );
+			$niceTitle = htmlspecialchars( str_replace($niceTitleFilter, '', $title->getText())  );
 			$linkAttribs = array(
 				'href' => $title->getLocalUrl( array( 'action' => 'edit' ) + $this->editLinkParams ),
 			);
