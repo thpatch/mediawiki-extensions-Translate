@@ -113,6 +113,11 @@ class ApiQueryMessageCollection extends ApiQueryGeneratorBase {
 			$data['tags'] = $message->getTags();
 			$result->setIndexedTagName( $data['tags'], 'tag' );
 		}
+
+		if ( isset( $props['revision'] ) ) {
+			$data['revision'] = $message->getProperty( 'revision' );
+		}
+
 		return $data;
 	}
 
@@ -143,7 +148,7 @@ class ApiQueryMessageCollection extends ApiQueryGeneratorBase {
 				ApiBase::PARAM_ISMULTI => true,
 			),
 			'prop' => array(
-				ApiBase::PARAM_TYPE => array( 'definition', 'translation', 'tags' ),
+				ApiBase::PARAM_TYPE => array( 'definition', 'translation', 'tags', 'revision' ),
 				ApiBase::PARAM_DFLT => 'definition|translation',
 				ApiBase::PARAM_ISMULTI => true,
 			),
@@ -161,16 +166,18 @@ class ApiQueryMessageCollection extends ApiQueryGeneratorBase {
 				'definition  - message definition',
 				'translation - current translation',
 				'tags        - message tags, like optional, ignored and fuzzy',
+				'revision    - revision id of the provided translation - can be used for translation review',
 			),
 			'filter' => array(
 				'Message collection filters. Use ! to negate condition. For example !fuzzy means list only all non-fuzzy messages. Filters are applied in the order given.',
-				'fuzzy          - messages with fuzzy tag',
-				'optional       - messages which should be translated only if changes are necessary',
-				'ignored        - messages which are never translated',
-				'hastranslation - messages which have a translation regardless if it is fuzzy or not',
-				'translated     - messages which have a translation which is not fuzzy',
-				'changed        - messages which has been translated or changed since last export',
-				'reviewer:#     - messages where given userid # is among reviewers',
+				'fuzzy             - messages with fuzzy tag',
+				'optional          - messages which should be translated only if changes are necessary',
+				'ignored           - messages which are never translated',
+				'hastranslation    - messages which have a translation regardless if it is fuzzy or not',
+				'translated        - messages which have a translation which is not fuzzy',
+				'changed           - messages which has been translated or changed since last export',
+				'reviewer:#        - messages where given userid # is among reviewers',
+				'last-translator:# - messages where given userid # is the last translator',
 			),
 		);
 	}
