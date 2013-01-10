@@ -1,102 +1,38 @@
 <?php
-/**
- * Support for JSON message file format.
- *
- * @file
- * @author Niklas Laxström
- * @copyright Copyright © 2012, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
- */
 
 /**
- * JsonFFS implements a message format where messages are encoded
- * as key-value pairs in JSON objects. The format is extended to
- * support author information under the special @metadata key.
- *
+ * JSON file format support
  * @ingroup FFS
- * @since 2012-09-21
  */
-class JsonFFS extends SimpleFFS {
-	/**
-	 * @param $data
-	 * @return bool
-	 */
-	public static function isValid( $data ) {
-		return is_array( FormatJSON::decode( $data, /*as array*/true ) );
-	}
+class JsonFFS extends JavaScriptFFS {
 
 	/**
-	 * @param array $data
-	 * @return array
-	 */
-	public function readFromVariable( $data ) {
-		$messages = (array) FormatJSON::decode( $data, /*as array*/true );
-		$authors = array();
-		$metadata = array();
-
-		if ( isset( $messages['@metadata']['authors'] ) ) {
-			$authors = (array) $messages['@metadata']['authors'];
-			unset( $messages['@metadata']['authors'] );
-		}
-
-		if ( isset( $messages['@metadata'] ) ) {
-			$metadata = $messages['@metadata'];
-		}
-
-		unset( $messages['@metadata'] );
-
-		$messages = $this->group->getMangler()->mangle( $messages );
-
-		return array(
-			'MESSAGES' => $messages,
-			'AUTHORS' => $authors,
-			'METADATA' => $metadata,
-		);
-	}
-
-	/**
-	 * @param MessageCollection $collection
+	 * @param $key string
+	 *
 	 * @return string
 	 */
-	protected function writeReal( MessageCollection $collection ) {
-		$messages = array();
-		$template = $this->read( $collection->getLanguage() );
+	protected function transformKey( $key ) {
+		return '"' . $key . '"';
+	}
 
-		if ( isset( $template['METADATA'] ) ) {
-			$messages['@metadata'] = $template['METADATA'];
-		}
+	/**
+	 * @param $code string
+	 * @param $authors array
+	 * @return string
+	 */
 
-		$mangler = $this->group->getMangler();
+	protected function header( $code, $authors ) {
+		global $wgSitename;
 
-		/**
-		 * @var $m ThinMessage
-		 */
-		foreach ( $collection as $key => $m ) {
-			$value = $m->translation();
-			if ( $value === null ) {
-				continue;
-			}
+		/** @cond doxygen_bug */
+		return "{";
+	}
 
-			if ( $m->hasTag( 'fuzzy' ) ) {
-				$value = str_replace( TRANSLATE_FUZZY, '', $value );
-			}
+	/**
+	 * @return string
+	 */
 
-			$key = $mangler->unmangle( $key );
-			$messages[$key] = $value;
-		}
-
-		$authors = $collection->getAuthors();
-		$authors = $this->filterAuthors( $authors, $collection->code );
-
-		if ( $authors !== array() ) {
-			$messages['@metadata']['authors'] = $authors;
-		}
-
-		// Do not create empty files
-		if ( !count( $messages ) ) {
-			return '';
-		}
-
-		return FormatJSON::encode( $messages, /*pretty*/true );
+	protected function footer() {
+		return "}\n";
 	}
 }

@@ -64,7 +64,9 @@ class PageTranslationHooks {
 			$pageLang = $code;
 		}
 		else if ( TranslatablePage::isSourcePage( $title ) ) {
-			$pageLang = "ja";
+			// XXX copy of WikiPageMessageGroup::getSourceLanguage()!
+ 			global $wgLanguageCode;
+ 			$pageLang = $title->mNamespace ? $wgLanguageCode : 'ja';
 		}
 
 		return true;

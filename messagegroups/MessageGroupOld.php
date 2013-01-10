@@ -120,7 +120,7 @@ abstract class MessageGroupOld implements MessageGroup {
 	public function setMeta( $value ) { $this->meta = $value; }
 
 	public function getSourceLanguage() {
-		return 'en';
+		return $this->title->mNamespace ? $wgLanguageCode : 'ja';
 	}
 
 	/**
@@ -277,9 +277,7 @@ abstract class MessageGroupOld implements MessageGroup {
 
 		// Determine behavior for empty translation sections
 		global $wgLanguageCode;
-
 		$collection->keepEmpty = $this->getSourceLanguage() != $wgLanguageCode;
-
 		return $collection;
 	}
 
