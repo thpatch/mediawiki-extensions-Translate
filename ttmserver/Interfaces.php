@@ -4,7 +4,7 @@
  *
  * @file
  * @author Niklas Laxström
- * @copyright Copyright © 2012, Niklas Laxström
+ * @copyright Copyright © 2012-2013, Niklas Laxström
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  * @ingroup TTMServer
  */
@@ -32,6 +32,7 @@ interface ReadableTTMServer {
 	/**
 	 * Determines if the suggestion returned by this TTMServer comes
 	 * from this wiki or any other wiki.
+	 * @param array $suggestion
 	 * @return Bool
 	 */
 	public function isLocalSuggestion( array $suggestion );
@@ -39,6 +40,7 @@ interface ReadableTTMServer {
 	/**
 	 * Given suggestion returned by this TTMServer, constructs fully
 	 * qualified URL to the location of the translation.
+	 * @param array $suggestion
 	 * @return String URL
 	 */
 	public function expandLocation( array $suggestion );
@@ -54,9 +56,11 @@ interface WritableTTMServer {
 	/**
 	 * Shovels the new translation into translation memory.
 	 * Use this for single updates (=after message edit).
+	 * If no text is provided, entry will be removed from the translation
+	 * memory.
 	 *
-	 * @param $handle MessageHandle
-	 * @param $targetText String
+	 * @param MessageHandle $handle
+	 * @param string|null $targetText Use null to only delete.
 	 */
 	public function update( MessageHandle $handle, $targetText );
 

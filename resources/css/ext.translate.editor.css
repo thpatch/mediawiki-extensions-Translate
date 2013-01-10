@@ -1,0 +1,315 @@
+.tux-message-editor {
+	position: relative;
+	border: 1px solid #777;
+	background-color: #FFFFFF;
+	cursor: default;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.tux-message-editor .close {
+	/* @embed */
+	background: url('../images/close.png') no-repeat scroll center center transparent;
+	background-image: -webkit-linear-gradient(transparent, transparent), url(../images/close.svg);
+	background-image: -moz-linear-gradient(transparent, transparent), url(../images/close.svg);
+	background-image: linear-gradient(transparent, transparent), url(../images/close.svg);
+	padding: 15px;
+	cursor: pointer;
+	float: right;
+}
+
+.tux-message-editor .editor-info-toggle {
+	padding: 15px;
+	cursor: pointer;
+	float: right;
+}
+
+.tux-message-editor .editor-contract {
+	/* @embed */
+	background: url('../images/contract-ltr.png') no-repeat scroll center center transparent;
+	background-image: -webkit-linear-gradient(transparent, transparent), url(../images/contract-ltr.svg);
+	background-image: -moz-linear-gradient(transparent, transparent), url(../images/contract-ltr.svg);
+	background-image: linear-gradient(transparent, transparent), url(../images/contract-ltr.svg);
+}
+
+.tux-message-editor .editor-expand {
+	/* @embed */
+	background: url('../images/expand-ltr.png') no-repeat scroll center center transparent;
+	background-image: -webkit-linear-gradient(transparent, transparent), url(../images/expand-ltr.svg);
+	background-image: -moz-linear-gradient(transparent, transparent), url(../images/expand-ltr.svg);
+	background-image: linear-gradient(transparent, transparent), url(../images/expand-ltr.svg);
+}
+
+.tux-message-editor .editcolumn {
+	border-right: 1px solid #AAA;
+}
+
+.tux-message-editor textarea {
+	border: 1px solid #555;
+	font-size: 16px;
+	padding: 5px !important;
+	height: 100px;
+	overflow-y: hidden;
+	position: relative;
+	z-index: 100;
+}
+
+.tux-message-editor .editarea {
+	position: relative;
+}
+
+.tux-message-editor .messagekey {
+	color: #252525;
+	font-size: 13px;
+	font-weight: bold;
+	padding: 5px 0 5px 10px;
+}
+
+.tux-message-editor .messagekey .caret {
+	border-top: 4px solid #252525;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 4px;
+}
+
+.tux-message-editor .sourcemessage {
+	font-size: 18px;
+	line-height: 1.6em;
+	padding: 5px 0 10px 10px;
+}
+
+.tux-message-editor .sourcemessage.long {
+	font-size: 16px;
+}
+
+.tux-message-editor .sourcemessage.longer {
+	font-size: 14px;
+}
+
+.tux-message-editor .button {
+	text-overflow: ellipsis;
+	font-size: 16px;
+	height: 35px;
+	margin: 10px 5px;
+}
+
+.tux-message-editor .shortcutinfo {
+	font-size: 13px;
+	color: #555;
+	padding: 0 5px 5px 10px;
+}
+
+.tux-message-editor .infocolumn-block .infocolumn {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 10px;
+	padding: 0 5px;
+	overflow: auto;
+}
+
+.tux-message-editor .infocolumn-block {
+	font-size: 12pt;
+	background: #FCFCFC;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	padding: 0;
+}
+
+.tux-message-editor .infocolumn-block .caret:before {
+	border-top: 20px solid transparent;
+	border-right: 20px solid #AAA;
+	border-bottom: 20px solid transparent;
+	content: "";
+	display: inline-block;
+	left: -21px;
+	position: absolute;
+	bottom: 50%;
+}
+
+.tux-message-editor .infocolumn-block .caret:after {
+	border-top: 20px solid transparent;
+	border-right: 20px solid #FCFCFC;
+	border-bottom: 20px solid transparent;
+	content: "";
+	display: inline-block;
+	left: -20px;
+	position: absolute;
+	bottom: 50%;
+}
+
+.infocolumn-block .infocolumn .message-desc {
+	font-size: 16px;
+	padding: 5px 0;
+	margin-right: 5px;
+}
+
+.infocolumn-block .infocolumn .message-desc.long {
+	font-size: 14px;
+	border-bottom: 1px solid #DDD;
+}
+
+.infocolumn-block .infocolumn .message-desc.compact {
+	max-height: 65%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* The message documentation section is likely to be different
+ * from the user's language, so these rtl/ltr styles must not be affected
+ * by auto-flipping.
+ *
+ * TODO: The row classes still override these, so it must be resolved somehow.
+ */
+
+/* @noflip */
+.message-desc .ltr {
+	text-align: left;
+	margin-left: 0.5em;
+}
+
+/* @noflip */
+.message-desc .rtl {
+	text-align: right;
+	margin-right: 0.5em;
+}
+
+.message-desc-control {
+	font-size: 14px;
+	padding: 3px 0 5px 0;
+}
+
+.message-desc-control .read-more {
+	font-size: 14px;
+	color: #3366BB;
+	cursor: pointer;
+	margin-right: 5px;
+}
+
+.message-desc-edit {
+	/* @embed */
+	background: transparent url(../images/action-edit.png) left center no-repeat;
+	background-image: -webkit-linear-gradient(transparent, transparent), url(../images/action-edit.svg);
+	background-image: -moz-linear-gradient(transparent, transparent), url(../images/action-edit.svg);
+	background-image: linear-gradient(transparent, transparent), url(../images/action-edit.svg);
+	background-size: 18px 18px;
+	padding-left: 19px;
+}
+
+.tm-suggestions-title,
+.in-other-languages-title {
+	font-size: 16px;
+	font-weight: bold;
+	padding: 10px 0;
+}
+
+.tm-suggestion,
+.in-other-language {
+	font-size: 14px;
+	border: 1px solid #ddd;
+	border-left: 2px solid #3366BB;
+	padding: 5px 5px 5px 10px;
+	background-color: #f5f5f5;
+	margin: 0 5px 3px -5px !important;
+}
+
+.tm-suggestion:hover,
+.in-other-language:hover {
+	cursor: pointer;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.in-other-language .language {
+	color: #565656;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.tux-message-editor .help {
+	font-size: 16px;
+	padding: 10px 5px
+}
+
+.tux-message-editor .help a {
+	font-size: 14px;
+	padding: 0 0 0 5px;
+}
+
+.editarea .tux-warnings-block {
+	position: relative;
+}
+
+.tux-warning {
+	background-color: #FFFFCC;
+}
+
+.tux-warning-message {
+	font-size: 14px;
+	padding: 2px 15% 2px 5px;
+	/* 15px space for icon */
+	padding-left: 20px;
+	background-position: left;
+	background-repeat: no-repeat;
+}
+
+.editarea .tux-more-warnings {
+	background-color: #FBF6AD;
+	position: absolute;
+	right: 0;
+	padding: 2px 5px;
+	text-align: right;
+	cursor: pointer;
+	bottom: 0;
+}
+
+.tux-warning-message.validation {
+	/* @embed */
+	background-image: url(../images/label-flag.png);
+	background-image: -webkit-linear-gradient(transparent, transparent), url(../images/label-flag.svg);
+	background-image: -moz-linear-gradient(transparent, transparent), url(../images/label-flag.svg);
+	background-image: linear-gradient(transparent, transparent), url(../images/label-flag.svg);
+}
+
+.tux-warning-message.diff {
+	/* @embed */
+	background-image: url(../images/label-clock.png);
+	background-image: -webkit-linear-gradient(transparent, transparent), url(../images/label-clock.svg);
+	background-image: -moz-linear-gradient(transparent, transparent), url(../images/label-clock.svg);
+	background-image: linear-gradient(transparent, transparent), url(../images/label-clock.svg);
+}
+
+.tux-warning-message .show-diff-link {
+	color: #3366BB;
+	cursor: pointer;
+	padding-left: 5px;
+}
+
+.editarea .tux-more-warnings:before {
+	content: "";
+	border-bottom: 1em solid #FBF6AD;
+	border-top: 1em solid transparent;
+	border-left: 1em solid transparent;
+	border-right: 1em solid #FBF6AD;
+	display: inline-block;
+	position: absolute;
+	right: 100%;
+	top: 0;
+}
+
+.tm-suggestion .use-this-translation {
+	font-size: 12px;
+}
+
+.tux-editor-request-right {
+	font-size: 13px;
+	padding: 0 5px;
+	color: #555;
+}
+
+.tux-editor-ask-permission {
+	padding: 0 5px;
+}

@@ -12,12 +12,11 @@ class MessageGroupStatesUpdaterJobTest extends MediaWikiTestCase {
 		global $wgHooks;
 		$this->setMwGlobals( array(
 			'wgHooks' => $wgHooks,
-			'wgTranslateAC' => array(),
 			'wgTranslateCC' => array(),
-			'wgTranslateEC' => array(),
 			'wgTranslateMessageIndex' => array( 'DatabaseMessageIndex' ),
 			'wgTranslateWorkflowStates' => false,
 			'wgTranslateGroupFiles' => array(),
+			'wgTranslateTranslationServices' => array(),
 		) );
 		$wgHooks['TranslatePostInitGroups'] = array( array( $this, 'getTestGroups' ) );
 		MessageGroups::clearCache();

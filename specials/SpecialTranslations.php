@@ -22,7 +22,7 @@ class SpecialTranslations extends SpecialAllpages {
 
 	/**
 	 * Entry point : initialise variables and call subfunctions.
-	 * @param $par \string Message key. Becomes "MediaWiki:Allmessages" when called like
+	 * @param string $par Message key. Becomes "MediaWiki:Allmessages" when called like
 	 *             Special:Translations/MediaWiki:Allmessages (default null)
 	 */
 	function execute( $par ) {
@@ -67,8 +67,8 @@ class SpecialTranslations extends SpecialAllpages {
 	/**
 	 * Message input fieldset
 	 *
-	 * @param $title Title (default: null)
-	 * @return \string HTML for fieldset.
+	 * @param Title $title (default: null)
+	 * @return string HTML for fieldset.
 	 */
 	function namespaceMessageForm( Title $title = null ) {
 		global $wgScript;
@@ -80,7 +80,7 @@ class SpecialTranslations extends SpecialAllpages {
 			$namespaces->addOption( $text, $index );
 		}
 
-		$out  = Xml::openElement( 'div', array( 'class' => 'namespaceoptions' ) );
+		$out = Xml::openElement( 'div', array( 'class' => 'namespaceoptions' ) );
 		$out .= Xml::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript ) );
 		$out .= Html::hidden( 'title', $this->getTitle()->getPrefixedText() );
 		$out .= Xml::openElement( 'fieldset' );
@@ -88,20 +88,20 @@ class SpecialTranslations extends SpecialAllpages {
 		$out .= Xml::openElement( 'table', array( 'id' => 'nsselect', 'class' => 'allpages' ) );
 		$out .= "<tr>
 				<td class='mw-label'>" .
-				Xml::label( $this->msg( 'translate-translations-messagename' )->text(), 'message' ) .
-				"</td>
+			Xml::label( $this->msg( 'translate-translations-messagename' )->text(), 'message' ) .
+			"</td>
 				<td class='mw-input'>" .
-					Xml::input( 'message', 30, $title->getText(), array( 'id' => 'message' ) ) .
-				"</td>
+			Xml::input( 'message', 30, $title->getText(), array( 'id' => 'message' ) ) .
+			"</td>
 			</tr>
 			<tr>
 				<td class='mw-label'>" .
-					Xml::label( $this->msg( 'translate-translations-project' )->text(), 'namespace' ) .
-				"</td>
+			Xml::label( $this->msg( 'translate-translations-project' )->text(), 'namespace' ) .
+			"</td>
 				<td class='mw-input'>" .
-					$namespaces->getHTML() . ' ' .
-					Xml::submitButton( $this->msg( 'allpagessubmit' )->text() ) .
-				"</td>
+			$namespaces->getHTML() . ' ' .
+			Xml::submitButton( $this->msg( 'allpagessubmit' )->text() ) .
+			"</td>
 				</tr>";
 		$out .= Xml::closeElement( 'table' );
 		$out .= Xml::closeElement( 'fieldset' );
@@ -114,7 +114,7 @@ class SpecialTranslations extends SpecialAllpages {
 	/**
 	 * Returns sorted array of namespaces.
 	 *
-	 * @return \arrayof{String,Integer}
+	 * @return array ( string => int )
 	 */
 	public function getSortedNamespaces() {
 		global $wgTranslateMessageNamespaces, $wgContLang;
@@ -131,8 +131,7 @@ class SpecialTranslations extends SpecialAllpages {
 	/**
 	 * Builds a table with all translations of $title.
 	 *
-	 * @param $title Title (default: null)
-	 * @return void
+	 * @param Title $title (default: null)
 	 */
 	function showTranslations( Title $title ) {
 		$handle = new MessageHandle( $title );
@@ -154,7 +153,7 @@ class SpecialTranslations extends SpecialAllpages {
 			),
 			__METHOD__,
 			array(
-				'ORDER BY'  => 'page_title',
+				'ORDER BY' => 'page_title',
 				'USE INDEX' => 'name_title',
 			)
 		);
@@ -176,7 +175,7 @@ class SpecialTranslations extends SpecialAllpages {
 		$pageInfo = TranslateUtils::getContents( $titles, $namespace );
 
 		$tableheader = Xml::openElement( 'table', array(
-			'class'   => 'mw-sp-translate-table sortable'
+			'class' => 'mw-sp-translate-table sortable'
 		) );
 
 		$tableheader .= Xml::openElement( 'tr' );
@@ -234,8 +233,8 @@ class SpecialTranslations extends SpecialAllpages {
 			$leftColumn = $tools['history'] . $tools['edit'];
 			$out .= Xml::tags( 'tr', array( 'class' => $class ),
 				Xml::tags( 'td', null, $leftColumn ) .
-				Xml::tags( 'td', array( 'lang' => $code, 'dir' => Language::factory( $code )->getDir() ),
-					TranslateUtils::convertWhiteSpaceToHTML( $pageInfo[$key][0] ) )
+					Xml::tags( 'td', array( 'lang' => $code, 'dir' => Language::factory( $code )->getDir() ),
+						TranslateUtils::convertWhiteSpaceToHTML( $pageInfo[$key][0] ) )
 			);
 		}
 
@@ -249,8 +248,8 @@ class SpecialTranslations extends SpecialAllpages {
 	/**
 	 * Get code for a page name
 	 *
-	 * @param $name \string Page title (f.e. "MediaWiki:Main_page/nl").
-	 * @return \string Language code
+	 * @param string $name Page title (f.e. "MediaWiki:Main_page/nl").
+	 * @return string Language code
 	 */
 	private function getCode( $name ) {
 		$from = strrpos( $name, '/' );
@@ -259,8 +258,6 @@ class SpecialTranslations extends SpecialAllpages {
 
 	/**
 	 * Add JavaScript assets
-	 *
-	 * @return void
 	 */
 	private function includeAssets() {
 		$out = $this->getOutput();

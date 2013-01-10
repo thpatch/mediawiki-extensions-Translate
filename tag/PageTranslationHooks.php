@@ -30,7 +30,7 @@ class PageTranslationHooks {
 		if ( strpos( $text, '<translate>' ) !== false ) {
 			try {
 				$parse = TranslatablePage::newFromText( $parser->getTitle(), $text )->getParse();
-				$text = $parse->removeTranslationMarkup($text);
+				$text = $parse->getTranslationPageText( null );
 			} catch ( TPException $e ) {
 				// Show ugly preview without processed <translate> tags
 			}
@@ -46,10 +46,7 @@ class PageTranslationHooks {
 		$name = $page->getPageDisplayTitle( $code );
 
 		if ( $name ) {
-			// BC for MW < 1.19
-			if ( is_callable( array( $parser, 'recursivePreprocess' ) ) ) {
-				$name = $parser->recursivePreprocess( $name );
-			}
+			$name = $parser->recursivePreprocess( $name );
 			$parser->getOutput()->setDisplayTitle( $name );
 		}
 
@@ -83,20 +80,13 @@ class PageTranslationHooks {
 	/**
 	 * Hook: ArticleSaveComplete, PageContentSaveComplete
 	 *
-	 * @param $article Article
-	 * @param User $user
-	 * @param $content string|TextContent
-	 * @param $summary string
-	 * @param $minor bool
-	 * @param $_
-	 * @param $_
-	 * @param $flags
-	 * @param $revision Revision
-	 * @return bool
+	 * Change to this line once BC is 1.21 and later:
+	 * public static function onSectionSave( WikiPage $wikiPage, User $user, $content, $summary,
 	 */
-	public static function onSectionSave( $article, User $user, $content, $summary,
-		$minor, $_, $_, $flags, $revision ) {
-		$title = $article->getTitle();
+	public static function onSectionSave( $wikiPage, User $user, $content, $summary,
+		$minor, $_, $_, $flags, $revision
+	) {
+		$title = $wikiPage->getTitle();
 
 		if ( $content instanceof TextContent ) {
 			$text = $content->getNativeData();
@@ -131,6 +121,9 @@ class PageTranslationHooks {
 
 		// Add a tracking mark
 		if ( $revision !== null ) {
+			/**
+			 * @var Revision $revision
+			 */
 			self::addSectionTag( $title, $revision->getId(), $page->getMarkedTag() );
 		}
 
@@ -248,7 +241,10 @@ class PageTranslationHooks {
 		// This way the parser knows to fragment the parser cache by language code
 		$userLangCode = $parser->getOptions()->getUserLang();
 		$userLangDir = $parser->getOptions()->getUserLangObj()->getDir();
-		$sourceLanguage = $page->getMessageGroup()->getSourceLanguage();
+		// Should call $page->getMessageGroup()->getSourceLanguage(), but
+		// group is sometimes null on WMF during page moves, reason unknown.
+		// This should do the same thing for now.
+		$sourceLanguage = $pageTitle->getPageLanguage()->getCode();
 
 		$languages = array();
 		foreach ( $status as $code => $percent ) {
@@ -266,8 +262,8 @@ class PageTranslationHooks {
 			else                     { $image = 5; }
 
 			$percentImage = Xml::element( 'img', array(
-				'src'   => TranslateUtils::assetPath( "resources/images/prog-$image.png" ),
-				'alt'   => "$percent%", // @todo i18n missing.
+				'src' => TranslateUtils::assetPath( "resources/images/prog-$image.png" ),
+				'alt' => "$percent%", // @todo i18n missing.
 				'title' => "$percent%", // @todo i18n missing.
 				'width' => '9',
 				'height' => '9',
@@ -346,28 +342,39 @@ class PageTranslationHooks {
 	}
 
 	/**
-	 * Display nice error for editpage.
-	 * Hook: EditFilterMerged, EditFilterMergedContent
+	 * Display nice error when editing content.
+	 * Hook: EditFilterMergedContent (since MW 1.21)
 	 */
-	public static function tpSyntaxCheckForEditPage( $editpage, $content, &$error, $summary ) {
-		if ( $content instanceof TextContent ) {
-			$text = $content->getNativeData();
-		} elseif ( is_string( $content ) ) {
-			// BC 1.20
-			$text = $content;
-		} else {
-			// Screw it, not interested
-			return true;
+	public static function tpSyntaxCheckForEditContent( $context, $content, $status, $summary ) {
+		if ( !( $content instanceof TextContent ) ) {
+			return true; // whatever.
 		}
 
-		if ( strpos( $text, '<translate>' ) === false ) {
-			return true;
+		$text = $content->getNativeData();
+		$title = $context->getTitle();
+
+		$e = self::tpSyntaxError( $title, $text );
+
+		if ( $e ) {
+			$msg = $e->getMsg();
+			//$msg is an array containing a message key followed by any parameters.
+			//todo: use Message object instead.
+
+			call_user_func_array( array( $status, 'fatal' ), $msg );
 		}
 
-		$page = TranslatablePage::newFromText( $editpage->mTitle, $text );
-		try {
-			$page->getParse();
-		} catch ( TPException $e ) {
+		return true;
+	}
+
+	/**
+	 * Display nice error for editpage.
+	 * Hook: EditFilterMerged (until MW 1.20)
+	 */
+	public static function tpSyntaxCheckForEditPage( $editpage, $text, &$error, $summary ) {
+		$title = $editpage->mTitle;
+		$e = self::tpSyntaxError( $title, $text );
+
+		if ( $e ) {
 			$error .= Html::rawElement( 'div', array( 'class' => 'error' ), $e->getMessage() );
 		}
 
@@ -375,21 +382,28 @@ class PageTranslationHooks {
 	}
 
 	/**
+	 * Returns any syntax error.
+	 */
+	protected static function tpSyntaxError( $title, $text ) {
+		if ( strpos( $text, '<translate>' ) === false ) {
+			return null;
+		}
+
+		$page = TranslatablePage::newFromText( $title, $text );
+		try {
+			$page->getParse();
+			return null;
+		} catch ( TPException $e ) {
+			return $e;
+		}
+	}
+
+	/**
 	 * When attempting to save, last resort. Edit page would only display
 	 * edit conflict if there wasn't tpSyntaxCheckForEditPage
 	 * Hook: ArticleSave, PageContentSave
-	 * @param $article Article
-	 * @param $user User
-	 * @param $content string|TextContent
-	 * @param $summary string
-	 * @param $minor bool
-	 * @param $_
-	 * @param $_
-	 * @param $flags
-	 * @param $status string
-	 * @return bool
 	 */
-	public static function tpSyntaxCheck( $article, $user, $content, $summary,
+	public static function tpSyntaxCheck( $wikiPage, $user, $content, $summary,
 			$minor, $_, $_, $flags, $status ) {
 
 		if ( $content instanceof TextContent ) {
@@ -407,7 +421,7 @@ class PageTranslationHooks {
 			return true;
 		}
 
-		$page = TranslatablePage::newFromText( $article->getTitle(), $text );
+		$page = TranslatablePage::newFromText( $wikiPage->getTitle(), $text );
 		try {
 			$page->getParse();
 		} catch ( TPException $e ) {
@@ -420,18 +434,8 @@ class PageTranslationHooks {
 
 	/**
 	 * Hook: ArticleSaveComplete, PageContentSaveComplete
-	 * @param $article Article
-	 * @param $user User
-	 * @param $content string|TextContent
-	 * @param $summary string
-	 * @param $minor bool
-	 * @param $_
-	 * @param $_
-	 * @param $flags
-	 * @param $revision Revision|null
-	 * @return bool
 	 */
-	public static function addTranstag( $article, $user, $content, $summary,
+	public static function addTranstag( $wikiPage, $user, $content, $summary,
 			$minor, $_, $_, $flags, $revision ) {
 		// We are not interested in null revisions
 		if ( $revision === null ) {
@@ -454,7 +458,7 @@ class PageTranslationHooks {
 		}
 
 		// Add the ready tag
-		$page = TranslatablePage::newFromTitle( $article->getTitle() );
+		$page = TranslatablePage::newFromTitle( $wikiPage->getTitle() );
 		$page->addReadyTag( $revision->getId() );
 
 		return true;
@@ -508,7 +512,7 @@ class PageTranslationHooks {
 		}
 
 		$page = TranslatablePage::newFromTitle( $title );
-		if ( $page->getReadyTag( DB_MASTER ) === $oldRevId ) {
+		if ( $page->getReadyTag() === $oldRevId ) {
 			$page->addReadyTag( $newRevId );
 		}
 		return true;
@@ -567,8 +571,6 @@ class PageTranslationHooks {
 
 		return true;
 	}
-
-
 
 	/**
 	 * Prevent editing of translation pages directly.
@@ -636,7 +638,7 @@ class PageTranslationHooks {
 
 		$title = $article->getTitle();
 
-		if ( TranslatablePage::isTranslationPage( $title ) )  {
+		if ( TranslatablePage::isTranslationPage( $title ) ) {
 			self::translationPageHeader( $title );
 		} else {
 			// Check for pages that are tagged or marked
@@ -696,7 +698,7 @@ class PageTranslationHooks {
 			return;
 		}
 
-		$legend  = Html::rawElement(
+		$legend = Html::rawElement(
 			'div',
 			array( 'class' => 'mw-pt-translate-header noprint nomobile' ),
 			$wgLang->semicolonList( $actions )
@@ -750,18 +752,6 @@ class PageTranslationHooks {
 	}
 
 	/**
-	 * @param $updater LinksUpdate
-	 * @return bool
-	 */
-	public static function preventCategorization( $updater ) {
-		$handle = new MessageHandle( $updater->getTitle() );
-		if ( $handle->isPageTranslation() && !$handle->isDoc() ) {
-			$updater->mCategories = array();
-		}
-		return true;
-	}
-
-	/**
 	 * @param $type
 	 * @param $action
 	 * @param $title Title
@@ -780,7 +770,7 @@ class PageTranslationHooks {
 		} else {
 			$_ = unserialize( $params[0] );
 		}
-		$user =  $_['user'];
+		$user = $_['user'];
 
 		if ( $action === 'mark' ) {
 			return wfMessage(
@@ -799,7 +789,7 @@ class PageTranslationHooks {
 				'pt-log-moveok',
 				$title->getPrefixedText(),
 				$user,
-				$target )	->inLanguage( $language )->parse();
+				$target )->inLanguage( $language )->parse();
 		} elseif ( $action === 'movenok' ) {
 			return wfMessage( 'pt-log-movenok',
 				$title->getPrefixedText(),
@@ -807,8 +797,8 @@ class PageTranslationHooks {
 		} elseif ( $action === 'deletefnok' ) {
 			return wfMessage(
 				'pt-log-delete-full-nok',
-			 	$title->getPrefixedText(),
-			 	$user, $_['target'] )->inLanguage( $language )->parse();
+				$title->getPrefixedText(),
+				$user, $_['target'] )->inLanguage( $language )->parse();
 		} elseif ( $action === 'deletelnok' ) {
 			return wfMessage(
 				'pt-log-delete-lang-nok',
@@ -847,7 +837,7 @@ class PageTranslationHooks {
 				return wfMessage(
 					'pt-log-priority-langs',
 					$title->getPrefixedText(),
-					$user , $_['languages'],
+					$user, $_['languages'],
 					$_['reason'] )->inLanguage( $language )->parse();
 			}
 		} elseif ( $action === 'associate' ) {
@@ -890,7 +880,7 @@ class PageTranslationHooks {
 	}
 
 	/// Hook: SkinSubPageSubtitle
-	public static function replaceSubtitle( &$subpages, $skin = null , $out = null ) {
+	public static function replaceSubtitle( &$subpages, $skin = null, $out = null ) {
 		global $wgOut;
 		// $out was only added in some MW version
 		if ( $out === null ) {
@@ -898,7 +888,8 @@ class PageTranslationHooks {
 		}
 
 		if ( !TranslatablePage::isTranslationPage( $out->getTitle() )
-				&& !TranslatablePage::isSourcePage( $out->getTitle() ) ) {
+			&& !TranslatablePage::isSourcePage( $out->getTitle() )
+		) {
 			return true;
 		}
 
@@ -931,7 +922,7 @@ class PageTranslationHooks {
 
 						if ( $c > 1 ) {
 							$subpages .= wfMessage( 'pipe-separator' )->plain();
-						} else  {
+						} else {
 							// This one is stupid imho, doesn't work with chihuahua
 							// $subpages .= '&lt; ';
 						}
@@ -955,7 +946,8 @@ class PageTranslationHooks {
 		TranslateTask $task = null, MessageGroup $group, array $options
 	) {
 		if ( $task || $options['taction'] !== 'export'
-			|| !$group instanceof WikiPageMessageGroup ) {
+			|| !$group instanceof WikiPageMessageGroup
+		) {
 			return true;
 		}
 
@@ -963,7 +955,7 @@ class PageTranslationHooks {
 		$collection = $group->initCollection( $options['language'] );
 		$collection->loadTranslations( DB_MASTER );
 		$text = $page->getParse()->getTranslationPageText( $collection );
-		$display = $page->getPageDisplayTitle( $options['language']  );
+		$display = $page->getPageDisplayTitle( $options['language'] );
 		if ( $display ) {
 			$text = "{{DISPLAYTITLE:$display}}$text";
 		}

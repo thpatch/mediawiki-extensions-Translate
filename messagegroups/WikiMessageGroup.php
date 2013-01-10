@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains a unmanaged message group implementation.
+ * This file contains an unmanaged message group implementation.
  *
  * @file
  * @author Niklas Laxström
@@ -24,8 +24,8 @@ class WikiMessageGroup extends MessageGroupOld {
 	/**
 	 * Constructor.
 	 *
-	 * @param $id \string Unique id for this group.
-	 * @param $source \string Mediawiki message that contains list of message keys.
+	 * @param string $id Unique id for this group.
+	 * @param string $source Mediawiki message that contains list of message keys.
 	 */
 	public function __construct( $id, $source ) {
 		parent::__construct();
@@ -33,7 +33,10 @@ class WikiMessageGroup extends MessageGroupOld {
 		$this->source = $source;
 	}
 
-	/// Defaults to wiki content language.
+	/**
+	 * Defaults to wiki content language.
+	 * @return string Language code
+	 */
 	public function getSourceLanguage() {
 		global $wgLanguageCode;
 
@@ -42,13 +45,18 @@ class WikiMessageGroup extends MessageGroupOld {
 
 	/**
 	 * Fetch definitions from database.
-	 * @return \array Array of messages keys with definitions.
+	 * @return array Array of messages keys with definitions.
 	 */
 	public function getDefinitions() {
 		$definitions = array();
 
 		// In theory the page could have templates that are substitued
-		$contents = wfMessage( $this->source )->text();
+		$source = wfMessage( $this->source );
+		if ( $source->isDisabled() ) {
+			return array();
+		}
+
+		$contents = $source->text();
 		$contents = preg_replace( '~^\s*#.*$~m', '', $contents );
 		$messages = preg_split( '/\s+/', $contents );
 
@@ -67,9 +75,9 @@ class WikiMessageGroup extends MessageGroupOld {
 	 * Returns of stored translation of message specified by the $key in language
 	 * code $code.
 	 *
-	 * @param $key \string Key of the message.
-	 * @param $code \string Language code.
-	 * @return \types{\string,\null} The translation or null if it doesn't exists.
+	 * @param string $key Key of the message.
+	 * @param string $code Language code.
+	 * @return string|null The translation or null if it doesn't exists.
 	 */
 	public function getMessage( $key, $code ) {
 		if ( $code && $this->getSourceLanguage() !== $code ) {

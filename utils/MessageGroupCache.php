@@ -30,13 +30,15 @@ class MessageGroupCache {
 	 */
 	protected $cache;
 
-	/// \string
+	/**
+	 * @var string
+	 */
 	protected $code;
 
 	/**
 	 * Contructs a new cache object for given group and language code.
-	 * @param $group string|FileBasedMessageGroup Group object or id.
-	 * @param $code string Language code. Default value 'ja'.
+	 * @param string|FileBasedMessageGroup $group Group object or id.
+	 * @param string $code Language code. Default value 'ja'.
 	 */
 	public function __construct( $group, $code = 'ja' ) {
 		if ( is_object( $group ) ) {
@@ -49,7 +51,7 @@ class MessageGroupCache {
 
 	/**
 	 * Returns whether cache exists for this language and group.
-	 * @return \bool
+	 * @return bool
 	 */
 	public function exists() {
 		return file_exists( $this->getCacheFileName() );
@@ -57,7 +59,7 @@ class MessageGroupCache {
 
 	/**
 	 * Returns list of message keys that are stored.
-	 * @return \list{String} Message keys that can be passed one-by-one to get() method.
+	 * @return string[] Message keys that can be passed one-by-one to get() method.
 	 */
 	public function getKeys() {
 		return unserialize( $this->open()->get( '#keys' ) );
@@ -65,7 +67,7 @@ class MessageGroupCache {
 
 	/**
 	 * Returns timestamp in unix-format about when this cache was first created.
-	 * @return \string Unix timestamp.
+	 * @return string Unix timestamp.
 	 */
 	public function getTimestamp() {
 		return $this->open()->get( '#created' );
@@ -73,7 +75,7 @@ class MessageGroupCache {
 
 	/**
 	 * ...
-	 * @return \string Unix timestamp.
+	 * @return string Unix timestamp.
 	 */
 	public function getUpdateTimestamp() {
 		return $this->open()->get( '#updated' );
@@ -81,7 +83,7 @@ class MessageGroupCache {
 
 	/**
 	 * Get an item from the cache.
-	 * @param $key
+	 * @param string $key
 	 * @return string
 	 */
 	public function get( $key ) {
@@ -90,7 +92,7 @@ class MessageGroupCache {
 
 	/**
 	 * Populates the cache from current state of the source file.
-	 * @param $created \string Unix timestamp when the cache is created (for automatic updates).
+	 * @param bool|string $created Unix timestamp when the cache is created (for automatic updates).
 	 */
 	public function create( $created = false ) {
 		$this->close(); // Close the reader instance just to be sure
@@ -113,13 +115,13 @@ class MessageGroupCache {
 			$cache->set( $key, $value );
 		}
 
-		$cache->set( '#created',  $created ? $created : wfTimestamp() );
-		$cache->set( '#updated',  wfTimestamp() );
+		$cache->set( '#created', $created ? $created : wfTimestamp() );
+		$cache->set( '#updated', wfTimestamp() );
 		$cache->set( '#filehash', $hash );
 		$cache->set( '#msgcount', count( $messages ) );
 		ksort( $messages );
-		$cache->set( '#msghash',  md5( serialize( $messages ) ) );
-		$cache->set( '#version',  '3' );
+		$cache->set( '#msghash', md5( serialize( $messages ) ) );
+		$cache->set( '#version', '3' );
 		$cache->close();
 	}
 
@@ -127,7 +129,8 @@ class MessageGroupCache {
 	 * Checks whether the cache still reflects the source file.
 	 * It uses multiple conditions to speed up the checking from file
 	 * modification timestamps to hashing.
-	 * @return \bool Whether the cache is up to date.
+	 * @param int $reason
+	 * @return bool Whether the cache is up to date.
 	 */
 	public function isValid( &$reason = 0 ) {
 		$group = $this->group;
@@ -232,16 +235,16 @@ class MessageGroupCache {
 
 	/**
 	 * Updates cache to cache format 2.
-	 * @param $oldcache CdbReader
+	 * @param CdbReader $oldcache
 	 */
 	protected function updateCacheFormat( $oldcache ) {
 		// Read the data from the old format
 		$conv = array(
-			'#keys'     => $oldcache->get( '<|keys#>' ),
-			'#created'  => $oldcache->get( '<|timestamp#>' ),
-			'#updated'  => wfTimestamp(),
+			'#keys' => $oldcache->get( '<|keys#>' ),
+			'#created' => $oldcache->get( '<|timestamp#>' ),
+			'#updated' => wfTimestamp(),
 			'#filehash' => $oldcache->get( '<|hash#>' ),
-			'#version'  => '3',
+			'#version' => '3',
 		);
 		$conv['#msgcount'] = count( $conv['#keys'] );
 
@@ -263,7 +266,5 @@ class MessageGroupCache {
 			$cache->set( $key, $value );
 		}
 		$cache->close();
-
 	}
-
 }

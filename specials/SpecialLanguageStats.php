@@ -87,6 +87,11 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 	 */
 	protected $statsCounted = array();
 
+	/**
+	 * @var array
+	 */
+	protected $states;
+
 	public function __construct() {
 		parent::__construct( 'LanguageStats' );
 
@@ -108,7 +113,7 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 		$out->addModules( 'ext.translate.special.languagestats' );
 		$out->addModuleStyles( 'ext.translate.messagetable' );
 
-		$params = explode( '/', $par  );
+		$params = explode( '/', $par );
 
 		if ( isset( $params[0] ) && trim( $params[0] ) ) {
 			$this->target = $params[0];
@@ -154,6 +159,7 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 
 	/**
 	 * Return the list of allowed values for target here.
+	 * @param $value
 	 * @return array
 	 */
 	protected function isValidValue( $value ) {
@@ -180,7 +186,7 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 		$out .= Html::hidden( 'title', $this->getTitle()->getPrefixedText() );
 		$out .= Html::hidden( 'x', 'D' ); // To detect submission
 		$out .= Html::openElement( 'fieldset' );
-		$out .= Html::element( 'legend', null, $this->msg( 'translate-language-code' )->text() );
+		$out .= Html::element( 'legend', array(), $this->msg( 'translate-language-code' )->text() );
 		$out .= Html::openElement( 'table' );
 
 		$out .= Html::openElement( 'tr' );
@@ -392,6 +398,9 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 	/**
 	 * Actually creates the table for single message group, unless it
 	 * is blacklisted or hidden by filters.
+	 * @param MessageGroup $group
+	 * @param array $cache
+	 * @param MessageGroup $parent
 	 * @return string
 	 */
 	protected function makeGroupRow( MessageGroup $group, array $cache, MessageGroup $parent = null ) {
@@ -415,7 +424,7 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 		}
 
 		// Calculation of summary row values
-		if ( !$group instanceof AggregateMessageGroup  ) {
+		if ( !$group instanceof AggregateMessageGroup ) {
 			if ( !isset( $this->statsCounted[$groupId] ) ) {
 				$this->totals = MessageGroupStats::multiAdd( $this->totals, $stats );
 				$this->statsCounted[$groupId] = true;
@@ -450,7 +459,7 @@ class SpecialLanguageStats extends IncludableSpecialPage {
 			$rowParams['data-parentgroup'] = $parent->getId();
 		}
 
-		$out  = "\t" . Html::openElement( 'tr', $rowParams );
+		$out = "\t" . Html::openElement( 'tr', $rowParams );
 		$out .= "\n\t\t" . Html::rawElement( 'td', array(),
 			$this->table->makeGroupLink( $group, $this->target, $extra ) );
 		$out .= $this->table->makeNumberColumns( $stats );

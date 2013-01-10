@@ -1,11 +1,11 @@
 <?php
 /**
- * Different tasks which encapsulate the processing of messages to requested
+ * Tasks which encapsulate the processing of messages to requested
  * format for the web interface.
  *
  * @file
  * @author Niklas Laxström
- * @copyright Copyright © 2007-2010 Niklas Laxström
+ * @copyright Copyright © 2007-2012 Niklas Laxström
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
@@ -13,22 +13,25 @@
  * Container for options that are passed to tasks.
  */
 class TaskOptions {
-	/// \string Language code.
+	/// @var string Language code.
 	protected $language;
-	/// \int Number of items to show.
+	/// @var int Number of items to show.
 	protected $limit = 0;
-	/// \int Offset to the results.
+	/// @var int Offset to the results.
 	protected $offset = 0;
-	/// \mixed Callback which is called to provide information about the result counts.
+	/// @var Callable Callback which is called to provide information about the result counts.
 	protected $pagingCB;
 
 	/**
-	 * @param $language \string Language code.
-	 * @param $limit \int Number of items to show.
-	 * @param $offset \int Offset to the results.
-	 * @param $pagingCB \mixed Callback which is called to provide information
-	 * about the result counts. The callback is provided with three parameters:
-	 * provided offset, number of messages to show, number of messages in total.
+	 * @param string $language Language code.
+	 * @param int $limit Number of items to show.
+	 * @param int $offset Offset to the results.
+	 * @param Callable $pagingCB  Callback which is called to provide
+	 *   information about the paging of results. The callback is provided
+	 *   with three parameters:
+	 *   - offset given
+	 *   - number of messages displayed
+	 *   - total number of messages
 	 */
 	public function __construct( $language, $limit = 0, $offset = 0, $pagingCB = null ) {
 		$this->language = $language;
@@ -38,28 +41,29 @@ class TaskOptions {
 	}
 
 	/**
-	 * @return \string Language code.
+	 * @return string Language code.
 	 */
 	public function getLanguage() {
 		return $this->language;
 	}
 
 	/**
-	 * @return \int Number of items to show.
+	 * @return int Number of items to show.
 	 */
 	public function getLimit() {
 		return $this->limit;
 	}
 
 	/**
-	 * @return \int Offset to the results.
+	 * @return int Offset to the results.
 	 */
 	public function getOffset() {
 		return $this->offset;
 	}
 
 	/**
-	 * @return \mixed Callback which is called to provide information about the result counts.
+	 * @return Callable Callback which is called to provide information about
+	 *   the result counts.
 	 */
 	public function getPagingCB() {
 		return $this->pagingCB;
@@ -72,14 +76,14 @@ class TaskOptions {
  * messages of given message group in given language.
  */
 abstract class TranslateTask {
-	/// \string Task identifier.
+	/// @var string Task identifier.
 	protected $id = '__BUG__';
 
 	// We need $id here because staticness prevents subclass overriding.
 	/**
 	 * Get label for task.
-	 * @param $id \string.
-	 * @return \string
+	 * @param string $id Task id
+	 * @return string
 	 */
 	public static function labelForTask( $id ) {
 		return wfMessage( 'translate-task-' . $id )->text();
@@ -87,16 +91,17 @@ abstract class TranslateTask {
 
 	/**
 	 * Get task identifier.
-	 * @return \string
+	 * @return string
 	 */
 	public function getId() {
 		return $this->id;
 	}
 
 	/**
-	 * Indicates whether the task itself will hand the full output page.
-	 * If false, the result is embedded in the normal results page.
-	 * @return \bool
+	 * Indicates whether the task itself will hand the full output page,
+	 * including headers. If false, the resulting html should be embedded
+	 * to the page of calling context.
+	 * @return bool
 	 */
 	public function plainOutput() {
 		return false;
@@ -108,28 +113,35 @@ abstract class TranslateTask {
 	protected $group;
 
 	/**
-	 * @var MessageCollection Options
+	 * @var MessageCollection
 	 */
 	protected $collection;
 
 	/**
-	 * @var TaskOptions Options
+	 * @var TaskOptions
 	 */
 	protected $options;
 
 	/**
-	 * Constructor.
-	 * @param $group \type{MessageGroup} Message group.
-	 * @param $options \type{TaskOptions} Options.
+	 * @var IContextSource
 	 */
-	public final function init( MessageGroup $group, TaskOptions $options ) {
+	protected $context;
+
+	/**
+	 * Constructor.
+	 * @param MessageGroup $group Message group.
+	 * @param TaskOptions $options Options.
+	 * @param IContextSource $context
+	 */
+	public final function init( MessageGroup $group, TaskOptions $options, IContextSource $context ) {
 		$this->group = $group;
 		$this->options = $options;
+		$this->context = $context;
 	}
 
 	/**
 	 * Outputs the results.
-	 * @return \string
+	 * @return string
 	 */
 	abstract protected function output();
 
@@ -141,7 +153,8 @@ abstract class TranslateTask {
 
 	/**
 	 * Executes the task with given options and outputs the results.
-	 * @return \string Html.
+	 * @return string Partial or full html.
+	 * @see plainOutput()
 	 */
 	public final function execute() {
 		$this->preinit();
@@ -155,22 +168,34 @@ abstract class TranslateTask {
 	 * Takes a slice of messages according to limit and offset given
 	 * in option at initialisation time. Calls the callback to provide
 	 * information how much messages there is.
+	 * @return array|null
 	 */
 	protected function doPaging() {
 		$total = count( $this->collection );
-		$this->collection->slice(
+		$offsets = $this->collection->slice(
 			$this->options->getOffset(),
 			$this->options->getLimit()
 		);
-		$left  = count( $this->collection );
+		$left = count( $this->collection );
+
+		$params = array(
+			'backwardsOffset' => $offsets[0],
+			'forwardsOffset' => $offsets[1],
+			'start' => $offsets[2],
+			'count' => $left,
+			'total' => $total,
+		);
 
 		$callback = $this->options->getPagingCB();
-		call_user_func( $callback, $this->options->getOffset(), $left, $total );
+		call_user_func( $callback, $params );
+		return $params;
 	}
 
 	/**
+	 * Determine whether this user can use this task.
 	 * Override this method if the task depends on user rights.
-	 * @return \string
+	 * @param User $user
+	 * @return string
 	 */
 	public function isAllowedFor( User $user ) {
 		return true;
@@ -178,7 +203,60 @@ abstract class TranslateTask {
 }
 
 /**
- * Lists all non-optional messages with translation if any.
+ * Provides essentially free-form filtering access via tasks.
+ * This essentially makes all other tasks redundant, and once
+ * TUX is finished and everything is using WebAPI we can get
+ * rid of these.
+ * @since 2012-12-12
+ */
+class CustomFilteredMessagesTask extends TranslateTask {
+	protected $id = 'custom';
+	/// Store some info
+	protected $offsets = array();
+
+	protected function preinit() {
+		$code = $this->options->getLanguage();
+		$this->collection = $this->group->initCollection( $code );
+		$this->collection->setReviewMode( true );
+		$this->collection->filter( 'ignored' );
+		if ( $this->context->getRequest()->getBool( 'optional' ) ) {
+			$this->collection->filter( 'optional' );
+		}
+
+		$filter = $this->context->getRequest()->getVal( 'filter' );
+		if ( !$filter ) {
+			return;
+		}
+		$negate = false;
+		if ( $filter[0] === '!' ) {
+			$negate = true;
+			$filter = substr( $filter, 1 );
+		}
+		$this->collection->filter( $filter, $negate );
+	}
+
+	protected function doPaging() {
+		$this->offsets = parent::doPaging();
+		return $this->offsets;
+	}
+
+	protected function postinit() {
+		$this->collection->loadTranslations();
+	}
+
+	protected function output() {
+		$table = MessageTable::newFromContext( $this->context, $this->collection, $this->group );
+		$table->appendEditLinkParams( 'loadtask', $this->getId() );
+		if ( method_exists( $table, 'setOffsets' ) ) {
+			$table->setOffsets( $this->offsets );
+		}
+
+		return $table->fullTable();
+	}
+}
+
+/**
+ * Lists all non-optional messages with translations if any.
  */
 class ViewMessagesTask extends TranslateTask {
 	protected $id = 'view';
@@ -195,7 +273,7 @@ class ViewMessagesTask extends TranslateTask {
 	}
 
 	protected function output() {
-		$table = new MessageTable( $this->collection, $this->group );
+		$table = MessageTable::newFromContext( $this->context, $this->collection, $this->group );
 		$table->appendEditLinkParams( 'loadtask', $this->getId() );
 
 		return $table->fullTable();
@@ -203,7 +281,7 @@ class ViewMessagesTask extends TranslateTask {
 }
 
 /**
- * Basic class for review mode
+ * Basic task class for review mode.
  */
 class ReviewMessagesTask extends ViewMessagesTask {
 	protected $id = 'review';
@@ -216,7 +294,7 @@ class ReviewMessagesTask extends ViewMessagesTask {
 	}
 
 	protected function output() {
-		$table = new MessageTable( $this->collection, $this->group );
+		$table = MessageTable::newFromContext( $this->context, $this->collection, $this->group );
 		$table->appendEditLinkParams( 'loadtask', $this->getId() );
 		$table->setReviewMode();
 		return $table->fullTable();
@@ -224,7 +302,8 @@ class ReviewMessagesTask extends ViewMessagesTask {
 }
 
 /**
- * Lists untranslated non-optional messages.
+ * Lists untranslated non-optional messages. This is often good default
+ * task when translating.
  */
 class ViewUntranslatedTask extends ViewMessagesTask {
 	protected $id = 'untranslated';
@@ -320,18 +399,20 @@ class ReviewAllMessagesTask extends ReviewMessagesTask {
 	}
 }
 
-/// Lists all translations for accepting.
+/**
+ * Lists all translations the user can accept.
+ */
 class AcceptQueueMessagesTask extends ReviewMessagesTask {
 	protected $id = 'acceptqueue';
 
 	protected function preinit() {
-		global $wgUser;
+		$user = $this->context->getUser();
 		parent::preinit();
 		$this->collection->filter( 'ignored' );
 		$this->collection->filter( 'hastranslation', false );
 		$this->collection->filter( 'fuzzy' );
-		$this->collection->filter( 'reviewer', true, $wgUser->getId() );
-		$this->collection->filter( 'last-translator', true, $wgUser->getId() );
+		$this->collection->filter( 'reviewer', true, $user->getId() );
+		$this->collection->filter( 'last-translator', true, $user->getId() );
 	}
 
 	public function isAllowedFor( User $user ) {
@@ -352,11 +433,10 @@ class ExportMessagesTask extends ViewMessagesTask {
 		// or message documentation
 		global $wgTranslateDocumentationLanguageCode;
 		if ( $code !== $wgTranslateDocumentationLanguageCode
-			&& $code !== $this->group->getSourceLanguage() )
-		{
+			&& $code !== $this->group->getSourceLanguage()
+		) {
 			$this->collection->filter( 'ignored' );
 		}
-
 	}
 
 	// No paging should be done.
@@ -386,17 +466,15 @@ class ExportToFileMessagesTask extends ExportMessagesTask {
 	}
 
 	public function output() {
-		if ( $this->group instanceof MessageGroupBase ) {
-			if ( !$this->group instanceof FileBasedMessageGroup ) {
-				$data = 'Not supported';
-			} else {
-				$ffs = $this->group->getFFS();
-				$data = $ffs->writeIntoVariable( $this->collection );
-			}
-		} else {
-			$writer = $this->group->getWriter();
-			$data = $writer->webExport( $this->collection );
+		if ( !$this->group instanceof FileBasedMessageGroup ) {
+			return 'Not supported';
 		}
+
+		$ffs = $this->group->getFFS();
+		$data = $ffs->writeIntoVariable( $this->collection );
+
+		$filename = basename( $this->group->getSourceFilePath( $this->collection->getLanguage() ) );
+		header( "Content-Disposition: attachment; filename=\"$filename\"" );
 		return $data;
 	}
 }
@@ -442,12 +520,11 @@ class ExportAsPoMessagesTask extends ExportMessagesTask {
  * Collection of functions to get tasks.
  */
 class TranslateTasks {
-
 	/**
 	 * Return list of available tasks.
-	 * @param $pageTranslation Whether this group is page translation group.
+	 * @param bool $pageTranslation Whether this group is page translation group.
 	 * @todo Make the above parameter a group and check its class?
-	 * @return \list{String} Task identifiers.
+	 * @return string[] Task identifiers.
 	 */
 	public static function getTasks( $pageTranslation = false ) {
 		global $wgTranslateTasks, $wgTranslateTranslationServices;
@@ -474,8 +551,8 @@ class TranslateTasks {
 
 	/**
 	 * Get task by id.
-	 * @param $id \string Task identifier.
-	 * @return \types{TranslateTask,Null} The task or null if no such task.
+	 * @param string $id Unique task identifier.
+	 * @return TranslateTask|null Null if no such task.
 	 */
 	public static function getTask( $id ) {
 		global $wgTranslateTasks;

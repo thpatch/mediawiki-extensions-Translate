@@ -27,7 +27,7 @@ Options:
   --comment       Comment for updating
 
 EOT
-);
+	);
 	exit( 1 );
 }
 
@@ -63,19 +63,33 @@ $bot->execute();
  * Class for marking translation fuzzy.
  */
 class FuzzyScript {
-	/// \list{String} List of patterns to mark.
+	/**
+	/* @var string[] List of patterns to mark.
+	 */
 	private $titles = array();
-	/// \bool Check for configuration problems.
+
+	/**
+	 * @var bool Check for configuration problems.
+	 */
 	private $allclear = false;
-	/// \bool Dont do anything unless confirmation is given
+
+	/**
+	 * @var bool Dont do anything unless confirmation is given
+	 */
 	public $dryrun = true;
-	/// \string Edit summary.
+
+	/**
+	 * @var string Edit summary.
+	 */
 	public $comment = null;
-	/// \list{String} List of language codes to skip.
+
+	/**
+	 * string[] List of language codes to skip.
+	 */
 	public $skipLanguages = array();
 
 	/**
-	 * @param $titles \list{String}
+	 * @param string[] $titles
 	 */
 	public function __construct( $titles ) {
 		$this->titles = $titles;
@@ -107,13 +121,17 @@ class FuzzyScript {
 		foreach ( $this->titles as $title ) {
 			$title = Title::newFromText( $title );
 			$ns = $title->getNamespace();
-			if ( !isset( $search[$ns] ) ) $search[$ns] = array();
+			if ( !isset( $search[$ns] ) ) {
+				$search[$ns] = array();
+			}
 			$search[$ns][] = 'page_title' . $dbr->buildLike( $title->getDBKey(), $dbr->anyString() );
 		}
 
 		$title_conds = array();
 		foreach ( $search as $ns => $names ) {
-			if ( $ns == NS_MAIN ) $ns = $wgTranslateMessageNamespaces;
+			if ( $ns == NS_MAIN ) {
+				$ns = $wgTranslateMessageNamespaces;
+			}
 			$titles = $dbr->makeList( $names, LIST_OR );
 			$title_conds[] = $dbr->makeList( array( 'page_namespace' => $ns, $titles ), LIST_AND );
 		}
@@ -148,10 +166,10 @@ class FuzzyScript {
 
 	/**
 	 * Does the actual edit if possible.
-	 * @param $title \type{Title}
-	 * @param $text \string
-	 * @param $dryrun \bool Whether to really do it or just show what would be done.
-	 * @param $comment \string Edit summary.
+	 * @param Title $title
+	 * @param string $text
+	 * @param bool $dryrun Whether to really do it or just show what would be done.
+	 * @param string $comment Edit summary.
 	 */
 	private function updateMessage( $title, $text, $dryrun, $comment = null ) {
 		global $wgTranslateDocumentationLanguageCode, $wgUser;

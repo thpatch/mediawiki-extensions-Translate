@@ -94,11 +94,11 @@ class StatsTable {
 		return $this->mainColumnHeader;
 	}
 
-	public function setMainColumnHeader( Message $msg  ) {
+	public function setMainColumnHeader( Message $msg ) {
 		$this->mainColumnHeader = $this->createColumnHeader( $msg );
 	}
 
-	public function createColumnHeader( Message $msg  ) {
+	public function createColumnHeader( Message $msg ) {
 		return Html::element( 'th', array(), $msg->text() );
 	}
 
@@ -138,12 +138,12 @@ class StatsTable {
 
 	/**
 	 * Makes a row with aggregate numbers.
-	 * @param $message Message
-	 * @param $numbers array ( total, translate, fuzzy )
+	 * @param Message $message
+	 * @param array $stats ( total, translate, fuzzy )
 	 * @return string Html
 	 */
 	public function makeTotalRow( Message $message, $stats ) {
-		$out  = "\t" . Html::openElement( 'tr' );
+		$out = "\t" . Html::openElement( 'tr' );
 		$out .= "\n\t\t" . Html::element( 'td', array(), $message->text() );
 		$out .= $this->makeNumberColumns( $stats );
 		$out .= "\n\t" . Xml::closeElement( 'tr' ) . "\n";
@@ -153,9 +153,7 @@ class StatsTable {
 
 	/**
 	 * Makes partial row from completion numbers
-	 * @param $fuzzy int Number of fuzzy translations
-	 * @param $translated int Number of non-fuzzy translations
-	 * @param $total int Total number of messages in this group
+	 * @param array $stats
 	 * @return string Html
 	 */
 	public function makeNumberColumns( $stats ) {
@@ -165,13 +163,13 @@ class StatsTable {
 
 		if ( $total === null ) {
 			$na = "\n\t\t" . Html::element( 'td', array( 'data-sort-value' => -1 ), '...' );
-			$nap =  "\n\t\t" . $this->element( '...', 'AFAFAF', -1 );
+			$nap = "\n\t\t" . $this->element( '...', 'AFAFAF', -1 );
 			$out = $na . $na . $nap . $nap;
 
 			return $out;
 		}
 
-		$out  = "\n\t\t" . Html::element( 'td',
+		$out = "\n\t\t" . Html::element( 'td',
 			array( 'data-sort-value' => $total ),
 			$this->lang->formatNum( $total ) );
 
@@ -220,7 +218,7 @@ class StatsTable {
 
 		// Bold for meta groups.
 		if ( $group->isMeta() ) {
-			$groupLabel = Html::rawElement( 'b', null, $groupLabel );
+			$groupLabel = Html::rawElement( 'b', array(), $groupLabel );
 		}
 
 		return $groupLabel;

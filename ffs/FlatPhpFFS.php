@@ -54,10 +54,13 @@ class FlatPhpFFS extends SimpleFFS {
 			$output = "<?php\n";
 		}
 
-		$output  .= $this->doHeader( $collection );
+		$output .= $this->doHeader( $collection );
 
 		$mangler = $this->group->getMangler();
 
+		/**
+		 * @var TMessage $item
+		 */
 		foreach ( $collection as $item ) {
 			$key = $mangler->unmangle( $item->key() );
 			$key = stripcslashes( $key );

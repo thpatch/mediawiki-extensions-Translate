@@ -4,7 +4,7 @@
  *
  * @file
  * @author Niklas Laxström
- * @copyright Copyright © 2012, Niklas Laxström
+ * @copyright Copyright © 2012-2013, Niklas Laxström
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
@@ -19,11 +19,13 @@ class HookDocTest extends MediaWikiTestCase {
 			'messagegroups',
 			'specials',
 			'tag',
+			'translationaids',
 			'ttmserver',
 			'utils',
+			'webservices',
 		),
 		'js' => array(
-			'resources',
+			'resources/js',
 		),
 	);
 
@@ -119,27 +121,26 @@ class HookDocTest extends MediaWikiTestCase {
 	}
 
 	public function testHookIsDocumentedPHP() {
-		foreach ( $this->documented['php'] as $hook => $params ) {
-			$this->assertArrayHasKey( $hook, $this->used['php'], "PHP hook $hook is documented" );
+		foreach ( $this->used['php'] as $hook => $params ) {
+			$this->assertArrayHasKey( $hook, $this->documented['php'], "PHP hook $hook is documented" );
 		}
 	}
 
 	public function testHookExistsPHP() {
-		foreach ( $this->used['php'] as $hook => $params ) {
-			$this->assertArrayHasKey( $hook, $this->documented['php'], "Documented php hook $hook exists" );
+		foreach ( $this->documented['php'] as $hook => $params ) {
+			$this->assertArrayHasKey( $hook, $this->used['php'], "Documented php hook $hook exists" );
 		}
 	}
 
 	public function testHookIsDocumentedJS() {
-		foreach ( $this->documented['js'] as $hook => $params ) {
-			$this->assertArrayHasKey( $hook, $this->used['js'], "Js hook $hook is documented" );
+		foreach ( $this->used['js'] as $hook => $params ) {
+			$this->assertArrayHasKey( $hook, $this->documented['js'], "Js hook $hook is documented" );
 		}
 	}
 
 	public function testHookExistsJS() {
-		foreach ( $this->used['js'] as $hook => $params ) {
-			$this->assertArrayHasKey( $hook, $this->documented['js'], "Documented js hook $hook exists" );
+		foreach ( $this->documented['js'] as $hook => $params ) {
+			$this->assertArrayHasKey( $hook, $this->used['js'], "Documented js hook $hook exists" );
 		}
 	}
-
 }

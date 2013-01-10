@@ -5,7 +5,7 @@
  * @file
  * @author Niklas Laxström
  * @author Siebrand Mazeland
- * @copyright Copyright © 2008-2012, Niklas Laxström, Siebrand Mazeland
+ * @copyright Copyright © 2008-2013, Niklas Laxström, Siebrand Mazeland
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
@@ -15,18 +15,18 @@
  * @todo Clean up the mixed static/member method interface.
  */
 class MessageGroups {
-	protected static $loaded = false;
+	protected static $groups = null;
 
 	/// Initialises the list of groups (but not the groups itself if possible).
 	public static function init() {
-		if ( self::$loaded ) {
+		if ( is_array( self::$groups ) ) {
 			return;
 		}
 
 		wfProfileIn( __METHOD__ );
-		self::$loaded = true;
+		self::$groups = array();
 
-		global $wgTranslateCC, $wgAutoloadClasses;
+		global $wgAutoloadClasses;
 
 		$key = wfMemcKey( 'translate-groups' );
 		$value = DependencyWrapper::getValueFromCache( self::getCache(), $key );
@@ -36,7 +36,7 @@ class MessageGroups {
 			self::loadGroupDefinitions();
 		} else {
 			wfDebug( __METHOD__ . "-withcache\n" );
-			$wgTranslateCC = $value['cc'];
+			self::$groups = $value['cc'];
 
 			foreach ( $value['autoload'] as $class => $file ) {
 				$wgAutoloadClasses[$class] = $file;
@@ -53,7 +53,7 @@ class MessageGroups {
 	public static function clearCache() {
 		$key = wfMemckey( 'translate-groups' );
 		self::getCache()->delete( $key );
-		self::$loaded = false;
+		self::$groups = null;
 	}
 
 	/**
@@ -70,52 +70,48 @@ class MessageGroups {
 	 * recreate the cache when configuration changes.
 	 * @todo Reduce the ways of which messages can be added. Target is just
 	 * to have three ways: Yaml files, translatable pages and with the hook.
-	 * @todo In conjuction with the above, reduce the number of global
-	 * variables like wgTranslate#C and have the message groups specify
-	 * their own cache dependencies.
 	 */
 	protected static function loadGroupDefinitions() {
 		wfProfileIn( __METHOD__ );
 
 		global $wgEnablePageTranslation, $wgTranslateGroupFiles;
-		global $wgTranslateAC, $wgTranslateEC, $wgTranslateCC;
-		global $wgAutoloadClasses;
-		global $wgTranslateWorkflowStates;
+		global $wgTranslateCC, $wgAutoloadClasses, $wgTranslateWorkflowStates;
 
 		$deps = array();
 		$deps[] = new GlobalDependency( 'wgEnablePageTranslation' );
 		$deps[] = new GlobalDependency( 'wgTranslateGroupFiles' );
-		$deps[] = new GlobalDependency( 'wgTranslateEC' );
 		$deps[] = new GlobalDependency( 'wgTranslateCC' );
 		$deps[] = new GlobalDependency( 'wgTranslateExtensionDirectory' );
 		$deps[] = new GlobalDependency( 'wgTranslateWorkflowStates' );
+
+		self::$groups = $wgTranslateCC;
 
 		if ( $wgEnablePageTranslation ) {
 			wfProfileIn( __METHOD__ . '-pt' );
 			$dbr = wfGetDB( DB_MASTER );
 
 			$tables = array( 'page', 'revtag' );
-			$vars   = array( 'page_id', 'page_namespace', 'page_title' );
-			$conds  = array( 'page_id=rt_page', 'rt_type' => RevTag::getType( 'tp:mark' ) );
+			$vars = array( 'page_id', 'page_namespace', 'page_title' );
+			$conds = array( 'page_id=rt_page', 'rt_type' => RevTag::getType( 'tp:mark' ) );
 			$options = array( 'GROUP BY' => 'rt_page' );
 			$res = $dbr->select( $tables, $vars, $conds, __METHOD__, $options );
 
 			foreach ( $res as $r ) {
 				$title = Title::newFromRow( $r );
 				$id = TranslatablePage::getMessageGroupIdFromTitle( $title );
-				$wgTranslateCC[$id] = new WikiPageMessageGroup( $id, $title );
-				$wgTranslateCC[$id]->setLabel( $title->getPrefixedText() );
+				self::$groups[$id] = new WikiPageMessageGroup( $id, $title );
+				self::$groups[$id]->setLabel( $title->getPrefixedText() );
 			}
 			wfProfileOut( __METHOD__ . '-pt' );
 		}
 
 		if ( $wgTranslateWorkflowStates ) {
-			$wgTranslateCC['translate-workflow-states'] = new WorkflowStatesMessageGroup();
+			self::$groups['translate-workflow-states'] = new WorkflowStatesMessageGroup();
 		}
 
 		wfProfileIn( __METHOD__ . '-hook' );
 		$autoload = array();
-		wfRunHooks( 'TranslatePostInitGroups', array( &$wgTranslateCC, &$deps, &$autoload ) );
+		wfRunHooks( 'TranslatePostInitGroups', array( &self::$groups, &$deps, &$autoload ) );
 		wfProfileOut( __METHOD__ . '-hook' );
 
 		wfProfileIn( __METHOD__ . '-yaml' );
@@ -134,7 +130,7 @@ class MessageGroups {
 					}
 				}
 				$group = MessageGroupBase::factory( $conf );
-				$wgTranslateCC[$id] = $group;
+				self::$groups[$id] = $group;
 			}
 		}
 		wfProfileOut( __METHOD__ . '-yaml' );
@@ -142,25 +138,13 @@ class MessageGroups {
 		wfProfileIn( __METHOD__ . '-agg' );
 		$aggregateGroups = self::getAggregateGroups();
 		foreach ( $aggregateGroups as $id => $group ) {
-			$wgTranslateCC[$id] = $group;
+			self::$groups[$id] = $group;
 		}
 		wfProfileOut( __METHOD__ . '-agg' );
 
-		// Convert $wgTranslateEC/AC to $wgTranslateCC to simplify handling
-		wfProfileIn( __METHOD__ . '-acec' );
-		foreach ( $wgTranslateEC as $id ) {
-			$creater = $wgTranslateAC[$id];
-			if ( is_array( $creater ) ) {
-				$wgTranslateCC[$id] = call_user_func( $creater, $id );
-			} else {
-				$wgTranslateCC[$id] = new $creater;
-			}
-		}
-		wfProfileOut( __METHOD__ . '-acec' );
-
 		$key = wfMemckey( 'translate-groups' );
 		$value = array(
-			'cc' => $wgTranslateCC,
+			'cc' => self::$groups,
 			'autoload' => $autoload,
 		);
 
@@ -175,7 +159,7 @@ class MessageGroups {
 
 	/**
 	 * Fetch a message group by id.
-	 * @param $id \string Message group id.
+	 * @param string $id Message group id.
 	 * @return MessageGroup|null if it doesn't exist.
 	 */
 	public static function getGroup( $id ) {
@@ -188,13 +172,11 @@ class MessageGroups {
 		}
 		self::init();
 
-		global $wgTranslateCC;
-
-		if ( isset( $wgTranslateCC[$id] ) ) {
-			if ( is_callable( $wgTranslateCC[$id] ) ) {
-				return call_user_func( $wgTranslateCC[$id], $id );
+		if ( isset( self::$groups[$id] ) ) {
+			if ( is_callable( self::$groups[$id] ) ) {
+				return call_user_func( self::$groups[$id], $id );
 			}
-			return $wgTranslateCC[$id];
+			return self::$groups[$id];
 		} elseif ( strval( $id ) !== '' && $id[0] === '!' ) {
 			$dynamic = self::getDynamicGroups();
 			if ( isset( $dynamic[$id] ) ) {
@@ -206,16 +188,16 @@ class MessageGroups {
 	}
 
 	/**
-	 * @param $id
+	 * @param string $id
 	 * @return bool
 	 */
 	public static function exists( $id ) {
-		return (bool) self::getGroup( $id );
+		return (bool)self::getGroup( $id );
 	}
 
 	/**
 	 * Get all enabled message groups.
-	 * @return \arrayof{String,MessageGroup}
+	 * @return array ( string => MessageGroup )
 	 */
 	public static function getAllGroups() {
 		return self::singleton()->getGroups();
@@ -226,7 +208,7 @@ class MessageGroups {
 	 * They can still exist in the system, but should not appear in front
 	 * of translators looking to do some useful work.
 	 *
-	 * @param $group MessageGroup|string Message group ID
+	 * @param MessageGroup|string $group Message group ID
 	 * @return string Message group priority
 	 * @since 2011-12-12
 	 */
@@ -260,11 +242,13 @@ class MessageGroups {
 	}
 
 	/**
-	 * Returns the message groups this message group is part of.
-	 * @since 2011-12-25
-	 * @return array
+	 * Returns a list of message groups that share (certain) messages
+	 * with this group.
+	 * @since 2011-12-25; renamed in 2012-12-10 from getParentGroups.
+	 * @param MessageGroup $group
+	 * @return string[]
 	 */
-	public static function getParentGroups( MessageGroup $group ) {
+	public static function getSharedGroups( MessageGroup $group ) {
 		// Take the first message, get a handle for it and check
 		// if that message belongs to other groups. Those are the
 		// parent aggregate groups. Ideally we loop over all keys,
@@ -279,6 +263,88 @@ class MessageGroups {
 			}
 		}
 		return $ids;
+	}
+
+	/**
+	 * Returns a list of parent message groups. If message group exists
+	 * in multiple places in the tree, multiple lists are returned.
+	 * @since 2012-12-10
+	 * @param MessageGroup $targetGroup
+	 * @return array[]
+	 */
+	public static function getParentGroups( MessageGroup $targetGroup ) {
+		$ids = self::getSharedGroups( $targetGroup );
+		if ( $ids === array() ) {
+			return array();
+		}
+
+		$targetId = $targetGroup->getId();
+
+		/* Get the group structure. We will be using this to find which
+		 * of our candidates are top-level groups. Prefilter it to only
+		 * contain aggregate groups. */
+		$structure = self::getGroupStructure();
+		foreach ( $structure as $index => $group ) {
+			if ( $group instanceof MessageGroup ) {
+				unset( $structure[$index] );
+			} else {
+				$structure[$index] = array_shift( $group );
+			}
+		}
+
+		/* Now that we have all related groups, use them to find all paths
+		 * from top-level groups to target group with any number of subgroups
+		 * in between. */
+		$paths = array();
+
+		/* This function recursively finds paths to the target group */
+		$pathFinder = function ( &$paths, $group, $targetId, $prefix = '' )
+			use ( &$pathFinder )
+		{
+			if ( $group instanceof AggregateMessageGroup ) {
+				/**
+				 * @var MessageGroup $subgroup
+				 */
+				foreach ( $group->getGroups() as $subgroup ) {
+					$subId = $subgroup->getId();
+					if ( $subId === $targetId ) {
+						$paths[] = $prefix;
+						continue;
+					}
+
+					$pathFinder( $paths, $subgroup, $targetId, "$prefix|$subId" );
+				}
+			}
+		};
+
+		// Iterate over the top-level groups only
+		foreach ( $ids as $id ) {
+			// First, find a top level groups
+			$group = self::getGroup( $id );
+
+			// Quick escape for leaf groups
+			if ( !$group instanceof AggregateMessageGroup ) {
+				continue;
+			}
+
+			foreach ( $structure as $rootGroup ) {
+				/**
+				 * @var MessageGroup $rootGroup
+				 */
+				if ( $rootGroup->getId() === $group->getId() ) {
+					// Yay we found a top-level group
+					$pathFinder( $paths, $rootGroup, $targetId, $id );
+					break; // No we have one or more paths appended into $paths
+				}
+			}
+		}
+
+		// And finally explode the strings
+		foreach ( $paths as $index => $pathString ) {
+			$paths[$index] = explode( '|', $pathString );
+		}
+
+		return $paths;
 	}
 
 	private function __construct() {}
@@ -297,25 +363,24 @@ class MessageGroups {
 
 	/**
 	 * Get all enabled non-dynamic message groups.
-	 * @return \array
+	 * @return array
 	 */
 	public function getGroups() {
 		self::init();
-		global $wgTranslateCC;
 		// Expand groups to objects
-		foreach ( $wgTranslateCC as $id => $mixed ) {
+		foreach ( self::$groups as $id => $mixed ) {
 			if ( !is_object( $mixed ) ) {
-				$wgTranslateCC[$id] = call_user_func( $mixed, $id );
+				self::$groups[$id] = call_user_func( $mixed, $id );
 			}
 		}
-		return $wgTranslateCC;
+		return self::$groups;
 	}
 
 	/**
 	 * Get message groups for corresponding message group ids.
 	 *
-	 * @param $ids array Group IDs
-	 * @param $skipMeta bool Skip aggregate message groups
+	 * @param string[] $ids Group IDs
+	 * @param bool $skipMeta Skip aggregate message groups
 	 * @return array
 	 * @since 2012-02-13
 	 */
@@ -342,14 +407,14 @@ class MessageGroups {
 	 * If the list of message group ids contains wildcards, this function will match
 	 * them against the list of all supported message groups and return matched
 	 * message group ids.
-	 * @param $ids \list{String}|String
-	 * @return \list{String}
+	 * @param string[]|string $ids
+	 * @return string[]
 	 * @since 2012-02-13
 	 */
 	public static function expandWildcards( $ids ) {
 		$all = array();
 
-		$matcher = new StringMatcher( '', (array) $ids );
+		$matcher = new StringMatcher( '', (array)$ids );
 		foreach ( self::getAllGroups() as $id => $_ ) {
 			if ( $matcher->match( $id ) ) {
 				$all[] = $id;
@@ -366,6 +431,7 @@ class MessageGroups {
 	public static function getDynamicGroups() {
 		return array(
 			'!recent' => 'RecentMessageGroup',
+			'!additions' => 'RecentAdditionsMessageGroup',
 		);
 	}
 
@@ -403,6 +469,9 @@ class MessageGroups {
 
 		// Determine the top level groups of the tree
 		$tree = $groups;
+		/**
+		 * @var MessageGroup $o
+		 */
 		foreach ( $groups as $id => $o ) {
 			if ( !$o->exists() ) {
 				unset( $groups[$id], $tree[$id] );
@@ -410,16 +479,24 @@ class MessageGroups {
 			}
 
 			if ( $o instanceof AggregateMessageGroup ) {
+				/**
+				 * @var AggregateMessageGroup $o
+				 */
 				foreach ( $o->getGroups() as $sid => $so ) {
 					unset( $tree[$sid] );
 				}
 			}
 		}
 
+		// Work around php bug: https://bugs.php.net/bug.php?id=50688
+		// Triggered by ApiQueryMessageGroups for example
+		wfSuppressWarnings();
+		usort( $tree, array( __CLASS__, 'groupLabelSort' ) );
+		wfRestoreWarnings();
+
 		/* Now we have two things left in $tree array:
 		 * - solitaries: top-level non-aggregate message groups
 		 * - top-level aggregate message groups */
-		usort( $tree, array( __CLASS__, 'groupLabelSort' ) );
 		foreach ( $tree as $index => $group ) {
 			if ( $group instanceof AggregateMessageGroup ) {
 				$tree[$index] = self::subGroups( $group );
@@ -462,8 +539,16 @@ class MessageGroups {
 		return strcasecmp( $al, $bl );
 	}
 
-	/// Helper for getGroupStructure
-	protected static function subGroups( AggregateMessageGroup $parent ) {
+	/**
+	 * Like getGroupStructure but start from one root which must be an
+	 * AggregateMessageGroup.
+	 *
+	 * @param AggregateMessageGroup $parent
+	 * @throws MWException
+	 * @return array
+	 * @since Public since 2012-11-29
+	 */
+	public static function subGroups( AggregateMessageGroup $parent ) {
 		static $recursionGuard = array();
 
 		$pid = $parent->getId();
@@ -529,5 +614,4 @@ class MessageGroups {
 		}
 		return $groups;
 	}
-
 }

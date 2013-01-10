@@ -1,5 +1,7 @@
 <?php
-if ( !defined( 'MEDIAWIKI' ) ) die();
+if ( !defined( 'MEDIAWIKI' ) ) {
+	die();
+}
 /**
  * An extension to ease the translation of Mediawiki and other projects.
  *
@@ -8,14 +10,14 @@ if ( !defined( 'MEDIAWIKI' ) ) die();
  *
  * @author Niklas Laxström
  * @author Siebrand Mazeland
- * @copyright Copyright © 2006-2012, Niklas Laxström, Siebrand Mazeland
+ * @copyright Copyright © 2006-2013, Niklas Laxström, Siebrand Mazeland
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
 /**
- * Version number used in extension credits and in other placed where needed.
+ * Version number used in extension credits and in other places where needed.
  */
-define( 'TRANSLATE_VERSION', '2012-10-15' );
+define( 'TRANSLATE_VERSION', '2013-01-07' );
 
 /**
  * Extension credits properties.
@@ -86,6 +88,7 @@ $wgSpecialPageGroups['AggregateGroups'] = 'wiki';
 
 // API
 $wgAPIListModules['messagecollection'] = 'ApiQueryMessageCollection';
+$wgAPIMetaModules['languagestats'] = 'ApiQueryLanguageStats';
 $wgAPIMetaModules['messagegroups'] = 'ApiQueryMessageGroups';
 $wgAPIMetaModules['messagegroupstats'] = 'ApiQueryMessageGroupStats';
 $wgAPIMetaModules['messagetranslations'] = 'ApiQueryMessageTranslations';
@@ -93,6 +96,9 @@ $wgAPIModules['translationreview'] = 'ApiTranslationReview';
 $wgAPIModules['groupreview'] = 'ApiGroupReview';
 $wgAPIModules['aggregategroups'] = 'ApiAggregateGroups';
 $wgAPIModules['ttmserver'] = 'ApiTTMServer';
+$wgAPIModules['translateuser'] = 'ApiTranslateUser';
+$wgAPIModules['translationaids'] = 'ApiTranslationAids';
+$wgAPIModules['hardmessages'] = 'ApiHardMessages';
 $wgAPIGeneratorModules['messagecollection'] = 'ApiQueryMessageCollection';
 
 // Before MW 1.20
@@ -103,7 +109,7 @@ $wgHooks['APIQueryInfoTokens'][] = 'ApiAggregateGroups::injectTokenFunction';
 $wgHooks['ApiTokensGetTokenTypes'][] = 'ApiTranslationReview::injectTokenFunction';
 $wgHooks['ApiTokensGetTokenTypes'][] = 'ApiGroupReview::injectTokenFunction';
 $wgHooks['ApiTokensGetTokenTypes'][] = 'ApiAggregateGroups::injectTokenFunction';
-
+$wgHooks['ApiHardMessages'][] = 'ApiHardMessages::injectTokenFunction';
 // Register hooks.
 $wgHooks['EditPage::showEditForm:initial'][] = 'TranslateEditAddons::addTools';
 $wgHooks['SkinTemplateTabs'][] = 'TranslateEditAddons::addNavigationTabs';
@@ -115,6 +121,8 @@ $wgHooks['EditPage::showEditForm:fields'][] = 'TranslateEditAddons::keepFields';
 $wgHooks['SkinTemplateTabs'][] = 'TranslateEditAddons::tabs';
 $wgHooks['LanguageGetTranslatedLanguageNames'][] = 'TranslateHooks::translateMessageDocumentationLanguage';
 $wgHooks['ArticlePrepareTextForEdit'][] = 'TranslateEditAddons::disablePreSaveTransform';
+// Prevent translations creating bogus categories
+$wgHooks['LinksUpdate'][] = 'TranslateHooks::preventCategorization';
 // Fuzzy tags for speed.
 if ( !defined( 'MW_SUPPORTS_CONTENTHANDLER' ) ) {
 	// BC 1.20
@@ -132,6 +140,7 @@ $wgHooks['SkinTemplateNavigation::SpecialPage'][] = 'SpecialManageGroups::tabify
 $wgDefaultUserOptions['translate'] = 0;
 $wgDefaultUserOptions['translate-editlangs'] = 'default';
 $wgDefaultUserOptions['translate-jsedit'] = 1;
+$wgDefaultUserOptions['translate-recent-groups'] = '';
 $wgHooks['GetPreferences'][] = 'TranslatePreferences::onGetPreferences';
 $wgHooks['GetPreferences'][] = 'TranslatePreferences::translationAssistLanguages';
 $wgHooks['GetPreferences'][] = 'TranslatePreferences::translationJsedit';
@@ -141,8 +150,9 @@ $wgHooks['SpecialRecentChangesQuery'][] = 'TranslateRcFilter::translationFilter'
 $wgHooks['SpecialRecentChangesPanel'][] = 'TranslateRcFilter::translationFilterForm';
 $wgHooks['SkinTemplateToolboxEnd'][] = 'TranslateToolbox::toolboxAllTranslations';
 
-// Translation memory updates
-$wgHooks['Translate:newTranslation'][] = 'TranslateHooks::updateTM';
+// Translation memory related
+$wgHooks['ArticleDeleteComplete'][] = 'TTMServer::onDelete';
+$wgHooks['TranslateEventMessageMembershipChange'][] = 'TTMServer::onGroupChange';
 
 // Translation display related
 $wgHooks['ArticleContentOnDiff'][] = 'TranslateEditAddons::displayOnDiff';
@@ -157,6 +167,8 @@ $wgHooks['LinkBegin'][] = 'SpecialMyLanguage::linkfix';
 // Stats table manipulation
 $wgHooks['Translate:MessageGroupStats:isIncluded'][] = 'TranslateHooks::hideDiscouragedFromStats';
 $wgHooks['Translate:MessageGroupStats:isIncluded'][] = 'TranslateHooks::hideRestrictedFromStats';
+
+$wgHooks['MakeGlobalVariablesScript'][] = 'TranslateHooks::addConfig';
 
 // Internal event listeners
 $wgHooks['TranslateEventTranslationEdit'][] = 'MessageGroupStats::clear';
@@ -179,14 +191,12 @@ $wgAddGroups['translate-proofr'] = array( 'translate-proofr' );
 $wgLogTypes[] = 'translationreview';
 $wgLogActionsHandlers['translationreview/message'] = 'TranslateHooks::formatTranslationreviewLogEntry';
 $wgLogActionsHandlers['translationreview/group'] = 'TranslateHooks::formatTranslationreviewLogEntry';
-// BC for <1.19
-$wgLogHeaders['translationreview'] = 'log-description-translationreview';
-$wgLogNames['translationreview'] = 'log-name-translationreview';
 
 // New jobs
 $wgJobClasses['MessageIndexRebuildJob'] = 'MessageIndexRebuildJob';
 $wgJobClasses['MessageUpdateJob'] = 'MessageUpdateJob';
 $wgJobClasses['MessageGroupStatesUpdaterJob'] = 'MessageGroupStatesUpdaterJob';
+$wgJobClasses['TTMServerMessageUpdateJob'] = 'TTMServerMessageUpdateJob';
 
 $resourcePaths = array(
 	'localBasePath' => dirname( __FILE__ ),
@@ -195,26 +205,93 @@ $resourcePaths = array(
 
 // Client-side resource modules
 $wgResourceModules['ext.translate'] = array(
-	'styles' => 'resources/ext.translate.css',
+	'styles' => 'resources/css/ext.translate.css',
 	'position' => 'top',
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.hooks'] = array(
-	'scripts' => 'resources/ext.translate.hooks.js',
+	'scripts' => 'resources/js/ext.translate.hooks.js',
 	'position' => 'top',
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.helplink'] = array(
-	'styles' => 'resources/ext.translate.helplink.css',
+	'styles' => 'resources/css/ext.translate.helplink.css',
 	'position' => 'top',
 ) + $resourcePaths;
 
+// TODO: jquery.uls uses the same grid system. So don't duplicate
+$wgResourceModules['ext.translate.grid'] = array(
+	'styles' => 'resources/css/ext.translate.grid.css',
+	'position' => 'top',
+) + $resourcePaths;
+
+$wgResourceModules['ext.translate.editor'] = array(
+	'scripts' => 'resources/js/ext.translate.editor.js',
+	'styles' => 'resources/css/ext.translate.editor.css',
+	'dependencies' => array(
+		'ext.translate.grid',
+		'mediawiki.util',
+		'mediawiki.Uri',
+		'mediawiki.api',
+		'mediawiki.user',
+		'mediawiki.jqueryMsg',
+	),
+	'messages' => array(
+		'tux-status-translated',
+		'tux-status-saving',
+		'tux-status-unsaved',
+		'tux-editor-placeholder',
+		'tux-editor-save-button-label',
+		'tux-editor-skip-button-label',
+		'tux-editor-shortcut-info',
+		'tux-editor-no-message-doc',
+		'tux-editor-edit-desc',
+		'tux-editor-add-desc',
+		'tux-editor-message-desc-more',
+		'tux-editor-message-desc-less',
+		'tux-editor-suggestions-title',
+		'tux-editor-in-other-languages',
+		'tux-editor-need-more-help',
+		'tux-editor-ask-help',
+		'tux-editor-tm-match',
+		'tux-warnings-more',
+		'tux-warnings-hide',
+		'tux-editor-save-failed',
+		'tux-editor-use-this-translation',
+		'translate-edit-nopermission',
+		'translate-edit-askpermission',
+		'tux-editor-outdated-warning',
+		'tux-editor-outdated-warning-diff-link',
+	),
+	'position' => 'top',
+) + $resourcePaths;
+
+$wgResourceModules['ext.translate.groupselector'] = array(
+	'styles' => 'resources/css/ext.translate.groupselector.css',
+	'scripts' => 'resources/js/ext.translate.groupselector.js',
+	'position' => 'top',
+	'dependencies' => array(
+		'ext.translate.grid',
+		'ext.translate.statsbar',
+		'mediawiki.jqueryMsg',
+	),
+	'messages' => array(
+		'translate-msggroupselector-projects',
+		'translate-msggroupselector-search-placeholder',
+		'translate-msggroupselector-search-all',
+		'translate-msggroupselector-search-recent',
+		'translate-msggroupselector-load-from-all',
+		'translate-msggroupselector-view-subprojects',
+	),
+) + $resourcePaths;
+
 $wgResourceModules['ext.translate.messagetable'] = array(
-	'scripts' => 'resources/ext.translate.messagetable.js',
-	'styles' => 'resources/ext.translate.messagetable.css',
+	'scripts' => 'resources/js/ext.translate.messagetable.js',
+	'styles' => 'resources/css/ext.translate.messagetable.css',
 	'position' => 'top',
 	'dependencies' => array(
 		'mediawiki.util',
+		'jquery.appear',
 	),
 	'messages' => array(
 		'translate-messagereview-submit',
@@ -228,18 +305,28 @@ $wgResourceModules['ext.translate.messagetable'] = array(
 		'api-error-owntranslation',
 		'api-error-unknownmessage',
 		'api-error-unknownerror',
-		'tpt-unknown-page'
+		'tpt-unknown-page',
+		'tux-edit',
+		'translate-edit-title',
+		'tux-messagetable-more-messages',
+		'tux-messagetable-loading-messages',
 	),
 ) + $resourcePaths;
 
+$wgResourceModules['ext.translate.statsbar'] = array(
+	'styles' => 'resources/css/ext.translate.statsbar.css',
+	'scripts' => 'resources/js/ext.translate.statsbar.js',
+	'position' => 'top',
+) + $resourcePaths;
+
 $wgResourceModules['ext.translate.tabgroup'] = array(
-	'styles' => 'resources/ext.translate.tabgroup.css',
+	'styles' => 'resources/css/ext.translate.tabgroup.css',
 	'position' => 'top',
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.quickedit'] = array(
-	'scripts' => 'resources/ext.translate.quickedit.js',
-	'styles' => 'resources/ext.translate.quickedit.css',
+	'scripts' => 'resources/js/ext.translate.quickedit.js',
+	'styles' => 'resources/css/ext.translate.quickedit.css',
 	'messages' => array( 'translate-js-nonext', 'translate-js-save-failed' ),
 	'dependencies' => array(
 		'ext.translate.hooks',
@@ -251,24 +338,24 @@ $wgResourceModules['ext.translate.quickedit'] = array(
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.selecttoinput'] = array(
-	'scripts' => 'resources/ext.translate.selecttoinput.js',
+	'scripts' => 'resources/js/ext.translate.selecttoinput.js',
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.special.importtranslations'] = array(
-	'scripts' => 'resources/ext.translate.special.importtranslations.js',
+	'scripts' => 'resources/js/ext.translate.special.importtranslations.js',
 	'dependencies' => array(
 		'jquery.ui.autocomplete',
 	),
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.messagewebimporter'] = array(
-	'styles' => 'resources/ext.translate.messagewebimporter.css',
+	'styles' => 'resources/css/ext.translate.messagewebimporter.css',
 	'position' => 'top',
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.special.languagestats'] = array(
-	'scripts' => 'resources/ext.translate.special.languagestats.js',
-	'styles' => 'resources/ext.translate.special.languagestats.css',
+	'scripts' => 'resources/js/ext.translate.special.languagestats.js',
+	'styles' => 'resources/css/ext.translate.special.languagestats.css',
 	'messages' => array(
 		'translate-langstats-expandall',
 		'translate-langstats-collapseall',
@@ -279,7 +366,7 @@ $wgResourceModules['ext.translate.special.languagestats'] = array(
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.multiselectautocomplete'] = array(
-	'scripts' => 'resources/ext.translate.multiselectautocomplete.js',
+	'scripts' => 'resources/js/ext.translate.multiselectautocomplete.js',
 	'dependencies' => array(
 		'jquery.ui.autocomplete',
 	),
@@ -287,13 +374,13 @@ $wgResourceModules['ext.translate.multiselectautocomplete'] = array(
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.special.managegroups'] = array(
-	'styles' => 'resources/ext.translate.special.managegroups.css',
+	'styles' => 'resources/css/ext.translate.special.managegroups.css',
 	'position' => 'top',
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.special.pagetranslation'] = array(
-	'scripts' => 'resources/ext.translate.special.pagetranslation.js',
-	'styles' => 'resources/ext.translate.special.pagetranslation.css',
+	'scripts' => 'resources/js/ext.translate.special.pagetranslation.js',
+	'styles' => 'resources/css/ext.translate.special.pagetranslation.css',
 	'dependencies' => array(
 		'ext.translate.multiselectautocomplete',
 	),
@@ -301,15 +388,15 @@ $wgResourceModules['ext.translate.special.pagetranslation'] = array(
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.special.translationstats'] = array(
-	'scripts' => 'resources/ext.translate.special.translationstats.js',
+	'scripts' => 'resources/js/ext.translate.special.translationstats.js',
 	'dependencies' => array(
 		'jquery.ui.datepicker',
 	),
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.special.aggregategroups'] = array(
-	'scripts' => 'resources/ext.translate.special.aggregategroups.js',
-	'styles' => 'resources/ext.translate.special.aggregategroups.css',
+	'scripts' => 'resources/js/ext.translate.special.aggregategroups.js',
+	'styles' => 'resources/css/ext.translate.special.aggregategroups.css',
 	'position' => 'top',
 	'dependencies' => array( 'mediawiki.util' ),
 	'messages' => array(
@@ -318,26 +405,31 @@ $wgResourceModules['ext.translate.special.aggregategroups'] = array(
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.special.supportedlanguages'] = array(
-	'styles' => 'resources/ext.translate.special.supportedlanguages.css',
+	'styles' => 'resources/css/ext.translate.special.supportedlanguages.css',
 	'position' => 'top',
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.special.translate'] = array(
-	'styles' => 'resources/ext.translate.special.translate.css',
-	'scripts' => 'resources/ext.translate.special.translate.js',
+	'styles' => 'resources/css/ext.translate.special.translate.css',
+	'scripts' => 'resources/js/ext.translate.special.translate.js',
 	'position' => 'top',
-	'dependencies' => array( 'mediawiki.util' ),
+	'dependencies' => array(
+		'mediawiki.util',
+		'mediawiki.Uri',
+		'ext.translate.groupselector',
+	),
 	'messages' => array(
 		'translate-workflow-set-do',
 		'translate-workflow-set-doing',
 		'translate-workflow-set-done',
 		'translate-workflow-set-error-alreadyset',
 		'translate-js-support-unsaved-warning',
+		'translate-documentation-language',
 	),
 ) + $resourcePaths;
 
 $wgResourceModules['jquery.autoresize'] = array(
-	'scripts' => 'resources/jquery.autoresize.js',
+	'scripts' => 'resources/js/jquery.autoresize.js',
 ) + $resourcePaths;
 
 /** @endcond */
@@ -420,7 +512,6 @@ $wgTranslateTranslationServices['Apertium'] = array(
 	'key' => null,
 	'timeout' => 3,
 	'type' => 'apertium',
-	'codemap' => array( 'no' => 'nb' ),
 );
 $wgTranslateTranslationServices['Yandex'] = array(
 	'url' => 'http://translate.yandex.net/api/v1/tr.json/translate',
@@ -459,6 +550,7 @@ $wgTranslateTasks = array(
 	'reviewall'            => 'ReviewAllMessagesTask',
 	'export-as-po'         => 'ExportasPoMessagesTask',
 	'export-to-file'       => 'ExportToFileMessagesTask',
+	'custom'               => 'CustomFilteredMessagesTask',
 );
 
 /**
@@ -558,31 +650,11 @@ $wgTranslateAuthorBlacklist[] = array( 'black', '/^.*;.*;.*Bot$/Ui' );
 $wgTranslateMessageNamespaces = array( NS_MEDIAWIKI );
 
 /**
- * AC = Available classes.
- * Basic classes register themselves in here.
- */
-$wgTranslateAC = array(
-	'core'                => 'CoreMessageGroup',
-	'core-0-mostused'     => 'CoreMostUsedMessageGroup',
-);
-
-/**
- * EC = Enabled classes.
- * Which of the basic classes are enabled.
- * To enable them all, use:
- *  $wgTranslateEC = $wgTranslateAC;
- */
-$wgTranslateEC = array();
-/**
- * Add MediaWiki core messages group.
- */
-$wgTranslateEC[] = 'core';
-
-/**
  * CC = Custom classes.
- * Custom classes register themselves here.
+ * Custom classes can register themselves here.
  * Key is always the group id, while the value is an message group object
  * or callable function.
+ * @deprecated Use TranslatePostInitGroups hook instead.
  */
 $wgTranslateCC = array();
 
@@ -702,6 +774,9 @@ $wgTranslatePHPlotFont = '/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf';
  */
 $wgTranslateYamlLibrary = 'spyc';
 
+# </source>
+# === Unsorted ===
+# <source lang=php>
 /**
  * Pre-save transform for message pages. MediaWiki does this by default
  * (including for pages in the MediaWiki-namespace). By setting this to
@@ -716,6 +791,13 @@ $wgTranslateUsePreSaveTransform = false;
  * Possible values: ('noaction', 'only', 'filter', 'site')
  */
 $wgTranslateRcFilterDefault = 'filter';
+
+/**
+ * Set this to config like $wgTranslateTranslationServices if you want to run
+ * SolrTTMServer tests.
+ * @since 2013-01-04
+ */
+$wgTranslateTestTTMServer = null;
 
 # </source>
 
@@ -735,22 +817,21 @@ if ( !defined( 'TRANSLATE_CLI' ) ) {
  * @param $name \string Name of the namespace
  */
 function wfAddNamespace( $id, $name ) {
-	global $wgExtraNamespaces, $wgContentNamespaces,
-		$wgTranslateMessageNamespaces, $wgNamespaceProtection,
-		$wgNamespacesWithSubpages, $wgNamespacesToBeSearchedDefault;
+	global $wgExtraNamespaces, $wgContentNamespaces, $wgTranslateMessageNamespaces,
+		$wgNamespaceProtection, $wgNamespacesWithSubpages, $wgNamespacesToBeSearchedDefault;
 
 	$constant = strtoupper( "NS_$name" );
 
 	define( $constant, $id );
 	define( $constant . '_TALK', $id + 1 );
 
-	$wgExtraNamespaces[$id]   = $name;
+	$wgExtraNamespaces[$id] = $name;
 	$wgExtraNamespaces[$id + 1] = $name . '_talk';
 
-	// $wgContentNamespaces[]           = $id;
-	$wgTranslateMessageNamespaces[]  = $id;
+	// $wgContentNamespaces[] = $id;
+	$wgTranslateMessageNamespaces[] = $id;
 
-	$wgNamespacesWithSubpages[$id]   = true;
+	$wgNamespacesWithSubpages[$id] = true;
 	$wgNamespacesWithSubpages[$id + 1] = true;
 
 	$wgNamespaceProtection[$id] = array( 'translate' );

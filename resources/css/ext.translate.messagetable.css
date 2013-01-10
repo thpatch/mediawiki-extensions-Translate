@@ -1,0 +1,241 @@
+.mw-sp-translate-table {
+	width: 100%;
+	border-width: 1px;
+	border-collapse: collapse;
+}
+
+.mw-sp-translate-table th {
+	background-color: #b2b2ff;
+	border: 1px solid;
+}
+
+.mw-sp-translate-table tr.orig {
+	background-color: #ffe2e2;
+}
+
+.mw-sp-translate-table tr.new {
+	background-color: #e2ffe2;
+}
+
+.mw-sp-translate-table tr.def {
+	background-color: #f0f0ff;
+}
+
+.mw-sp-translate-table tr.ign {
+	background-color: #202020;
+}
+
+.mw-sp-translate-table tr.opt {
+	background-color: #F2F200;
+}
+
+.mw-sp-translate-table .untranslated {
+	background-color: #a2f290;
+}
+
+.mw-sp-translate-table > tbody > tr > * {
+	vertical-align: top;
+	border: 1px solid #909090;
+}
+
+.mw-translate-messagereviewbutton {
+	float: right;
+}
+
+.mw-translate-messagereviewstatus {
+	clear: right;
+	text-align: right;
+}
+
+/*
+ * Tux MessageTable
+ */
+
+/* Default colors */
+.tux-messagelist {
+	color: #252525;
+	background-color: #FFFFFF;
+	max-width: 800px;
+}
+
+.tux-message {
+	height: auto;
+	cursor: pointer;
+}
+
+.tux-message-item {
+	line-height: 50px;
+	height: 50px;
+	overflow: hidden;
+	margin-right: 5px !important;
+	margin-left: 5px !important;
+	vertical-align: middle;
+	border-bottom: 1px solid #C9C9C9;
+}
+
+.tux-message-item.translated,
+.tux-message-item.translated:hover,
+.tux-message-item.proofread,
+.tux-message-item.proofread:hover {
+	background-color: #F0F0F0;
+}
+
+.tux-message-item:hover {
+	background-color: #F8F8F8;
+}
+
+.tux-list-status span,
+.tux-list-edit {
+	padding: 5px;
+	/* 15px space for icon */
+	padding-left: 20px;
+	/* Do not combine these two, unless you also fix the
+	 * tux-status-* styles below. That includes you, Siebrand ;)
+	 */
+	background-position: left;
+	background-repeat: no-repeat;
+}
+
+.tux-info {
+	background-color: #F0F0F0;
+}
+
+.tux-list-source {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	unicode-bidi: -webkit-isolate;
+	unicode-bidi: -moz-isolate;
+	unicode-bidi: isolate;
+}
+
+.tux-list-translation {
+	white-space: nowrap;
+	color: #565656;
+	padding-left: 5px;
+	text-overflow: ellipsis;
+	unicode-bidi: -webkit-isolate;
+	unicode-bidi: -moz-isolate;
+	unicode-bidi: isolate;
+}
+
+.tux-list-message {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.tux-status-unsaved {
+	/* @embed */
+	background-image: url(../images/label-pen.png);
+	background-image: -webkit-linear-gradient(transparent, transparent), url(../images/label-pen.svg);
+	background-image: -moz-linear-gradient(transparent, transparent), url(../images/label-pen.svg);
+	background-image: linear-gradient(transparent, transparent), url(../images/label-pen.svg);
+	background-color: #C9C9C9;
+}
+
+.tux-status-translated,
+.tux-status-proofread {
+	/* @embed */
+	background-image: url(../images/label-tick.png);
+	background-image: -webkit-linear-gradient(transparent, transparent), url(../images/label-tick.svg);
+	background-image: -moz-linear-gradient(transparent, transparent), url(../images/label-tick.svg);
+	background-image: linear-gradient(transparent, transparent), url(../images/label-tick.svg);
+}
+
+.tux-status-fuzzy {
+	/* @embed */
+	background-image: url(../images/label-clock.png);
+	background-image: -webkit-linear-gradient(transparent, transparent), url(../images/label-clock.svg);
+	background-image: -moz-linear-gradient(transparent, transparent), url(../images/label-clock.svg);
+	background-image: linear-gradient(transparent, transparent), url(../images/label-clock.svg);
+}
+
+.tux-list-edit a {
+	/* @embed */
+	background: transparent url(../images/action-edit.png) left center no-repeat;
+	background-image: -webkit-linear-gradient(transparent, transparent), url(../images/action-edit.svg);
+	background-image: -moz-linear-gradient(transparent, transparent), url(../images/action-edit.svg);
+	background-image: linear-gradient(transparent, transparent), url(../images/action-edit.svg);
+	background-size: 18px 18px;
+	padding-left: 19px;
+}
+
+.tux-messagetable-loader {
+	height: 75px;
+	color: #565656;
+	padding: 15px;
+	top: 0;
+	background: #F0F0F0 16px 50%;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+}
+
+.tux-messagetable-loader-count {
+	padding: 0 0 5px 46px;
+	font-size: 25px;
+}
+
+.tux-messagetable-loader-more {
+	padding-left: 46px;
+	font-size: 15px;
+}
+
+.tux-action-bar {
+	margin: 0 !important;
+	background-color: #F0F0F0;
+	color: #252525;
+	height: 50px;
+	line-height: 50px;
+	-webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.tux-action-bar .tux-statsbar {
+	position: relative;
+	top: 30px;
+}
+
+.tux-action-bar .button {
+	height: 35px;
+	font-size: 15px;
+	vertical-align: middle;
+}
+
+/* Loading indicator: */
+
+@-webkit-keyframes tux-loading-indicator-spin {
+	from {
+		-webkit-transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+	}
+}
+
+@keyframes tux-loading-indicator-spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.tux-loading-indicator {
+	float: left;
+	background: transparent url(../images/loading.gif) right bottom no-repeat;
+	background-image: -webkit-linear-gradient(transparent, transparent), url(../images/loading.svg);
+	background-image: -moz-linear-gradient(transparent, transparent), url(../images/loading.svg);
+	background-image: linear-gradient(transparent, transparent), url(../images/loading.svg);
+	background-size: 100%;
+	-webkit-animation-name: tux-loading-indicator-spin;
+	-webkit-animation-duration: 1.5s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+	animation-name: tux-loading-indicator-spin;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	height: 34px;
+	width: 34px;
+	backface-visibility: hidden;
+}

@@ -50,7 +50,7 @@ abstract class JavaScriptFFS extends SimpleFFS {
 		 * Find the start and end of the data section (enclosed in curly braces).
 		 */
 		$dataStart = strpos( $data, '{' );
-		$dataEnd   = strrpos( $data, '}' );
+		$dataEnd = strrpos( $data, '}' );
 
 		/**
 		 * Strip everything outside of the data section.
@@ -142,6 +142,9 @@ abstract class JavaScriptFFS extends SimpleFFS {
 		 * Get and write messages.
 		 */
 		$body = '';
+		/**
+		 * @var TMessage $message
+		 */
 		foreach ( $collection as $message ) {
 			if ( strlen( $message->translation() ) === 0 ) {
 				continue;

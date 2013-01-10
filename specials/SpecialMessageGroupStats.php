@@ -52,7 +52,7 @@ class SpecialMessageGroupStats extends SpecialLanguageStats {
 				$this->target = $group->getId();
 			}
 		}
-		return (bool) $group;
+		return (bool)$group;
 	}
 
 	/// Overwritten from SpecialLanguageStats
@@ -78,7 +78,7 @@ class SpecialMessageGroupStats extends SpecialLanguageStats {
 		$out .= Html::hidden( 'title', $this->getTitle()->getPrefixedText() );
 		$out .= Html::hidden( 'x', 'D' ); // To detect submission
 		$out .= Html::openElement( 'fieldset' );
-		$out .= Html::element( 'legend', null, $this->msg( 'translate-mgs-fieldset' )->text() );
+		$out .= Html::element( 'legend', array(), $this->msg( 'translate-mgs-fieldset' )->text() );
 		$out .= Html::openElement( 'table' );
 
 		$out .= Html::openElement( 'tr' );
@@ -143,7 +143,7 @@ class SpecialMessageGroupStats extends SpecialLanguageStats {
 
 		$languages = array_keys( Language::getLanguageNames( false ) );
 		sort( $languages );
-		$this->filterPriorityLangs( $languages,  $this->target, $cache );
+		$this->filterPriorityLangs( $languages, $this->target, $cache );
 		foreach ( $languages as $code ) {
 			if ( $table->isBlacklisted( $this->target, $code ) !== null ) {
 				continue;
@@ -230,7 +230,7 @@ class SpecialMessageGroupStats extends SpecialLanguageStats {
 
 		$this->totals = MessageGroupStats::multiAdd( $this->totals, $stats );
 
-		$out  = "\t" . Html::openElement( 'tr' );
+		$out = "\t" . Html::openElement( 'tr' );
 		$out .= "\n\t\t" . $this->getMainColumnCell( $code, $extra );
 		$out .= $this->table->makeNumberColumns( $stats );
 		$state = $this->getWorkflowStateValue( $code );

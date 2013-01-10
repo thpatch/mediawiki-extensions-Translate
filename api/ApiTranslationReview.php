@@ -30,19 +30,23 @@ class ApiTranslationReview extends ApiBase {
 
 		$error = self::getReviewBlockers( $this->getUser(), $revision );
 		switch ( $error ) {
-		case '':
-			// Everything is okay
-			break;
-		case 'permissiondenied':
-			$this-dieUsage( 'Permission denied', $error );
-		case 'unknownmessage':
-			$this->dieUsage( 'Unknown message', $error );
-		case 'owntranslation':
-			$this->dieUsage( 'Cannot review own translations', $error );
-		case 'fuzzymessage':
-			$this->dieUsage( 'Cannot review fuzzy translations', $error );
-		default:
-			$this->dieUsage( 'Unknown error', $error );
+			case '':
+				// Everything is okay
+				break;
+			case 'permissiondenied':
+				$this->dieUsage( 'Permission denied', $error );
+				break; // Unreachable, but throws off code analyzer.
+			case 'unknownmessage':
+				$this->dieUsage( 'Unknown message', $error );
+				break; // Unreachable, but throws off code analyzer.
+			case 'owntranslation':
+				$this->dieUsage( 'Cannot review own translations', $error );
+				break; // Unreachable, but throws off code analyzer.
+			case 'fuzzymessage':
+				$this->dieUsage( 'Cannot review fuzzy translations', $error );
+				break; // Unreachable, but throws off code analyzer.
+			default:
+				$this->dieUsage( 'Unknown error', $error );
 		}
 
 		$ok = self::doReview( $this->getUser(), $revision );
@@ -61,6 +65,9 @@ class ApiTranslationReview extends ApiBase {
 
 	/**
 	 * Executes the real stuff. No checks done!
+	 * @param User $user
+	 * @param Revision $revision
+	 * @param null|string $comment
 	 * @return Bool, whether the action was recorded.
 	 */
 	public static function doReview( User $user, Revision $revision, $comment = null ) {
@@ -90,6 +97,8 @@ class ApiTranslationReview extends ApiBase {
 
 	/**
 	 * Validates review action by checking permissions and other things.
+	 * @param User $user
+	 * @param Revision $revision
 	 * @return string Error key or empty string if review is allowed.
 	 * @since 2012-09-24
 	 */
@@ -179,7 +188,7 @@ class ApiTranslationReview extends ApiBase {
 			return false;
 		}
 
-		return $wgUser->editToken( self::$salt );
+		return $wgUser->getEditToken( self::$salt );
 	}
 
 	public static function injectTokenFunction( &$list ) {

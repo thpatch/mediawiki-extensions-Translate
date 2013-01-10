@@ -118,8 +118,6 @@ class MediaWikiExtensionFFS extends SimpleFFS {
 	 * @return string
 	 */
 	protected function writeReal( MessageCollection $collection ) {
-		$output = '';
-		$messages = array();
 		$mangler = $this->group->getMangler();
 		$code = $collection->getLanguage();
 
@@ -151,7 +149,7 @@ class MediaWikiExtensionFFS extends SimpleFFS {
 		}
 
 		// And putting all together
-		$name = TranslateUtils::getLanguageName( $code  );
+		$name = TranslateUtils::getLanguageName( $code );
 		$native = TranslateUtils::getLanguageName( $code, true );
 
 		$section = <<<PHP
@@ -165,7 +163,7 @@ PHP;
 		$cache['sections'][$code] = $section;
 
 		// Make a copy we can alter
-		$sections =  $cache['sections'];
+		$sections = $cache['sections'];
 		$priority = array();
 
 		global $wgTranslateDocumentationLanguageCode;
@@ -187,6 +185,9 @@ PHP;
 
 	protected function generateMessageBlock( MessageCollection $collection, StringMatcher $mangler ) {
 		$block = '';
+		/**
+		 * @var TMessage $m
+		 */
 		foreach ( $collection as $key => $m ) {
 			$value = $m->translation();
 			if ( $value === null ) {

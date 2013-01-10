@@ -59,19 +59,12 @@ class TSchema2 extends Maintenance {
 			$dbw->update(
 				'revtag',
 				array( 'rt_type' => $row->rtt_name ),
-				array( 'rt_type' => (string) $row->rtt_id ),
+				array( 'rt_type' => (string)$row->rtt_id ),
 				__METHOD__
 			);
 		}
 
-		if ( is_callable( $dbw, 'dropTable' ) ) {
-			$dbw->dropTable( 'revtag_type', __METHOD__ );
-		} else {
-			// BC for MW <1.18
-			$table = $dbw->tableName( 'revtag_type' );
-			$dbw->query( "DROP TABLE $table", __METHOD__ );
-		}
-
+		$dbw->dropTable( 'revtag_type', __METHOD__ );
 	}
 
 }

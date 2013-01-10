@@ -21,12 +21,14 @@ class TPParse {
 	/** \arrayof{String,TPSection} Parsed sections indexed with placeholder.
 	 * @todo Encapsulate
 	 */
-	public $sections   = array();
+	public $sections = array();
 	/** \string Page source with content replaced with placeholders.
 	 * @todo Encapsulate
 	 */
-	public $template   = null;
-	/// \arrayof{String,TPSection} Sections saved in the database.
+	public $template = null;
+	/**
+	 * @var null|array Sections saved in the database. array( string => TPSection, ... )
+	 */
 	protected $dbSections = null;
 
 	/// Constructor
@@ -69,8 +71,8 @@ class TPParse {
 
 	/**
 	 * Gets the sections and assigns section id for new sections
-	 * @param @highest int The largest used integer id (Since 2012-08-02)
-	 * @return \arrayof{String,TPSection}
+	 * @param int $highest The largest used integer id (Since 2012-08-02)
+	 * @return array array( string => TPSection, ... )
 	 */
 	public function getSectionsForSave( $highest = 0 ) {
 		$this->loadFromDatabase();
@@ -107,7 +109,7 @@ class TPParse {
 
 	/**
 	 * Returns list of deleted sections.
-	 * @return \arrayof{String,TPsection} List of sections indexed by id.
+	 * @return array List of sections indexed by id. array( string => TPsection, ... )
 	 */
 	public function getDeletedSections() {
 		$sections = $this->getSectionsForSave();
@@ -167,10 +169,10 @@ class TPParse {
 	 * translation tags removed and outdated translation marked with a class
 	 * mw-translate-fuzzy.
 	 * @todo The class marking has to be more intelligent with span&div use.
-	 * @param $collection \type{MessageCollection} Collection that holds translated messages.
-	 * @return \string Whole page as wikitext.
+	 * @param MessageCollection $collection Collection that holds translated messages.
+	 * @return string Whole page as wikitext.
 	 */
-	public function getTranslationPageText( /*MessageCollection*/ $collection ) {
+	public function getTranslationPageText( $collection ) {
 		$text = $this->template; // The source
 
 		// For finding the messages
@@ -185,6 +187,9 @@ class TPParse {
 			$sectiontext = null;
 
 			if ( isset( $collection[$prefix . $s->id] ) ) {
+				/**
+				 * @var TMessage $msg
+				 */
 				$msg = $collection[$prefix . $s->id];
 				$translation = $msg->translation();
 
@@ -229,8 +234,8 @@ class TPParse {
 	 * Replaces variables from given text.
 	 * @todo Is plain str_replace not enough (even the loop is not needed)?
 	 *
-	 * @param $variables array
-	 * @param $text string
+	 * @param array $variables
+	 * @param string $text
 	 * @return string
 	 */
 	protected static function replaceVariables( $variables, $text ) {
@@ -244,8 +249,8 @@ class TPParse {
 	/**
 	 * Chops of trailing or preceeding whitespace intelligently to avoid
 	 * build up of unintented whitespace.
-	 * @param $matches \array
-	 * @return \string
+	 * @param array $matches
+	 * @return string
 	 */
 	protected static function replaceTagCb( $matches ) {
 		return preg_replace( '~^\n|\n\z~', '', $matches[2] );

@@ -1,6 +1,6 @@
 <?php
 /**
-  * This file a contains a message group implementation.
+ * This file a contains a message group implementation.
  *
  * @file
  * @author Niklas Laxström
@@ -18,13 +18,16 @@
 class AggregateMessageGroup extends MessageGroupBase {
 	public function exists() {
 		// Group exists if there are any subgroups.
-		$exists = (bool) $this->conf['GROUPS'];
+		$exists = (bool)$this->conf['GROUPS'];
 		return $exists;
 	}
 
 	public function load( $code ) {
 		$messages = array();
 
+		/**
+		 * @var $group MessageGroup
+		 */
 		foreach ( $this->getGroups() as $group ) {
 			$messages += $group->load( $code );
 		}
@@ -43,7 +46,7 @@ class AggregateMessageGroup extends MessageGroupBase {
 	public function getGroups() {
 		if ( !isset( $this->groups ) ) {
 			$groups = array();
-			$ids = (array) $this->conf['GROUPS'];
+			$ids = (array)$this->conf['GROUPS'];
 			$ids = MessageGroups::expandWildcards( $ids );
 
 			foreach ( $ids as $id ) {
@@ -111,7 +114,7 @@ class AggregateMessageGroup extends MessageGroupBase {
 		 * group directly. This used to iterate over the subgroups looking for
 		 * the primary group, but that might actually be under some other
 		 * aggregate message group.
-		 * @TODO: implement getMessageContent to avoid hardcoding the namespace
+		 * @todo Implement getMessageContent to avoid hardcoding the namespace
 		 * here.
 		 */
 		$title = Title::makeTitle( $this->getNamespace(), $key );
@@ -135,6 +138,9 @@ class AggregateMessageGroup extends MessageGroupBase {
 	public function getTags( $type = null ) {
 		$tags = array();
 
+		/**
+		 * @var $group MessageGroup
+		 */
 		foreach ( $this->getGroups() as $group ) {
 			$tags = array_merge_recursive( $tags, $group->getTags( $type ) );
 		}
@@ -144,14 +150,22 @@ class AggregateMessageGroup extends MessageGroupBase {
 
 	public function getKeys() {
 		$keys = array();
+		/**
+		 * @var $group MessageGroup
+		 */
 		foreach ( $this->getGroups() as $group ) {
-			// @TODO: not all oldstyle groups have getKeys yet
+			// @todo Not all oldstyle groups have getKeys yet
 			if ( method_exists( $group, 'getKeys' ) ) {
 				$keys = array_merge( $keys, $group->getKeys() );
 			} else {
 				$keys = array_keys( $group->getDefinitions() );
 			}
 		}
-		return $keys;
+
+		/* In case some groups are included directly and indirectly
+		 * via other subgroup, we might get the same keys multiple
+		 * times. Since this is a list we need to remove duplicates
+		 * manually */
+		return array_unique( $keys );
 	}
 }

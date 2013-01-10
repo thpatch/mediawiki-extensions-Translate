@@ -50,7 +50,7 @@ class TranslatablePage {
 	protected $cachedParse;
 
 	/**
-	 * @param title Title object for the page
+	 * @param Title $title Title object for the page
 	 */
 	protected function __construct( Title $title ) {
 		$this->title = $title;
@@ -63,8 +63,8 @@ class TranslatablePage {
 	 * Some functions will fail unless you set revision
 	 * parameter manually.
 	 *
-	 * @param $title Title
-	 * @param $text string
+	 * @param Title $title
+	 * @param string $text
 	 *
 	 * @return TranslatablePage
 	 */
@@ -81,8 +81,8 @@ class TranslatablePage {
 	 * The revision must belong to the title given or unspecified
 	 * behaviour will happen.
 	 *
-	 * @param $title Title
-	 * @param $revision integer Revision number
+	 * @param Title $title
+	 * @param integer $revision Revision number
 	 * @throws MWException
 	 * @return TranslatablePage
 	 */
@@ -103,7 +103,7 @@ class TranslatablePage {
 	 * Constructs a translatable page from title.
 	 * The text of last marked revision is loaded when neded.
 	 *
-	 * @param $title Title
+	 * @param Title $title
 	 * @return TranslatablePage
 	 */
 	public static function newFromTitle( Title $title ) {
@@ -131,15 +131,15 @@ class TranslatablePage {
 	public function getText() {
 		if ( $this->init === false ) {
 			switch ( $this->source ) {
-			case 'text':
-				break;
-			case 'title':
-				$this->revision = $this->getMarkedTag();
+				case 'text':
+					break;
+				case 'title':
+					$this->revision = $this->getMarkedTag();
 				// @todo FIXME: Needs break;?
-			case 'revision':
-				$rev = Revision::newFromTitle( $this->getTitle(), $this->revision );
-				$this->text = $rev->getText();
-				break;
+				case 'revision':
+					$rev = Revision::newFromTitle( $this->getTitle(), $this->revision );
+					$this->text = $rev->getText();
+					break;
 			}
 		}
 
@@ -161,7 +161,7 @@ class TranslatablePage {
 
 	/**
 	 * Manually set a revision number to use loading page text.
-	 * @param $revision integer
+	 * @param integer $revision
 	 */
 	public function setRevision( $revision ) {
 		$this->revision = $revision;
@@ -173,7 +173,7 @@ class TranslatablePage {
 
 	/**
 	 * Returns MessageGroup id (to be) used for translating this page.
-	 * @return \string
+	 * @return string
 	 */
 	public function getMessageGroupId() {
 		return self::getMessageGroupIdFromTitle( $this->getTitle() );
@@ -181,8 +181,8 @@ class TranslatablePage {
 
 	/**
 	 * Constructs MessageGroup id for any title.
-	 * @param $title Title
-	 * @return \string
+	 * @param Title $title
+	 * @return string
 	 */
 	public static function getMessageGroupIdFromTitle( Title $title ) {
 		return 'page-' . $title->getPrefixedText();
@@ -199,8 +199,8 @@ class TranslatablePage {
 
 	/**
 	 * Get translated page title.
-	 * @param $code \string Language code.
-	 * @return \string or null
+	 * @param string $code Language code.
+	 * @return string|null
 	 */
 	public function getPageDisplayTitle( $code ) {
 		$section = str_replace( ' ', '_', $this->displayTitle );
@@ -244,18 +244,18 @@ class TranslatablePage {
 			}
 
 			// Do-placehold for the whole stuff
-			$ph    = TranslateUtils::getPlaceholder();
+			$ph = TranslateUtils::getPlaceholder();
 			$start = $matches[0][0][1];
-			$len   = strlen( $matches[0][0][0] );
-			$end   = $start + $len;
+			$len = strlen( $matches[0][0][0] );
+			$end = $start + $len;
 			$text = self::index_replace( $text, $ph, $start, $end );
 
 			// Sectionise the contents
 			// Strip the surrounding tags
 			$contents = $matches[0][0][0]; // full match
 			$start = $matches[2][0][1] - $matches[0][0][1]; // bytes before actual content
-			$len   = strlen( $matches[2][0][0] ); // len of the content
-			$end   = $start + $len;
+			$len = strlen( $matches[2][0][0] ); // len of the content
+			$end = $start + $len;
 
 			$sectiontext = substr( $contents, $start, $len );
 
@@ -306,9 +306,9 @@ class TranslatablePage {
 	// Inner functionality //
 
 	/**
-	 * @param $holders
-	 * @param $text
-	 * @return mixed
+	 * @param array $holders
+	 * @param string $text
+	 * @return string
 	 */
 	public static function armourNowiki( &$holders, $text ) {
 		$re = '~(<nowiki>)(.*?)(</nowiki>)~s';
@@ -324,7 +324,7 @@ class TranslatablePage {
 
 	/**
 	 * @param $holders
-	 * @param $text
+	 * @param string $text
 	 * @return mixed
 	 */
 	public static function unArmourNowiki( $holders, $text ) {
@@ -336,10 +336,10 @@ class TranslatablePage {
 	}
 
 	/**
-	 * @param $string string
-	 * @param $rep
-	 * @param $start
-	 * @param $end
+	 * @param string $string
+	 * @param string $rep
+	 * @param int $start
+	 * @param int $end
 	 * @return string
 	 */
 	protected static function index_replace( $string, $rep, $start, $end ) {
@@ -350,9 +350,9 @@ class TranslatablePage {
 	 * Splits the content marked with \<translate> tags into sections, which
 	 * are separated with with two or more newlines. Extra whitespace is captured
 	 * in the template and not included in the sections.
-	 * @param $sections Array of placeholder => TPSection.
-	 * @param $text Contents of one pair of \<translate> tags.
-	 * @return \string Templace with placeholders for sections, which itself are added to $sections.
+	 * @param array $sections Array of placeholder => TPSection.
+	 * @param string $text Contents of one pair of \<translate> tags.
+	 * @return string Template with placeholders for sections, which itself are added to $sections.
 	 */
 	protected function sectionise( &$sections, $text ) {
 		$flags = PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE;
@@ -380,7 +380,7 @@ class TranslatablePage {
 	 * May throw a TPException if there is error with existing section
 	 * markers.
 	 *
-	 * @param $content string Content of one section
+	 * @param string $content Content of one section
 	 * @throws TPException
 	 * @return TPSection
 	 */
@@ -429,7 +429,8 @@ class TranslatablePage {
 	/**
 	 * Adds a tag which indicates that this page is
 	 * suitable for translation.
-	 * @param $revision integer
+	 * @param integer $revision
+	 * @param null|string $value
 	 */
 	public function addMarkedTag( $revision, $value = null ) {
 		$this->addTag( 'tp:mark', $revision, $value );
@@ -439,13 +440,16 @@ class TranslatablePage {
 	/**
 	 * Adds a tag which indicates that this page source is
 	 * ready for marking for translation.
-	 * @param $revision integer
+	 * @param integer $revision
 	 */
 	public function addReadyTag( $revision ) {
 		$this->addTag( 'tp:tag', $revision );
 	}
 
 	/**
+	 * @param string $tag Tag name
+	 * @param int $revision Revision ID to add tag for
+	 * @param mixed $value Optional. Value to be stored as serialized with | as separator
 	 * @throws MWException
 	 */
 	protected function addTag( $tag, $revision, $value = null ) {
@@ -475,19 +479,17 @@ class TranslatablePage {
 
 	/**
 	 * Returns the latest revision which has marked tag, if any.
-	 * @param $db Database connection type
-	 * @return integer|false
+	 * @return integer|bool false
 	 */
-	public function getMarkedTag( $db = DB_SLAVE ) {
+	public function getMarkedTag() {
 		return $this->getTag( 'tp:mark' );
 	}
 
 	/**
 	 * Returns the latest revision which has ready tag, if any.
-	 * @param $db Database connection type
-	 * @return integer|false
+	 * @return int|bool false
 	 */
-	public function getReadyTag( $db = DB_SLAVE ) {
+	public function getReadyTag() {
 		return $this->getTag( 'tp:tag' );
 	}
 
@@ -515,8 +517,8 @@ class TranslatablePage {
 
 	/**
 	 * @param $tag
-	 * @param $dbt int
-	 * @return array|bool false if tag is not found
+	 * @param int $dbt
+	 * @return array|bool False if tag is not found
 	 */
 	protected function getTag( $tag, $dbt = DB_SLAVE ) {
 		if ( !$this->getTitle()->exists() ) {
@@ -548,8 +550,8 @@ class TranslatablePage {
 	}
 
 	/**
-	 * @param $code bool|string
-	 * @return String
+	 * @param bool|string $code
+	 * @return string
 	 */
 	public function getTranslationUrl( $code = false ) {
 		$translate = SpecialPage::getTitleFor( 'Translate' );
@@ -576,6 +578,9 @@ class TranslatablePage {
 		return $db->select( 'revtag', $fields, $conds, __METHOD__, $options );
 	}
 
+	/**
+	 * @return Title[]
+	 */
 	public function getTranslationPages() {
 		// Fetch the available translation pages from database
 		// Avoid replication lag issues
@@ -598,6 +603,9 @@ class TranslatablePage {
 		// Make sure we only get translation subpages while ignoring others
 		$codes = Language::getLanguageNames( false );
 		$prefix = $this->getTitle()->getText();
+		/**
+		 * @var Title $title
+		 */
 		foreach ( $titles as $title ) {
 			list( $name, $code ) = TranslateUtils::figureMessage( $title->getText() );
 			if ( !isset( $codes[$code] ) || $name !== $prefix ) {
@@ -611,7 +619,7 @@ class TranslatablePage {
 
 	/**
 	 * Returns a list section ids.
-	 * @return List of string
+	 * @return string[] List of string
 	 * @since 2012-08-06
 	 */
 	protected function getSections() {
@@ -629,9 +637,9 @@ class TranslatablePage {
 
 	/**
 	 * Returns a list of translation unit pages.
-	 * @param $set  String Can be either 'all', or 'active'
-	 * @param $code String Only list unit pages in given language.
-	 * @return List of Titles.
+	 * @param string $set Can be either 'all', or 'active'
+	 * @param string|bool $code Only list unit pages in given language.
+	 * @return Title[] List of Titles.
 	 * @since 2012-08-06
 	 */
 	public function getTranslationUnitPages( $set = 'active', $code = false ) {
@@ -682,7 +690,6 @@ class TranslatablePage {
 		return $units;
 	}
 
-
 	public function getTranslationPercentages( $force = false ) {
 		global $wgRequest;
 
@@ -724,7 +731,7 @@ class TranslatablePage {
 	}
 
 	/**
-	 * @param $collection MessageCollection
+	 * @param MessageCollection $collection
 	 * @param $markedRevs
 	 * @return float|int
 	 */
@@ -740,6 +747,9 @@ class TranslatablePage {
 
 		$total = 0;
 
+		/**
+		 * @var TMessage $message
+		 */
 		foreach ( $collection as $key => $message ) {
 			$score = 1;
 
@@ -753,7 +763,9 @@ class TranslatablePage {
 				 */
 				$rev = $this->getTransrev( $key . '/' . $collection->code );
 				foreach ( $markedRevs as $r ) {
-					if ( $rev === $r->rt_revision ) break;
+					if ( $rev === $r->rt_revision ) {
+						break;
+					}
 					$changed = explode( '|', unserialize( $r->rt_value ) );
 
 					// Get a suitable section key
@@ -789,7 +801,7 @@ class TranslatablePage {
 	}
 
 	/**
-	 * @param $title Title
+	 * @param Title $title
 	 * @return bool|TranslatablePage
 	 */
 	public static function isTranslationPage( Title $title ) {
@@ -833,7 +845,7 @@ class TranslatablePage {
 	}
 
 	/**
-	 * @param $title Title
+	 * @param Title $title
 	 * @return bool
 	 */
 	public static function isSourcePage( Title $title ) {
@@ -853,7 +865,9 @@ class TranslatablePage {
 		return in_array( $title->getArticleID(), $cache );
 	}
 
-	/// List of page ids where the latest revision is either tagged or marked
+	/**
+	 * Get a list of page ids where the latest revision is either tagged or marked
+	 */
 	public static function getTranslatablePages() {
 		// Avoid replication lag issues
 		$dbr = wfGetDB( DB_MASTER );

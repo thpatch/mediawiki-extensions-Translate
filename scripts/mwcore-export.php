@@ -24,7 +24,7 @@ Options:
   --lang        Comma separated list of language codes or *
   --type        namespace, special or magic
 EOT
-);
+	);
 	exit( 1 );
 }
 
@@ -95,6 +95,9 @@ foreach ( $langs as $l ) {
 
 	$variable = preg_quote( $matches[1], '~' );
 
+	/**
+	 * @var MessageGroupOld $group
+	 */
 	$file = $group->getMessageFileWithPath( $l );
 
 	if ( !file_exists( $file ) ) {

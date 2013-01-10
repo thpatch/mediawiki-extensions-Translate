@@ -36,7 +36,7 @@ Options:
   --no-fuzzy    Do not include any messages marked as fuzzy/outdated.
   --codemaponly Only export languages that have a codeMap entry.
 EOT
-);
+	);
 	exit( 1 );
 }
 
@@ -98,6 +98,7 @@ if ( isset( $options['codemaponly'] ) ) {
 	$codemapOnly = true;
 }
 
+$groupIds = array();
 if ( isset( $options['group'] ) ) {
 	$groupIds = explode( ',', trim( $options['group'] ) );
 }
@@ -125,6 +126,9 @@ if ( !count( $groups ) ) {
 $changeFilter = false;
 if ( isset( $options['hours'] ) ) {
 	$namespaces = array();
+	/**
+	 * @var MessageGroup $group
+	 */
 	foreach ( $groups as $group ) {
 		$namespaces[$group->getNamespace()] = true;
 	}
@@ -147,10 +151,10 @@ if ( isset( $options['hours'] ) ) {
 	}
 }
 
-	$skipGroups = array();
-	if ( isset( $options['skipgroup'] ) ) {
-		$skipGroups = array_map( 'trim', explode( ',', $options['skipgroup'] ) );
-	}
+$skipGroups = array();
+if ( isset( $options['skipgroup'] ) ) {
+	$skipGroups = array_map( 'trim', explode( ',', $options['skipgroup'] ) );
+}
 
 foreach ( $groups as $groupId => $group ) {
 	if ( in_array( $groupId, $skipGroups ) ) {
@@ -230,8 +234,8 @@ foreach ( $groups as $groupId => $group ) {
 			// or message documentation
 			global $wgTranslateDocumentationLanguageCode;
 			if ( $lang !== $wgTranslateDocumentationLanguageCode
-				&& $lang !== $sourceLanguage )
-			{
+				&& $lang !== $sourceLanguage
+			) {
 				$collection->filter( 'ignored' );
 			}
 

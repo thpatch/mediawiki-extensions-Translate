@@ -4,7 +4,7 @@
  *
  * @file
  * @author Niklas Laxström
- * @copyright Copyright © 2012, Niklas Laxström
+ * @copyright Copyright © 2012-2013, Niklas Laxström
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  * @ingroup TTMServer
  */
@@ -30,7 +30,7 @@ class DatabaseTTMServer extends TTMServer implements WritableTTMServer, Readable
 			return false;
 		}
 
-		$mkey  = $handle->getKey();
+		$mkey = $handle->getKey();
 		$group = $handle->getGroup();
 		$targetLanguage = $handle->getCode();
 		$sourceLanguage = $group->getSourceLanguage();
@@ -59,9 +59,6 @@ class DatabaseTTMServer extends TTMServer implements WritableTTMServer, Readable
 			'tms_text' => $definition,
 		);
 
-		$extra = $this->getExtraConditions();
-		$conds = array_merge( $conds, $extra );
-
 		$sid = $dbw->selectField( 'translate_tms', 'tms_sid', $conds, __METHOD__ );
 		if ( $sid === false ) {
 			$sid = $this->insertSource( $context, $sourceLanguage, $definition );
@@ -75,18 +72,15 @@ class DatabaseTTMServer extends TTMServer implements WritableTTMServer, Readable
 		$dbw->delete( 'translate_tmt', $deleteConds, __METHOD__ );
 
 		// Insert the new translation
-		$row = $deleteConds + array(
-			'tmt_text' => $targetText,
-		);
+		if ( $targetText !== null ) {
+			$row = $deleteConds + array(
+				'tmt_text' => $targetText,
+			);
 
-		$dbw->insert( 'translate_tmt', $row, __METHOD__ );
+			$dbw->insert( 'translate_tmt', $row, __METHOD__ );
+		}
 
 		return true;
-	}
-
-	/// For subclasses
-	protected function getExtraConditions() {
-		return array();
 	}
 
 	protected function insertSource( Title $context, $sourceLanguage, $text ) {
@@ -97,9 +91,6 @@ class DatabaseTTMServer extends TTMServer implements WritableTTMServer, Readable
 			'tms_text' => $text,
 			'tms_context' => $context->getPrefixedText(),
 		);
-
-		$extra = $this->getExtraConditions();
-		$row = array_merge( $row, $extra );
 
 		$dbw = $this->getDB( DB_MASTER );
 		$dbw->insert( 'translate_tms', $row, __METHOD__ );
@@ -177,7 +168,7 @@ class DatabaseTTMServer extends TTMServer implements WritableTTMServer, Readable
 	public function batchInsertTranslations( array $batch ) {
 		$rows = array();
 		foreach ( $batch as $key => $data ) {
-			list( $title, $language, $text ) = $data;
+			list( , $language, $text ) = $data;
 			$rows[] = array(
 				'tmt_sid' => $this->sids[$key],
 				'tmt_lang' => $language,
@@ -229,14 +220,10 @@ class DatabaseTTMServer extends TTMServer implements WritableTTMServer, Readable
 			'tms_sid = tmt_sid',
 		);
 
-		$extra = $this->getExtraConditions();
-		$fields = array_merge( $fields, array_keys( $extra ) );
-		$conds = array_merge( $conds, $extra );
-
 		$fulltext = $this->filterForFulltext( $sourceLanguage, $text );
 		if ( $fulltext ) {
 			$tables[] = 'translate_tmf';
-			$list = implode( ' ',  $fulltext );
+			$list = implode( ' ', $fulltext );
 			$conds[] = 'tmf_sid = tmt_sid';
 			$conds[] = "MATCH(tmf_text) AGAINST( '$list' )";
 		}
@@ -248,9 +235,17 @@ class DatabaseTTMServer extends TTMServer implements WritableTTMServer, Readable
 
 	protected function processQueryResults( $res, $text, $sourceLanguage, $targetLanguage ) {
 		wfProfileIn( __METHOD__ );
+		$timeLimit = microtime( true ) + 5;
+
 		$lenA = mb_strlen( $text );
 		$results = array();
 		foreach ( $res as $row ) {
+			if ( microtime( true ) > $timeLimit ) {
+				// Having no suggestions is better than preventing translation
+				// altogether by timing out the request :(
+				break;
+			}
+
 			$a = $text;
 			$b = $row->tms_text;
 			$lenB = mb_strlen( $b );

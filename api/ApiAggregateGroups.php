@@ -70,19 +70,23 @@ class ApiAggregateGroups extends ApiBase {
 			TranslateMetadata::setSubgroups( $aggregateGroup, $subgroups );
 
 			$logparams = array(
-				'user' => $wgUser->getName() ,
-				// TODO: Why is this name and not id?
+				'user' => $wgUser->getName(),
+				// @todo Why is this name and not id?
 				'aggregategroup' => TranslateMetadata::get( $aggregateGroup, 'name' ),
 			);
 
-			$title = $group ? $group->getTitle() : Title::newFromText( "Group:$id" );
+			/* Note that to allow removing no longer existing groups from
+			 * aggregate message groups, the message group object $group
+			 * might not always be available. In this case we need to fake
+			 * some title. */
+			$title = $group ? $group->getTitle() : Title::newFromText( "Group:$subgroupId" );
 			$logger->addEntry( $action, $title, null, array( serialize( $logparams ) ), $wgUser );
 		} elseif ( $action === 'remove' ) {
 			if ( !isset( $params['aggregategroup'] ) ) {
 				$this->dieUsageMsg( array( 'missingparam', 'aggregategroup' ) );
 			}
 			TranslateMetadata::deleteGroup( $params['aggregategroup'] );
-			// TODO: logging
+			// @todo Logging
 
 		} elseif ( $action === 'add' ) {
 			if ( !isset( $params['groupname'] ) ) {
@@ -111,7 +115,7 @@ class ApiAggregateGroups extends ApiBase {
 			// Once new aggregate group added, we need to show all the pages that can be added to that.
 			$output['groups'] = self::getAllPages();
 			$output['aggregategroupId'] = $aggregateGroupId;
-			// TODO: logging
+			// @todo Logging
 
 		}
 
@@ -123,9 +127,9 @@ class ApiAggregateGroups extends ApiBase {
 		MessageIndexRebuildJob::newJob()->insert();
 	}
 
-	protected function generateAggregateGroupId ( $aggregateGroupName, $prefix = "agg-" ) {
+	protected function generateAggregateGroupId( $aggregateGroupName, $prefix = "agg-" ) {
 		// The database field has maximum limit of 200 bytes
-		if ( strlen( $aggregateGroupName ) + strlen( $prefix )  >= 200 ) {
+		if ( strlen( $aggregateGroupName ) + strlen( $prefix ) >= 200 ) {
 			return $prefix . substr( sha1( $aggregateGroupName ), 0, 5 );
 		} else {
 			return $prefix . preg_replace( '/[\x00-\x1f\x23\x27\x2c\x2e\x3c\x3e\x5b\x5d\x7b\x7c\x7d\x7f\s]+/i', '_', $aggregateGroupName );
@@ -139,6 +143,7 @@ class ApiAggregateGroups extends ApiBase {
 	public function getTokenSalt() {
 		return self::$salt;
 	}
+
 	public function needsToken() {
 		return true;
 	}

@@ -4,17 +4,16 @@
  *
  * @file
  * @author Niklas Laxström
- * @copyright Copyright © 2008-2010, Niklas Laxström
+ * @copyright Copyright © 2008-2012, Niklas Laxström
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
 /**
- * Job for updating translation pages when translation or template changes.
+ * Job for updating translation pages when translation or message definition changes.
  *
  * @ingroup JobQueue
  */
 class MessageUpdateJob extends Job {
-
 	public static function newJob( Title $target, $content, $fuzzy = false ) {
 		$params = array(
 			'content' => $content,
@@ -30,19 +29,25 @@ class MessageUpdateJob extends Job {
 	}
 
 	function run() {
+		global $wgTranslateDocumentationLanguageCode;
+
 		$title = $this->title;
 		$params = $this->params;
 		$user = FuzzyBot::getUser();
 		$flags = EDIT_DEFER_UPDATES | EDIT_FORCE_BOT;
 
-		$article = new Article( $title, 0 );
+		$wikiPage = WikiPage::factory( $title );
 		$summary = wfMessage( 'translate-manage-import-summary' )->plain();
-		$article->doEdit( $params['content'], $summary, $flags, false, $user );
+		$wikiPage->doEdit( $params['content'], $summary, $flags, false, $user );
 
+		// NOTE: message documentation is excluded from fuzzying!
 		if ( $params['fuzzy'] ) {
 			$handle = new MessageHandle( $title );
 			$key = $handle->getKey();
-			$languages = array_keys( Language::getLanguageNames( false ) );
+
+			$languages = TranslateUtils::getLanguageNames( 'en' );
+			unset( $languages[$wgTranslateDocumentationLanguageCode] );
+			$languages = array_keys( $languages );
 
 			$dbw = wfGetDB( DB_MASTER );
 			$fields = array( 'page_id', 'page_latest' );
@@ -64,7 +69,7 @@ class MessageUpdateJob extends Job {
 			$inserts = array();
 			foreach ( $res as $row ) {
 				$inserts[] = array(
-					'rt_type' => Revtag::getType( 'fuzzy' ),
+					'rt_type' => RevTag::getType( 'fuzzy' ),
 					'rt_page' => $row->page_id,
 					'rt_revision' => $row->page_latest,
 				);
@@ -75,5 +80,4 @@ class MessageUpdateJob extends Job {
 
 		return true;
 	}
-
 }

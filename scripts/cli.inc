@@ -33,14 +33,14 @@ require_once( "$IP/maintenance/commandLine.inc" );
 function STDOUT( $str, $channel = null, $force = false ) {
 	global $options;
 
-	if ( isset($options['quiet']) &&!$force ) {
+	if ( isset( $options['quiet'] ) && !$force ) {
 		return;
 	}
 
 	static $lastChannel = null;
 	static $lineStart = true;
 
-	if ( $channel !== null && ($lineStart || $channel === $lastChannel) ) {
+	if ( $channel !== null && ( $lineStart || $channel === $lastChannel ) ) {
 		fwrite( STDOUT, $str );
 	} elseif ( $str === false ) {
 		// Cleanup
@@ -77,7 +77,7 @@ function STDERR( $message, $channel = null ) {
 }
 
 ///@{
-register_shutdown_function('STDOUT', false);
+register_shutdown_function( 'STDOUT', false );
 ///@}
 
 /**
@@ -87,15 +87,15 @@ register_shutdown_function('STDOUT', false);
 class Cli {
 	/**
 	 * Parses list of language codes to an array.
-	 * @param $codes \string Command line input.
-	 * @return \list{String} Language codes.
+	 * @param string $codes Command line input.
+	 * @return string[] Language codes.
 	 */
-	public static function parseLanguageCodes( /* string */ $codes ) {
+	public static function parseLanguageCodes( $codes ) {
 		$langs = array_map( 'trim', explode( ',', $codes ) );
 		if ( $langs[0] === '*' ) {
 			$languages = Language::getLanguageNames();
-			ksort($languages);
-			$langs = array_keys($languages);
+			ksort( $languages );
+			$langs = array_keys( $languages );
 		}
 
 		return $langs;

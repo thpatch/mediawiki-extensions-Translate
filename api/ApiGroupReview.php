@@ -49,8 +49,8 @@ class ApiGroupReview extends ApiBase {
 
 		if ( is_array( $stateConfig[$targetState] )
 			&& isset( $stateConfig[$targetState]['right'] )
-			&& !$user->isAllowed( $stateConfig[$targetState]['right'] ) )
-		{
+			&& !$user->isAllowed( $stateConfig[$targetState]['right'] )
+		) {
 			$this->dieUsage( 'Permission denied', 'permissiondenied' );
 		}
 
@@ -176,8 +176,9 @@ class ApiGroupReview extends ApiBase {
 	public function getExamples() {
 		$groups = MessageGroups::getAllGroups();
 		$group = key( $groups );
+		$group = rawurlencode( $group );
 		return array(
-			"api.php?action=groupreview&group=$group&language=de&state=ready",
+			"api.php?action=groupreview&group=$group&language=de&state=ready&token=foo",
 		);
 	}
 
@@ -191,7 +192,7 @@ class ApiGroupReview extends ApiBase {
 			return false;
 		}
 
-		return $wgUser->editToken( self::$salt );
+		return $wgUser->getEditToken( self::$salt );
 	}
 
 	public static function injectTokenFunction( &$list ) {

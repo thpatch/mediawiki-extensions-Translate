@@ -39,7 +39,9 @@ class GettextFFS extends SimpleFFS {
 		$parsedData['AUTHORS'] = $authors;
 
 		foreach ( $parsedData['MESSAGES'] as $key => $value ) {
-			if ( $value === '' ) unset( $parsedData['MESSAGES'][$key] );
+			if ( $value === '' ) {
+				unset( $parsedData['MESSAGES'][$key] );
+			}
 		}
 
 		return $parsedData;
@@ -163,9 +165,9 @@ class GettextFFS extends SimpleFFS {
 		}
 
 		$item = array(
-			'ctxt'  => '',
-			'id'    => '',
-			'str'   => '',
+			'ctxt' => false,
+			'id' => '',
+			'str' => '',
 			'flags' => array(),
 			'comments' => array(),
 		);
@@ -283,13 +285,21 @@ class GettextFFS extends SimpleFFS {
 	public static function generateKeyFromItem( array $item, $algorithm = 'legacy' ) {
 		$lang = Language::factory( 'en' );
 
+		if ( $item['ctxt'] === '' ) {
+			/* Messages with msgctxt as empty string should be different
+			 * from messages without any msgctxt. To avoid BC break make
+			 * the empty ctxt a special case */
+			$hash = sha1( $item['id'] . 'MSGEMPTYCTXT' );
+		} else {
+			$hash = sha1( $item['ctxt'] . $item['id'] );
+		}
+
 		if ( $algorithm === 'simple' ) {
-			$hash = substr( sha1( $item['ctxt'] . $item['id'] ), 0, 6 );
+			$hash = substr( $hash, 0, 6 );
 			$snippet = $lang->truncate( $item['id'], 30, '' );
 			$snippet = str_replace( ' ', '_', trim( $snippet ) );
 		} else { // legacy
 			global $wgLegalTitleChars;
-			$hash = sha1( $item['ctxt'] . $item['id'] );
 			$snippet = $item['id'];
 			$snippet = preg_replace( "/[^$wgLegalTitleChars]/", ' ', $snippet );
 			$snippet = preg_replace( "/[:&%\/_]/", ' ', $snippet );
@@ -317,13 +327,14 @@ class GettextFFS extends SimpleFFS {
 		$data = stripcslashes( $data );
 
 		if ( preg_match( '/\s$/', $data ) ) {
-			if ( $whitespace === 'mark' )
+			if ( $whitespace === 'mark' ) {
 				$data .= '\\';
-			elseif ( $whitespace === 'trim' )
+			} elseif ( $whitespace === 'trim' ) {
 				$data = rtrim( $data );
-			else
+			} else {
 				// @todo Only triggered if there is trailing whitespace
 				throw new MWException( 'Unknown action for whitespace' );
+			}
 		}
 
 		return $data;
@@ -529,13 +540,19 @@ PHP;
 	protected function formatDocumentation( $key ) {
 		global $wgTranslateDocumentationLanguageCode;
 
-		if ( !$this->offlineMode ) return '';
+		if ( !$this->offlineMode ) {
+			return '';
+		}
 
 		$code = $wgTranslateDocumentationLanguageCode;
-		if ( !$code ) return '';
+		if ( !$code ) {
+			return '';
+		}
 
 		$documentation = TranslateUtils::getMessageContent( $key, $code, $this->group->getNamespace() );
-		if ( !is_string( $documentation ) ) return '';
+		if ( !is_string( $documentation ) ) {
+			return '';
+		}
 
 		$lines = explode( "\n", $documentation );
 		$out = '';
@@ -564,9 +581,13 @@ PHP;
 		$rulefile = dirname( __FILE__ ) . '/../data/plural-gettext.txt';
 		$rules = file_get_contents( $rulefile );
 		foreach ( explode( "\n", $rules ) as $line ) {
-			if ( trim( $line ) === '' ) continue;
+			if ( trim( $line ) === '' ) {
+				continue;
+			}
 			list( $rulecode, $rule ) = explode( "\t", $line );
-			if ( $rulecode === $code ) return $rule;
+			if ( $rulecode === $code ) {
+				return $rule;
+			}
 		}
 		return '';
 	}

@@ -29,6 +29,11 @@ require_once( "$IP/maintenance/Maintenance.php" );
 class ProcessMessageChanges extends Maintenance {
 	protected $changes = array();
 
+	/**
+	 * @var int
+	 */
+	protected $counter;
+
 	public function __construct() {
 		parent::__construct();
 		$this->mDescription = 'Script for processing message changes in file based message groups';
@@ -41,6 +46,9 @@ class ProcessMessageChanges extends Maintenance {
 	}
 
 	public function execute() {
+		/**
+		 * @var $groups MessageGroupBase[]
+		 */
 		$groups = MessageGroups::getGroupsByType( 'FileBasedMessageGroup' );
 		$whitelist = $this->getOption( 'group' );
 
@@ -136,12 +144,19 @@ class ProcessMessageChanges extends Maintenance {
 		wfProfileIn( __METHOD__ );
 		/* This throws a warning if message definitions are not yet
 		 * cached and will read the file for definitions. */
+		wfSuppressWarnings();
 		$wiki = $group->initCollection( $code );
+		wfRestoreWarnings();
 		$wiki->filter( 'hastranslation', false );
 		$wiki->loadTranslations();
 		$wikiKeys = $wiki->getMessageKeys();
 
 		// By-pass cached message definitions
+		$ffs = $group->getFFS();
+		if ( $code === $group->getSourceLanguage() && !$ffs->exists( $code ) ) {
+			$path = $group->getSourceFilePath( $code );
+			$this->error( "Source message file for {$group->getId()} does not exist. Looking for $path", 1 );
+		}
 		$file = $group->getFFS()->read( $code );
 		if ( !isset( $file['MESSAGES'] ) ) {
 			error_log( "{$group->getId()} has an FFS - the FFS didn't return cake for $code" );
@@ -219,7 +234,7 @@ class ProcessMessageChanges extends Maintenance {
 	 * Filters groups.
 	 *
 	 * @since 2012-10-15
-	 * @param MessageGroupBase[] $allGroups
+	 * @param MessageGroupBase[] $groups
 	 * @param string $whitelist Comma separated list of group IDs that should be processed (can
 	 * use * as wildcard)
 	 * @return array of filtered groups

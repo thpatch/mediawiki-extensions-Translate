@@ -23,6 +23,11 @@ class SpecialManageGroups extends SpecialPage {
 	const CHANGEFILE = 'translate_messagechanges.cdb';
 	const RIGHT = 'translate-manage';
 
+	/**
+	 * @var DifferenceEngine
+	 */
+	protected $diff;
+
 	public function __construct() {
 		// Anyone is allowed to see, but actions are restricted
 		parent::__construct( 'ManageMessageGroups' );
@@ -77,11 +82,11 @@ class SpecialManageGroups extends SpecialPage {
 		$this->diff = $diff;
 
 		$out = $this->getOutput();
-		$out->addHtml( ''
-			. Html::openElement( 'form', array( 'method' => 'post' ) )
-			. Html::hidden( 'title', $this->getTitle()->getPrefixedText() )
-			. Html::hidden( 'token', $this->getUser()->getEditToken() )
-			. $this->getLegend()
+		$out->addHtml( '' .
+			Html::openElement( 'form', array( 'method' => 'post' ) ) .
+			Html::hidden( 'title', $this->getTitle()->getPrefixedText() ) .
+			Html::hidden( 'token', $this->getUser()->getEditToken() ) .
+			$this->getLegend()
 		);
 
 
@@ -107,7 +112,9 @@ class SpecialManageGroups extends SpecialPage {
 					foreach ( $messages as $params ) {
 						// Constructing title objects is way slower
 						$key = $params['key'];
-						if ( $isCap ) $key = $wgContLang->ucfirst( $key );
+						if ( $isCap ) {
+							$key = $wgContLang->ucfirst( $key );
+						}
 						$lb->add( $ns, "$key/$code" );
 					}
 				}
@@ -139,7 +146,14 @@ class SpecialManageGroups extends SpecialPage {
 		$out->addHtml( Html::closeElement( 'form' ) );
 	}
 
-	protected function formatChange( $group, $code, $type, $params ) {
+	/**
+	 * @param MessageGroup $group
+	 * @param string $code
+	 * @param string $type
+	 * @param array $params
+	 * @return string HTML
+	 */
+	protected function formatChange( MessageGroup $group, $code, $type, $params ) {
 		$key = $params['key'];
 		$title = Title::makeTitleSafe( $group->getNamespace(), "$key/$code" );
 		$id = self::changeId( $group->getId(), $code, $type, $key );
@@ -157,6 +171,7 @@ class SpecialManageGroups extends SpecialPage {
 			return '';
 		}
 
+		$text = '';
 		if ( $type === 'deletion' ) {
 			$wiki = Revision::newFromTitle( $title )->getText();
 			$this->diff->setText( $wiki, '' );
@@ -180,11 +195,11 @@ class SpecialManageGroups extends SpecialPage {
 			}
 
 			$this->diff->setText( $wiki, $params['content'] );
-			$text = $this->diff->getDiff( Linker::link( $title ), $actions );
+			$text .= $this->diff->getDiff( Linker::link( $title ), $actions );
 		}
 
 		$hidden = Html::hidden( $id, 1 );
-		$text = $text . $hidden;
+		$text .= $hidden;
 		$classes = "mw-translate-smg-change smg-change-$type";
 		return Html::rawElement( 'div', array( 'class' => $classes ), $text );
 	}
@@ -266,7 +281,7 @@ class SpecialManageGroups extends SpecialPage {
 	 */
 	static function tabify( Skin $skin, array &$tabs ) {
 		$title = $skin->getTitle();
-		list( $alias, $sub ) = SpecialPageFactory::resolveAlias( $title->getText() );
+		list( $alias, ) = SpecialPageFactory::resolveAlias( $title->getText() );
 
 		$pagesInGroup = array(
 			'ManageMessageGroups' => 'namespaces',

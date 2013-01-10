@@ -92,11 +92,14 @@ class SpecialPageTranslationDeletePage extends UnlistedSpecialPage {
 		$subactionText = $request->getText( 'subaction' );
 		switch ( $subactionText ) {
 			case $this->msg( 'pt-deletepage-action-check' )->text():
-				$subaction = 'check'; break;
+				$subaction = 'check';
+				break;
 			case $this->msg( 'pt-deletepage-action-perform' )->text():
-				$subaction = 'perform'; break;
+				$subaction = 'perform';
+				break;
 			case $this->msg( 'pt-deletepage-action-other' )->text():
-				$subaction = ''; break;
+				$subaction = '';
+				break;
 			default:
 				$subaction = '';
 		}
@@ -162,7 +165,7 @@ class SpecialPageTranslationDeletePage extends UnlistedSpecialPage {
 		$form = array();
 		$form[] = Xml::fieldset( $this->msg( 'pt-deletepage-any-legend' )->text() );
 		$form[] = Html::openElement( 'form', $formParams );
-		$form[] = Html::hidden( 'wpEditToken', $this->getUser()->editToken() );
+		$form[] = Html::hidden( 'wpEditToken', $this->getUser()->getEditToken() );
 		$this->addInputLabel( $form, $this->msg( 'pt-deletepage-current' )->text(), 'wpTitle', 30, $this->text );
 		$this->addInputLabel( $form, $this->msg( 'pt-deletepage-reason' )->text(), 'reason', 60, $this->reason );
 		$form[] = Xml::submitButton( $this->msg( 'pt-deletepage-action-check' )->text(), $subaction );
@@ -173,14 +176,14 @@ class SpecialPageTranslationDeletePage extends UnlistedSpecialPage {
 
 	/**
 	 * Shortcut for keeping the code at least a bit readable. Adds label and input into $form array.
-	 * @param $form \list{String} Array where input element and label is appended.
-	 * @param $label \string Label text.
-	 * @param $name \string Name attribute.
-	 * @param $size \int Size attribute of the input element. Default false.
-	 * @param $text \string Text of the value attribute. Default false.
-	 * @param $attribs \array Extra attributes. Default empty array.
+	 * @param array $form \list{String} Array where input element and label is appended.
+	 * @param string $label Label text.
+	 * @param string $name Name attribute.
+	 * @param int|bool $size Size attribute of the input element. Default false.
+	 * @param string|bool $text Text of the value attribute. Default false.
+	 * @param array $attribs Extra attributes. Default empty array.
 	 */
-	protected function addInputLabel( &$form, $label, $name, $size = false , $text = false, $attribs = array() ) {
+	protected function addInputLabel( &$form, $label, $name, $size = false, $text = false, $attribs = array() ) {
 		$br = Html::element( 'br' );
 		list( $label, $input ) = Xml::inputLabelSep( $label, $name, $name, $size, $text, $attribs );
 		$form[] = $label . $br;
@@ -220,8 +223,14 @@ class SpecialPageTranslationDeletePage extends UnlistedSpecialPage {
 		$out->wrapWikiMsg( '=== $1 ===', 'pt-deletepage-list-other' );
 		$subpages = $this->getSubpages();
 		foreach ( $subpages as $old ) {
-			if ( TranslatablePage::isTranslationPage( $old ) ) continue;
-			if ( $this->doSubpages ) { $count++; }
+			if ( TranslatablePage::isTranslationPage( $old ) ) {
+				continue;
+			}
+
+			if ( $this->doSubpages ) {
+				$count++;
+			}
+
 			$this->printChangeLine( $old, $this->doSubpages );
 		}
 
@@ -229,7 +238,7 @@ class SpecialPageTranslationDeletePage extends UnlistedSpecialPage {
 		$out->addWikiMsg( 'pt-deletepage-list-count', $this->getLanguage()->formatNum( $count ) );
 
 		$br = Html::element( 'br' );
-		$readonly =  array( 'readonly' => 'readonly' );
+		$readonly = array( 'readonly' => 'readonly' );
 
 		$subaction = array( 'name' => 'subaction' );
 		$formParams = array( 'method' => 'post', 'action' => $this->getTitle( $this->text )->getLocalURL() );
@@ -241,7 +250,7 @@ class SpecialPageTranslationDeletePage extends UnlistedSpecialPage {
 			$form[] = Xml::fieldset( $this->msg( 'pt-deletepage-full-legend' )->text() );
 		}
 		$form[] = Html::openElement( 'form', $formParams );
-		$form[] = Html::hidden( 'wpEditToken', $this->getUser()->editToken() );
+		$form[] = Html::hidden( 'wpEditToken', $this->getUser()->getEditToken() );
 		$this->addInputLabel( $form, $this->msg( 'pt-deletepage-current' )->text(), 'wpTitle', 30, $this->text, $readonly );
 		$this->addInputLabel( $form, $this->msg( 'pt-deletepage-reason' )->text(), 'reason', 60, $this->reason );
 		$form[] = Xml::checkLabel( $this->msg( 'pt-deletepage-subpages' )->text(), 'subpages', 'mw-subpages', $this->doSubpages, $readonly ) . $br;
@@ -318,14 +327,14 @@ class SpecialPageTranslationDeletePage extends UnlistedSpecialPage {
 		$groups = MessageGroups::getAllGroups();
 		foreach ( $groups as $group ) {
 			if ( $group instanceof AggregateMessageGroup ) {
-				$subgroups = TranslateMetadata::get( $group->getId(), 'subgroups' ) ;
+				$subgroups = TranslateMetadata::get( $group->getId(), 'subgroups' );
 				if ( $subgroups !== false ) {
 					$subgroups = explode( ',', $subgroups );
 					$subgroups = array_flip( $subgroups );
 					if ( isset( $subgroups[$groupId] ) ) {
 						unset( $subgroups[$groupId] );
 						$subgroups = array_flip( $subgroups );
-						TranslateMetadata::set( $group->getId(), 'subgroups', implode( ',', $subgroups ) ) ;
+						TranslateMetadata::set( $group->getId(), 'subgroups', implode( ',', $subgroups ) );
 					}
 				}
 			}
@@ -358,7 +367,7 @@ class SpecialPageTranslationDeletePage extends UnlistedSpecialPage {
 
 	/**
 	 * Returns all subpages, if the namespace has them enabled.
-	 * @return Empty array or TitleArray
+	 * @return array|TitleArray Empty array or TitleArray.
 	 */
 	protected function getSubpages() {
 		return $this->title->getSubpages();

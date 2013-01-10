@@ -37,6 +37,7 @@ class SpecialMyLanguage extends UnlistedSpecialPage {
 	 * Assuming the user's interface language is fi
 	 * Given input Page, it returns Page/fi if it exists, otherwise Page
 	 * Given input Page/de, it returns Page/fi if it exists, otherwise Page/de if it exists, otherwise Page
+	 * @param $par
 	 * @return Title|null
 	 */
 	protected function findTitle( $par ) {
@@ -90,10 +91,14 @@ class SpecialMyLanguage extends UnlistedSpecialPage {
 				if ( !$realTarget || !$realTarget->exists() ) {
 					$options[] = 'broken';
 					$index = array_search( 'known', $options, true );
-					if ( $index !== false ) unset( $options[$index] );
+					if ( $index !== false ) {
+						unset( $options[$index] );
+					}
 
 					$index = array_search( 'noclasses', $options, true );
-					if ( $index !== false ) unset( $options[$index] );
+					if ( $index !== false ) {
+						unset( $options[$index] );
+					}
 				}
 			}
 		}

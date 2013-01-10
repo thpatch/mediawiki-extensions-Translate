@@ -16,7 +16,6 @@
  * @ingroup FFS
  */
 class DtdFFS extends SimpleFFS {
-
 	/**
 	 * @param $data string
 	 * @return array
@@ -62,6 +61,9 @@ class DtdFFS extends SimpleFFS {
 		$output = '';
 		$mangler = $this->group->getMangler();
 
+		/**
+		 * @var TMessage $m
+		 */
 		foreach ( $collection as $key => $m ) {
 			$key = $mangler->unmangle( $key );
 			$trans = $m->translation();
@@ -85,7 +87,7 @@ class DtdFFS extends SimpleFFS {
 		$name = TranslateUtils::getLanguageName( $code );
 		$native = TranslateUtils::getLanguageName( $code, true );
 
-		$output  = "# Messages for $name ($native)\n";
+		$output = "# Messages for $name ($native)\n";
 		$output .= "# Exported from $wgSitename\n\n";
 
 		return $output;

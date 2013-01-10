@@ -18,7 +18,7 @@ class AndroidXmlFFS extends SimpleFFS {
 
 		$messages = array();
 		foreach ( $reader->string as $string ) {
-			$messages[(string) $string['name']] = (string) $string;
+			$messages[(string)$string['name']] = (string)$string;
 		}
 
 		return array(
@@ -35,6 +35,9 @@ XML;
 
 		$writer = new SimpleXMLElement( $template );
 
+		/**
+		 * @var $m TMessage
+		 */
 		foreach ( $collection as $key => $m ) {
 			$value = $m->translation();
 			if ( $value === null ) {

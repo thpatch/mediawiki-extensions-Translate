@@ -5,7 +5,7 @@
  *
  * @file
  * @author Niklas Laxström
- * @copyright Copyright © 2010-2012 Niklas Laxström
+ * @copyright Copyright © 2010-2013 Niklas Laxström
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
@@ -45,8 +45,8 @@ class TranslationHelpers {
 	protected $editMode = 'true';
 
 	/**
-	 * @param $title Title: Title of a page that holds a translation.
-	 * @param $group String: Group id that should be used, otherwise autodetected from title.
+	 * @param Title $title Title of a page that holds a translation.
+	 * @param string $groupId Group id that should be used, otherwise autodetected from title.
 	 */
 	public function __construct( Title $title, $groupId ) {
 		$this->handle = new MessageHandle( $title );
@@ -58,6 +58,8 @@ class TranslationHelpers {
 	 * group id from loadgroup GET-paramater, but fallbacks to messageIndex file
 	 * if no valid group was provided.
 	 *
+	 * @param MessageHandle $handle
+	 * @param string $groupId
 	 * @return MessageGroup which the key belongs to, or null.
 	 */
 	protected function getMessageGroup( MessageHandle $handle, $groupId ) {
@@ -119,45 +121,24 @@ class TranslationHelpers {
 	/**
 	 * Gets the current message translation. Fuzzy messages will be marked as
 	 * such unless translation is provided manually.
-	 * @return String
+	 * @return string
 	 */
 	public function getTranslation() {
-		if ( $this->translation !== null ) {
-			return $this->translation;
+		if ( $this->translation === null ) {
+			$obj = new CurrentTranslationAid( $this->group, $this->handle, RequestContext::getMain() );
+			$aid = $obj->getData();
+			$this->translation = $aid['value'];
+			if ( $aid['fuzzy'] ) {
+				$this->translation = TRANSLATE_FUZZY . $this->translation;
+			}
 		}
-
-		// Shorter names
-		$title = $this->handle->getTitle();
-		$page = $this->handle->getKey();
-		$code = $this->handle->getCode();
-		$group = $this->group;
-
-		// Try database first
-		$translation = TranslateUtils::getMessageContent(
-			$page, $code, $title->getNamespace()
-		);
-
-		if ( $translation === null && $group && !$group instanceof FileBasedMessageGroup ) {
-			// Then try to load from files (old groups)
-			$translation = $group->getMessage( $page, $code );
-		}
-		wfRunHooks( 'TranslatePrefillTranslation', array( &$translation, $this->handle ) );
-		if ( $translation === null ) {
-			// Nothing to prefil
-			$translation = '';
-		} elseif ( !TranslateEditAddons::hasFuzzyString( $translation ) && TranslateEditAddons::isFuzzy( $title ) ) {
-			$translation = TRANSLATE_FUZZY . $translation;
-		}
-
-		$this->translation = $translation;
-
-		return $translation;
+		return $this->translation;
 	}
 
 	/**
 	 * Manual override for the translation. If not given or it is null, the code
 	 * will try to fetch it automatically.
-	 * @param $translation String or null
+	 * @param string|null $translation
 	 */
 	public function setTranslation( $translation ) {
 		$this->translation = $translation;
@@ -194,11 +175,11 @@ class TranslationHelpers {
 		if ( $suggestions === 'async' ) {
 			$all['translation-memory'] = array( $this, 'getLazySuggestionBox' );
 		} elseif ( $suggestions === 'only' ) {
-			return (string) $this->callBox( 'translation-memory', $all['translation-memory'], array( 'lazy' ) );
+			return (string)$this->callBox( 'translation-memory', $all['translation-memory'], array( 'lazy' ) );
 		} elseif ( $suggestions === 'checks' ) {
 			global $wgRequest;
 			$this->translation = $wgRequest->getText( 'translation' );
-			return (string) $this->callBox( 'check', $all['check'] );
+			return (string)$this->callBox( 'check', $all['check'] );
 		}
 
 		if ( $this->group instanceof RecentMessageGroup ) {
@@ -309,7 +290,7 @@ class TranslationHelpers {
 			self::reportTranslationServiceFailure( $serviceName );
 			throw new TranslationHelperException( 'No reply from remote server' );
 		} elseif ( !is_array( $response ) ) {
-			error_log(  __METHOD__ . ': Unable to parse reply: ' . strval( $json ) );
+			error_log( __METHOD__ . ': Unable to parse reply: ' . strval( $json ) );
 			throw new TranslationHelperException( 'Malformed reply from remote server' );
 		}
 
@@ -376,6 +357,7 @@ class TranslationHelpers {
 			}
 		}
 
+		$boxes = array();
 		foreach ( $sugFields as $field ) {
 			list( $text, $params, $label ) = $field;
 			$legend = array();
@@ -523,11 +505,7 @@ class TranslationHelpers {
 
 		$options['method'] = 'GET';
 
-		if ( class_exists( 'MWHttpRequest' ) ) {
-			$req = MWHttpRequest::factory( $url, $options );
-		} else {
-			$req = HttpRequest::factory( $url, $options );
-		}
+		$req = MWHttpRequest::factory( $url, $options );
 
 		wfProfileIn( 'TranslateWebServiceRequest-' . $serviceName );
 		$status = $req->execute();
@@ -542,7 +520,7 @@ class TranslationHelpers {
 			}
 
 			if ( $error ) {
-				error_log(  __METHOD__ . ': Http::get failed:' . $error );
+				error_log( __METHOD__ . ': Http::get failed:' . $error );
 			} else {
 				error_log( __METHOD__ . ': Unknown error, grr' );
 			}
@@ -551,11 +529,11 @@ class TranslationHelpers {
 		}
 
 		$ret = $req->getContent();
-		$text = preg_replace( '~<string.*>(.*)</string>~', '\\1', $ret  );
+		$text = preg_replace( '~<string.*>(.*)</string>~', '\\1', $ret );
 		$text = Sanitizer::decodeCharReferences( $text );
 		$text = self::unwrapUntranslatable( $text );
 		$text = $this->suggestionField( $text );
-		return Html::rawElement( 'div', null, self::legend( $serviceName ) . $text . self::clear() );
+		return Html::rawElement( 'div', array(), self::legend( $serviceName ) . $text . self::clear() );
 	}
 
 	protected static function wrapUntranslatable( $text ) {
@@ -590,7 +568,7 @@ class TranslationHelpers {
 			if ( $json === false ) {
 				self::reportTranslationServiceFailure( $serviceName );
 			} elseif ( !is_object( $response ) ) {
-				error_log(  __METHOD__ . ': Unable to parse reply: ' . strval( $json ) );
+				error_log( __METHOD__ . ': Unable to parse reply: ' . strval( $json ) );
 				throw new TranslationHelperException( 'Malformed reply from remote server' );
 			}
 
@@ -827,9 +805,12 @@ class TranslationHelpers {
 	public function getCheckBox() {
 		$this->mustBeKnownMessage();
 
-		global $wgTranslateDocumentationLanguageCode;
+		global $wgTranslateDocumentationLanguageCode, $wgRequest;
+		$tux = SpecialTranslate::isBeta( $wgRequest );
 
-		$placeholder = Html::element( 'div', array( 'class' => 'mw-translate-messagechecks' ) );
+		$formattedChecks = $tux
+			? FormatJson::encode( array() )
+			: Html::element( 'div', array( 'class' => 'mw-translate-messagechecks' ) );
 
 		$page = $this->handle->getKey();
 		$translation = $this->getTranslation();
@@ -837,7 +818,7 @@ class TranslationHelpers {
 		$en = $this->getDefinition();
 
 		if ( strval( $translation ) === '' ) {
-			return $placeholder;
+			return $formattedChecks;
 		}
 
 		if ( $code === $wgTranslateDocumentationLanguageCode ) {
@@ -855,20 +836,27 @@ class TranslationHelpers {
 
 		$checks = $checker->checkMessage( $message, $code );
 		if ( !count( $checks ) ) {
-			return $placeholder;
+			return $formattedChecks;
 		}
 
 		$checkMessages = array();
+
 		foreach ( $checks as $checkParams ) {
 			$key = array_shift( $checkParams );
 			$checkMessages[] = wfMessage( $key, $checkParams )->parse();
 		}
 
-		return Html::rawElement( 'div', array( 'class' => 'mw-translate-messagechecks' ),
-			TranslateUtils::fieldset(
-			wfMessage( 'translate-edit-warnings' )->escaped(), implode( '<hr />', $checkMessages ),
-			array( 'class' => 'mw-sp-translate-edit-warnings' )
-		) );
+		if ( $tux ) {
+			$formattedChecks = FormatJson::encode( $checkMessages );
+		} else {
+			$formattedChecks = Html::rawElement( 'div', array( 'class' => 'mw-translate-messagechecks' ),
+				TranslateUtils::fieldset(
+					wfMessage( 'translate-edit-warnings' )->escaped(), implode( '<hr />', $checkMessages ),
+					array( 'class' => 'mw-sp-translate-edit-warnings' )
+				) );
+		}
+
+		return $formattedChecks;
 	}
 
 	public function getOtherLanguagesBox() {
@@ -902,8 +890,8 @@ class TranslationHelpers {
 
 			$display = TranslateUtils::convertWhiteSpaceToHTML( $text );
 			$display = Html::rawElement( 'div', array(
-				'lang' => $fbcode,
-				'dir' => Language::factory( $fbcode )->getDir() ),
+					'lang' => $fbcode,
+					'dir' => Language::factory( $fbcode )->getDir() ),
 				$display
 			);
 
@@ -951,7 +939,9 @@ class TranslationHelpers {
 		$class = 'mw-sp-translate-edit-info';
 
 		$gettext = $this->formatGettextComments();
-		if ( $info !== null && $gettext ) $info .= Html::element( 'hr' );
+		if ( $info !== null && $gettext ) {
+			$info .= Html::element( 'hr' );
+		}
 		$info .= $gettext;
 
 		// The information is most likely in English
@@ -1100,7 +1090,7 @@ class TranslationHelpers {
 		$code = $this->handle->getCode();
 		$key = $this->handle->getKey();
 
-		// TODO: encapsulate somewhere
+		// @todo Encapsulate somewhere
 		$page = TranslatablePage::newFromTitle( $this->group->getTitle() );
 		$rev = $page->getTransRev( "$key/$code" );
 		$latest = $page->getMarkedTag();
@@ -1197,7 +1187,7 @@ class TranslationHelpers {
 	 */
 	protected static function legend( $label ) {
 		# Float it to the opposite direction
-		return Html::rawElement( 'div',	array( 'class' => 'mw-translate-legend' ), $label );
+		return Html::rawElement( 'div', array( 'class' => 'mw-translate-legend' ), $label );
 	}
 
 	/**
@@ -1230,20 +1220,12 @@ class TranslationHelpers {
 		// Global configuration settings
 		$fallbacks = array();
 		if ( isset( $wgTranslateLanguageFallbacks[$code] ) ) {
-			$fallbacks = (array) $wgTranslateLanguageFallbacks[$code];
+			$fallbacks = (array)$wgTranslateLanguageFallbacks[$code];
 		}
 
-		// BC <1.19
-		if ( method_exists( 'Language', 'getFallbacksFor' ) ) {
-			$list = Language::getFallbacksFor( $code );
-			array_pop( $list ); // Get 'en' away from the end
-			$fallbacks = array_merge( $list , $fallbacks );
-		} else {
-			$realFallback = $code ? Language::getFallbackFor( $code ) : false;
-			if ( $realFallback && $realFallback !== 'en' ) {
-				$fallbacks = array_merge( array( $realFallback ), $fallbacks );
-			}
-		}
+		$list = Language::getFallbacksFor( $code );
+		array_pop( $list ); // Get 'en' away from the end
+		$fallbacks = array_merge( $list, $fallbacks );
 
 		return array_unique( $fallbacks );
 	}
@@ -1281,8 +1263,8 @@ class TranslationHelpers {
 	}
 
 	/**
-	 * @param $source jQuery selector for element containing the source
-	 * @param $lang Language code or object
+	 * @param string $source jQuery selector for element containing the source
+	 * @param string|Language $lang Language code or object
 	 * @return string
 	 */
 	public function adder( $source, $lang ) {
@@ -1324,7 +1306,7 @@ class TranslationHelpers {
 		$dialogID = $this->dialogID();
 		$id = Sanitizer::escapeId( "tmsug-$dialogID-$counter" );
 		$contents = Html::rawElement( 'div', array( 'lang' => $code,
-			'dir' => Language::factory( $code )->getDir() ),
+				'dir' => Language::factory( $code )->getDir() ),
 			TranslateUtils::convertWhiteSpaceToHTML( $text ) );
 		$contents .= $this->wrapInsert( $id, $text );
 
@@ -1335,7 +1317,7 @@ class TranslationHelpers {
 	 * Ajax-enabled message editing link.
 	 * @param $target Title: Title of the target message.
 	 * @param $text String: Link text for Linker::link()
-	 * @return link
+	 * @return string HTML link
 	 */
 	public static function ajaxEditLink( $target, $text ) {
 		$handle = new MessageHandle( $target );
@@ -1446,6 +1428,7 @@ class TranslationHelpers {
 			throw new TranslationHelperException( 'unknown group' );
 		}
 	}
+
 	/// @since 2012-01-04
 	protected function mustBeTranslation() {
 		if ( !$this->handle->getCode() ) {

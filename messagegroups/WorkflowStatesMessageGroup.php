@@ -36,6 +36,9 @@ class WorkflowStatesMessageGroup extends WikiMessageGroup {
 		$groups = MessageGroups::getAllGroups();
 		$keys = array();
 
+		/**
+		 * @var $g MessageGroup
+		 */
 		foreach ( $groups as $g ) {
 			$states = $g->getMessageGroupStates()->getStates();
 			foreach ( array_keys( $states ) as $state ) {
@@ -56,9 +59,14 @@ class WorkflowStatesMessageGroup extends WikiMessageGroup {
 					false, /* base revision id */
 					FuzzyBot::getUser()
 				);
+			} else {
+				// Use the wiki translation as definition if available.
+				// getContents returns array( content, last author )
+				list( $content, ) = $defs[$key];
+				$keys[$key] = $content;
 			}
 		}
 
-		return $defs;
+		return $keys;
 	}
 }

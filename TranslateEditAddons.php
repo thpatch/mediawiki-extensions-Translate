@@ -51,6 +51,9 @@ class TranslateEditAddons {
 
 		$tabindex = 2;
 
+		/**
+		 * @var $prev Title
+		 */
 		if ( $prev !== null ) {
 			$data = array(
 				'text' => wfMessage( 'translate-edit-tab-prev' )->text(),
@@ -72,6 +75,9 @@ class TranslateEditAddons {
 		);
 		self::addTab( $skin, $tabs, 'list', $data, $tabindex );
 
+		/**
+		 * @var $next Title
+		 */
 		if ( $next !== null ) {
 			$data = array(
 				'text' => wfMessage( 'translate-edit-tab-next' )->text(),
@@ -98,10 +104,10 @@ class TranslateEditAddons {
 	 * and tries to find messages coming before and after.
 	 * @param MessageHandle $handle
 	 * @param string &$key will be filled with message in correct case etc.
-	 * @param int &$index approximate index of the message, for setting offset
+	 * @param int|null &$index approximate index of the message, for setting offset
 	 *                    and limit on Special:Translate
-	 * @param Title &$next Title of the next message or null
-	 * @param Title &$prev Title of the previous message or null
+	 * @param Title|null &$next Title of the next message or null
+	 * @param Title|null &$prev Title of the previous message or null
 	 * @since 2012-08-21
 	 */
 	protected static function figureNextPrevMessages( MessageHandle $handle, &$key, &$index, &$next, &$prev ) {
@@ -130,8 +136,8 @@ class TranslateEditAddons {
 		$ns = $handle->getTitle()->getNamespace();
 		$code = $handle->getCode();
 
-		if ( isset( $keys[$match -1] ) ) {
-			$mkey = $keys[$match -1];
+		if ( isset( $keys[$match - 1] ) ) {
+			$mkey = $keys[$match - 1];
 			$prev = Title::makeTitleSafe( $ns, "$mkey/$code" );
 		}
 		if ( isset( $keys[$match + 1] ) ) {
@@ -200,13 +206,13 @@ class TranslateEditAddons {
 			$name = TranslateUtils::getLanguageName( $handle->getCode(), false, $langCode );
 			$accessKey = $context->msg( 'accesskey-save' )->plain();
 			$temp = array(
-				'id'        => 'wpSave',
-				'name'      => 'wpSave',
-				'type'      => 'submit',
-				'tabindex'  => ++$tabindex,
-				'value'     => $context->msg( 'translate-save', $name )->text(),
+				'id' => 'wpSave',
+				'name' => 'wpSave',
+				'type' => 'submit',
+				'tabindex' => ++$tabindex,
+				'value' => $context->msg( 'translate-save', $name )->text(),
 				'accesskey' => $accessKey,
-				'title'     => $context->msg( 'tooltip-save' )->text() . ' [' . $accessKey . ']',
+				'title' => $context->msg( 'tooltip-save' )->text() . ' [' . $accessKey . ']',
 			);
 			$buttons['save'] = Xml::element( 'input', $temp, '' );
 		}
@@ -227,14 +233,14 @@ class TranslateEditAddons {
 		}
 
 		$temp = array(
-			'id'        => 'wpSupport',
-			'name'      => 'wpSupport',
-			'type'      => 'button',
-			'tabindex'  => ++$tabindex,
-			'value'     => $context->msg( 'translate-js-support' )->text(),
-			'title'     => $context->msg( 'translate-js-support-title' )->text(),
+			'id' => 'wpSupport',
+			'name' => 'wpSupport',
+			'type' => 'button',
+			'tabindex' => ++$tabindex,
+			'value' => $context->msg( 'translate-js-support' )->text(),
+			'title' => $context->msg( 'translate-js-support-title' )->text(),
 			'data-load-url' => $supportTitle->getLocalUrl( $supportParams ),
-			'onclick'   => "window.open( jQuery(this).attr('data-load-url') );",
+			'onclick' => "window.open( jQuery(this).attr('data-load-url') );",
 		);
 		$buttons['ask'] = Html::element( 'input', $temp, '' );
 
@@ -252,7 +258,7 @@ class TranslateEditAddons {
 		$groupId = $request->getText( 'loadgroup', '' );
 		$th = new TranslationHelpers( $editpage->mTitle, $groupId );
 		if ( $editpage->firsttime && !$request->getCheck( 'oldid' ) && !$request->getCheck( 'undo' ) ) {
-			$editpage->textbox1 = (string) $th->getTranslation();
+			$editpage->textbox1 = (string)$th->getTranslation();
 		} else {
 			$th->setTranslation( $editpage->textbox1 );
 		}
@@ -265,8 +271,8 @@ class TranslateEditAddons {
 	/**
 	 * Check if a string contains the fuzzy string.
 	 *
-	 * @param $text \string Arbitrary text
-	 * @return \bool If string contains fuzzy string.
+	 * @param string $text Arbitrary text
+	 * @return bool If string contains fuzzy string.
 	 */
 	public static function hasFuzzyString( $text ) {
 		# wfDeprecated( __METHOD__, '1.19' );
@@ -275,8 +281,8 @@ class TranslateEditAddons {
 
 	/**
 	 * Check if a title is marked as fuzzy.
-	 * @param $title Title
-	 * @return \bool If title is marked fuzzy.
+	 * @param Title $title
+	 * @return bool If title is marked fuzzy.
 	 */
 	public static function isFuzzy( Title $title ) {
 		# wfDeprecated( __METHOD__, '1.19' );
@@ -315,9 +321,12 @@ class TranslateEditAddons {
 	/**
 	 * Runs message checks, adds tp:transver tags and updates statistics.
 	 * Hook: ArticleSaveComplete, PageContentSaveComplete
+	 *
+	 * Switch to this when BC goes no further than 1.21:
+	 * 	public static function onSave( WikiPage $wikiPage, $user, $content, $summary,
 	 */
-	public static function onSave( $article, $user, $content, $summary,
-			$minor, $_, $_, $flags, $revision
+	public static function onSave( $wikiPage, $user, $content, $summary,
+		$minor, $_, $_, $flags, $revision
 	) {
 
 		if ( $content instanceof TextContent ) {
@@ -330,7 +339,7 @@ class TranslateEditAddons {
 			return true;
 		}
 
-		$title = $article->getTitle();
+		$title = $wikiPage->getTitle();
 		$handle = new MessageHandle( $title );
 
 		if ( !$handle->isValid() ) {
@@ -339,7 +348,7 @@ class TranslateEditAddons {
 
 		// Update it.
 		if ( $revision === null ) {
-			$rev = $article->getTitle()->getLatestRevId();
+			$rev = $wikiPage->getTitle()->getLatestRevId();
 		} else {
 			$rev = $revision->getID();
 		}
@@ -351,6 +360,8 @@ class TranslateEditAddons {
 		if ( $fuzzy === false ) {
 			wfRunHooks( 'Translate:newTranslation', array( $handle, $rev, $text, $user ) );
 		}
+
+		TTMServer::onChange( $handle, $text, $fuzzy );
 
 		return true;
 	}
@@ -392,9 +403,9 @@ class TranslateEditAddons {
 	}
 
 	/**
-	 * @param $title Title
-	 * @param $revision int
-	 * @param $fuzzy bool
+	 * @param Title $title
+	 * @param int $revision
+	 * @param bool $fuzzy
 	 */
 	protected static function updateFuzzyTag( Title $title, $revision, $fuzzy ) {
 		$dbw = wfGetDB( DB_MASTER );
@@ -419,10 +430,10 @@ class TranslateEditAddons {
 	 * This is used to show diff against current version of source message
 	 * when updating a translation.
 	 * Hook: Translate:newTranslation
-	 * @param $handle MessageHandle
-	 * @param $revision int
-	 * @param $text string
-	 * @param $user User
+	 * @param MessageHandle $handle
+	 * @param int $revision
+	 * @param string $text
+	 * @param User $user
 	 * @return bool
 	 */
 	public static function updateTransverTag( MessageHandle $handle, $revision, $text, User $user ) {
@@ -460,12 +471,15 @@ class TranslateEditAddons {
 
 	/**
 	 * Hook: ArticlePrepareTextForEdit
+	 * @param WikiPage $wikiPage
+	 * @param ParserOptions $popts
+	 * @return bool
 	 */
-	public static function disablePreSaveTransform( $article, ParserOptions $popts ) {
+	public static function disablePreSaveTransform( $wikiPage, ParserOptions $popts ) {
 		global $wgTranslateUsePreSaveTransform;
 
 		if ( !$wgTranslateUsePreSaveTransform ) {
-			$handle = new MessageHandle( $article->getTitle() );
+			$handle = new MessageHandle( $wikiPage->getTitle() );
 			if ( $handle->isMessageNamespace() && !$handle->isDoc() ) {
 				$popts->setPreSaveTransform( false );
 			}
@@ -487,7 +501,7 @@ class TranslateEditAddons {
 		$de->loadNewText();
 		$out->setRevisionId( $de->mNewRev->getId() );
 
-		$th = new TranslationHelpers( $title, /*group*/false );
+		$th = new TranslationHelpers( $title, /*group*/ false );
 		$th->setEditMode( false );
 
 		if ( isset( $de->mNewContent ) && $de->mNewContent instanceof TextContent ) {

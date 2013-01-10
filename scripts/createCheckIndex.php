@@ -14,8 +14,9 @@ require( dirname( __FILE__ ) . '/cli.inc' );
 $codes = Language::getLanguageNames( false );
 
 // Exclude this special language
-if ( $wgTranslateDocumentationLanguageCode )
+if ( $wgTranslateDocumentationLanguageCode ) {
 	unset( $codes[$wgTranslateDocumentationLanguageCode] );
+}
 
 // Skip source
 unset( $codes['en'] );
@@ -33,8 +34,10 @@ $verbose = isset( $options['verbose'] );
 
 $groups = MessageGroups::singleton()->getGroups();
 
+/**
+ * @var $g MessageGroup
+ */
 foreach ( $groups as $g ) {
-
 	$id = $g->getId();
 
 	// Skip groups that are not requested
@@ -51,7 +54,9 @@ foreach ( $groups as $g ) {
 
 	// Initialise messages, using unique definitions if appropriate
 	$collection = $g->initCollection( 'en', true );
-	if ( !count( $collection ) ) continue;
+	if ( !count( $collection ) ) {
+		continue;
+	}
 
 	STDOUT( "Working with $id: ", $id );
 
@@ -64,7 +69,7 @@ foreach ( $groups as $g ) {
 		$collection->loadTranslations();
 
 		foreach ( $collection as $key => $message ) {
-			$prob = $checker->checkMessageFast( $message,  $code );
+			$prob = $checker->checkMessageFast( $message, $code );
 			if ( $prob ) {
 
 				if ( $verbose ) {

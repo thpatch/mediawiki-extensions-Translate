@@ -30,12 +30,12 @@ class TTMServerBootstrap extends Maintenance {
 		$this->mDescription = 'Script to bootstrap TTMServer';
 		$this->addOption( 'threads', 'Number of threads', /*required*/false, /*has arg*/true );
 		$this->addOption( 'ttmserver', 'Server configuration identifier', /*required*/false, /*has arg*/true );
-		$this->setBatchSize( 1000 );
+		$this->setBatchSize( 500 );
 		$this->start = microtime( true );
 	}
 
 	protected function statusLine( $text, $channel = null ) {
-		$pid =  sprintf( "%5s", getmypid() );
+		$pid = sprintf( "%5s", getmypid() );
 		$prefix = sprintf( "%6.2f", microtime( true ) - $this->start );
 		$mem = sprintf( "%5.1fM", ( memory_get_usage( true ) / ( 1024 * 1024 ) ) );
 		$this->output( "$pid $prefix $mem  $text", $channel );
@@ -46,16 +46,12 @@ class TTMServerBootstrap extends Maintenance {
 
 		// TTMServer is the id of the enabled-by-default instance
 		$configKey = $this->getOption( 'ttmserver', 'TTMServer' );
-		if ( isset( $wgTranslateTranslationServices[$configKey] ) ) {
-			$this->config = $config = $wgTranslateTranslationServices[$configKey];
-			$server = TTMServer::factory( $config );
-		} else {
+		if ( !isset( $wgTranslateTranslationServices[$configKey] ) ) {
 			$this->error( "Translation memory is not configured properly", 1 );
 		}
 
-
-		$this->output( "Cleaning up old entries...\n" );
-		$server->beginBootstrap();
+		$this->config = $config = $wgTranslateTranslationServices[$configKey];
+		$server = TTMServer::factory( $config );
 
 		$this->statusLine( "Loading groups...\n" );
 		$groups = MessageGroups::singleton()->getGroups();
@@ -63,7 +59,13 @@ class TTMServerBootstrap extends Maintenance {
 		$threads = $this->getOption( 'threads', 1 );
 		$pids = array();
 
+		$this->statusLine( "Cleaning up old entries...\n" );
+		$server->beginBootstrap();
+
 		foreach ( $groups as $id => $group ) {
+			/**
+			 * @var MessageGroup $group
+			 */
 			if ( $group->isMeta() ) {
 				continue;
 			}
@@ -115,11 +117,9 @@ class TTMServerBootstrap extends Maintenance {
 		$sourceLanguage = $group->getSourceLanguage();
 
 		$stats = MessageGroupStats::forGroup( $id );
-		$this->statusLine( "Loaded stats for $id\n" );
 
 		$collection = $group->initCollection( $sourceLanguage );
 		$collection->filter( 'ignored' );
-		$collection->filter( 'optional' );
 		$collection->initMessages();
 
 		$server->beginBatch();
@@ -130,17 +130,13 @@ class TTMServerBootstrap extends Maintenance {
 			$inserts[$mkey] = array( $title, $sourceLanguage, $def );
 		}
 
-		$total = count( $inserts );
 		do {
 			$batch = array_splice( $inserts, 0, $this->mBatchSize );
 			$server->batchInsertDefinitions( $batch );
 		} while ( count( $inserts ) );
 
-		$this->statusLine( "Inserted $total source entries for $id\n" );
-
 
 		$inserts = array();
-		$total = 0;
 		foreach ( $stats as $targetLanguage => $numbers ) {
 			if ( $targetLanguage === $sourceLanguage ) {
 				continue;
@@ -151,15 +147,12 @@ class TTMServerBootstrap extends Maintenance {
 
 			$collection->resetForNewLanguage( $targetLanguage );
 			$collection->filter( 'ignored' );
-			$collection->filter( 'optional' );
 			$collection->filter( 'translated', false );
 			$collection->loadTranslations();
 
 			foreach ( $collection->keys() as $mkey => $title ) {
 				$inserts[$mkey] = array( $title, $targetLanguage, $collection[$mkey]->translation() );
 			}
-
-			$total += count( $inserts );
 
 			do {
 				$batch = array_splice( $inserts, 0, $this->mBatchSize );
@@ -168,7 +161,6 @@ class TTMServerBootstrap extends Maintenance {
 		}
 
 		$server->endBatch();
-		$this->statusLine( "Inserted $total translations for $id\n" );
 	}
 
 }

@@ -4,7 +4,7 @@
  *
  * @file
  * @author Niklas Laxström
- * @copyright Copyright © 2007, 2012 Niklas Laxström
+ * @copyright Copyright © 2007-2012 Niklas Laxström
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
@@ -12,13 +12,12 @@
  * Essentially random collection of helper functions, similar to GlobalFunctions.php.
  */
 class TranslateUtils {
-
 	/**
 	 * Does quick normalisation of message name so that in can be looked from the
 	 * database.
-	 * @param $message \string Name of the message
-	 * @param $code \string Language code in lower case and with dash as delimieter
-	 * @return \string The normalised title as a string.
+	 * @param string $message Name of the message
+	 * @param string $code Language code in lower case and with dash as delimieter
+	 * @return string The normalised title as a string.
 	 */
 	public static function title( $message, $code ) {
 		global $wgContLang;
@@ -39,8 +38,8 @@ class TranslateUtils {
 
 	/**
 	 * Splits page name into message key and language code.
-	 * @param $text \string
-	 * @return array \type{Tuple[String,String]} Key and language code.
+	 * @param string $text
+	 * @return array ( string, string ) Key and language code.
 	 * @todo Handle names without slash.
 	 */
 	public static function figureMessage( $text ) {
@@ -53,14 +52,12 @@ class TranslateUtils {
 
 	/**
 	 * Loads page content *without* side effects.
-	 * @param $key \string Message key.
-	 * @param $language \string Language code.
-	 * @param $namespace \int Namespace number.
-	 * @return \types{\string,\null} The contents or null.
+	 * @param string $key Message key.
+	 * @param string $language Language code.
+	 * @param int $namespace Namespace number.
+	 * @return string|null The contents or null.
 	 */
-	public static function getMessageContent( $key, $language,
-		$namespace = NS_MEDIAWIKI ) {
-
+	public static function getMessageContent( $key, $language, $namespace = NS_MEDIAWIKI ) {
 		$title = self::title( $key, $language );
 		$data = self::getContents( array( $title ), $namespace );
 
@@ -70,9 +67,9 @@ class TranslateUtils {
 	/**
 	 * Fetches contents for pagenames in given namespace without side effects.
 	 *
-	 * @param $titles \types{String,\list{String}} Database page names.
-	 * @param $namespace \int The number of the namespace.
-	 * @return Array \arrayof{\string,\type{Tuple[String,String]}} Tuples of page
+	 * @param string|string[] $titles Database page names.
+	 * @param int $namespace The number of the namespace.
+	 * @return array ( string => array ( string, string ) ) Tuples of page
 	 * text and last author indexed by page name.
 	 */
 	public static function getContents( $titles, $namespace ) {
@@ -80,10 +77,10 @@ class TranslateUtils {
 		$rows = $dbr->select( array( 'page', 'revision', 'text' ),
 			array( 'page_title', 'old_text', 'old_flags', 'rev_user_text' ),
 			array(
-				'page_namespace'    => $namespace,
+				'page_namespace' => $namespace,
 				'page_latest=rev_id',
 				'rev_text_id=old_id',
-				'page_title'        => $titles
+				'page_title' => $titles
 			),
 			__METHOD__
 		);
@@ -103,10 +100,10 @@ class TranslateUtils {
 	/**
 	 * Fetches recent changes for titles in given namespaces
 	 *
-	 * @param $hours \int Number of hours.
-	 * @param $bots \bool Should bot edits be included.
-	 * @param $ns \list{Integer} List of namespace IDs.
-	 * @return \array List of recent changes.
+	 * @param int $hours Number of hours.
+	 * @param bool $bots Should bot edits be included.
+	 * @param null|int[] $ns List of namespace IDs.
+	 * @return array List of recent changes.
 	 */
 	public static function translationChanges( $hours = 24, $bots = false, $ns = null ) {
 		global $wgTranslateMessageNamespaces;
@@ -126,10 +123,10 @@ class TranslateUtils {
 
 		// @todo Raw SQL
 		$sql = "SELECT $fields, substring_index(rc_title, '/', -1) as lang FROM $recentchanges " .
-		"WHERE rc_timestamp >= '{$cutoff}' " .
-		( $bots ? '' : 'AND rc_bot = 0 ' ) .
-		"AND rc_namespace in ($namespaces) " .
-		"ORDER BY lang ASC, rc_timestamp DESC";
+			"WHERE rc_timestamp >= '{$cutoff}' " .
+			( $bots ? '' : 'AND rc_bot = 0 ' ) .
+			"AND rc_namespace in ($namespaces) " .
+			"ORDER BY lang ASC, rc_timestamp DESC";
 
 		$res = $dbr->query( $sql, __METHOD__ );
 		$rows = iterator_to_array( $res );
@@ -140,14 +137,14 @@ class TranslateUtils {
 
 	/**
 	 * Returns a localised language name.
-	 * @param $code \string Language code.
-	 * @param $native \string Use only native names.
-	 * @param $language \string Language code of language the the name should be in.
-	 * @return \string Best-effort localisation of wanted language name.
+	 * @param string $code Language code.
+	 * @param bool|string $native Use only native names.
+	 * @param string $language Language code of language the the name should be in.
+	 * @return string Best-effort localisation of wanted language name.
 	 */
 	public static function getLanguageName( $code, $native = false, $language = 'en' ) {
 		if ( !$native && is_callable( array( 'LanguageNames', 'getNames' ) ) ) {
-			$languages = LanguageNames::getNames( $language ,
+			$languages = LanguageNames::getNames( $language,
 				LanguageNames::FALLBACK_NORMAL,
 				LanguageNames::LIST_MW_AND_CLDR
 			);
@@ -164,9 +161,8 @@ class TranslateUtils {
 
 	/**
 	 * Returns a language selector.
-	 * @param $language \string Language code of the language the names should
-	 * be localised to.
-	 * @param $selectedId \string The language code that is selected by default.
+	 * @param string $language Language code of the language the names should be localised to.
+	 * @param string $selectedId The language code that is selected by default.
 	 * @return string
 	 */
 	public static function languageSelector( $language, $selectedId ) {
@@ -179,8 +175,8 @@ class TranslateUtils {
 
 	/**
 	 * Standard language selector in Translate extension.
-	 * @param $language \string Language code of the language the names should
-	 * be localised to.
+	 * @param string $language Language code of the language the names should be localised to.
+	 * @param bool $labelOption
 	 * @return XmlSelect
 	 */
 	public static function getLanguageSelector( $language, $labelOption = false ) {
@@ -200,8 +196,11 @@ class TranslateUtils {
 	}
 
 	/**
-	 * Get translated language names.
-	 * @return array
+	 * Get translated language names for the languages generally supported for
+	 * translation in the current wiki. Message groups can have further
+	 * exclusions.
+	 * @param string $code
+	 * @return array ( language code => language name )
 	 */
 	public static function getLanguageNames( /*string */ $code ) {
 		if ( is_callable( array( 'Language', 'fetchLanguageNames' ) ) ) {
@@ -225,13 +224,15 @@ class TranslateUtils {
 			unset( $languageNames[$dummyLanguageCode] );
 		}
 
+		wfRunHooks( 'TranslateSupportedLanguages', array( &$languageNames, $code ) );
+
 		return $languageNames;
 	}
 
 	/**
 	 * Returns the primary group message belongs to.
-	 * @param $namespace \int
-	 * @param $key \string
+	 * @param int $namespace
+	 * @param string $key
 	 * @return string|null Group id or null.
 	 */
 	public static function messageKeyToGroup( $namespace, $key ) {
@@ -241,16 +242,16 @@ class TranslateUtils {
 
 	/**
 	 * Returns the all the groups message belongs to.
-	 * @param $namespace \int
-	 * @param $key \string
-	 * @return \list{String} Possibly empty list of group ids.
+	 * @param int $namespace
+	 * @param string $key
+	 * @return string[] Possibly empty list of group ids.
 	 */
 	public static function messageKeyToGroups( $namespace, $key ) {
 		$mi = MessageIndex::singleton()->retrieve();
 		$normkey = self::normaliseKey( $namespace, $key );
 
 		if ( isset( $mi[$normkey] ) ) {
-			return (array) $mi[$normkey];
+			return (array)$mi[$normkey];
 		} else {
 			return array();
 		}
@@ -258,20 +259,21 @@ class TranslateUtils {
 
 	/**
 	 * Converts page name and namespace to message index format.
-	 * @param $namespace \int
-	 * @param $key \string
-	 * @return \string
+	 * @param int $namespace
+	 * @param string $key
+	 * @return string
 	 */
 	public static function normaliseKey( $namespace, $key ) {
-		return strtr( strtolower( "$namespace:$key" ), " ", "_"  );
+		$key = lcfirst( $key );
+		return strtr( "$namespace:$key", " ", "_" );
 	}
 
 	/**
 	 * Constructs a fieldset with contents.
-	 * @param $legend \string Raw html.
-	 * @param $contents \string Raw html.
-	 * @param $attributes \array Html attributes for the fieldset.
-	 * @return \string Html.
+	 * @param string $legend Raw html.
+	 * @param string $contents Raw html.
+	 * @param array $attributes Html attributes for the fieldset.
+	 * @return string Html.
 	 */
 	public static function fieldset( $legend, $contents, $attributes = array() ) {
 		return Xml::openElement( 'fieldset', $attributes ) .
@@ -287,8 +289,8 @@ class TranslateUtils {
 	 *
 	 * This is also implemented in JavaScript in ext.translate.quickedit.
 	 *
-	 * @param $msg \string Plain text string.
-	 * @return \string Text string that is ready for outputting.
+	 * @param string $msg Plain text string.
+	 * @return string Text string that is ready for outputting.
 	 */
 	public static function convertWhiteSpaceToHTML( $msg ) {
 		$msg = htmlspecialchars( $msg );
@@ -302,8 +304,8 @@ class TranslateUtils {
 
 	/**
 	 * Construct the web address to given asset.
-	 * @param $path \string Path to the resource relative to extensions root directory.
-	 * @return \string Full or partial web path.
+	 * @param string $path Path to the resource relative to extensions root directory.
+	 * @return string Full or partial web path.
 	 */
 	public static function assetPath( $path ) {
 		global $wgExtensionAssetsPath;
@@ -312,8 +314,8 @@ class TranslateUtils {
 
 	/**
 	 * Gets the path for cache files
-	 * @param $filename \string
-	 * @return \string Full path.
+	 * @param string $filename
+	 * @return string Full path.
 	 * @throws MWException If cache directory is not configured.
 	 */
 	public static function cacheFile( $filename ) {
@@ -344,9 +346,13 @@ class TranslateUtils {
 	}
 
 	/**
+	 * Adds help link with a icon to upper right corner.
+	 * @param OutputPage $out
+	 * @param string $to
+	 * @param bool $overrideBaseUrl
 	 * @since 2012-01-12
 	 */
-	public static function addSpecialHelpLink( OutputPage $out, /*string*/$to, $overrideBaseUrl = false ) {
+	public static function addSpecialHelpLink( OutputPage $out, $to, $overrideBaseUrl = false ) {
 		$out->addModules( 'ext.translate.helplink' );
 		$text = wfMessage( 'translate-gethelp' )->escaped();
 
@@ -370,9 +376,11 @@ class TranslateUtils {
 	/**
 	 * Convenience function that handles BC with changed way of
 	 * acquiring tokens via API.
+	 * @param string $token
+	 * @return string
 	 * @since 2012-05-03
 	 */
-	public static function getTokenAction( /*string*/ $token ) {
+	public static function getTokenAction( $token ) {
 		global $wgVersion;
 		$method = "action=tokens&type=$token";
 		if ( version_compare( $wgVersion, '1.20', '<' ) ) {

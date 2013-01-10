@@ -46,18 +46,23 @@ Post processing step to format in wiki
 
 === PHP events ===
 
-;Translate:MessageGroupStats:isIncluded: Controls whether message group is shown for a given language in language or message group statistics. Mostly used internally by Translate to hide discouraged groups and groups restricted to certain languages.
- string          $groupId: Message group id
- string          $code: Language code
-
 ;SpecialTranslate::executeTask: You can output the default task output
  RequestContext  $context: For adding output, accesing current interface language etc.
  TranslateTask   $task = null: Current task if any
  MessageGroup    $group
  array           $options: Active options
 
+;Translate:MessageGroupStats:isIncluded: Controls whether message group is shown for a given language in language or message group statistics. Mostly used internally by Translate to hide discouraged groups and groups restricted to certain languages.
+ string          $groupId: Message group id
+ string          $code: Language code
+
 ;TranslateBeforeAddModules: Provides an opportunity to load extra modules
  array          &$modules: List of resource loader module names
+
+;TranslateEventMessageMembershipChange: When group gets new messages or loses messages
+ MessageHandle   $handle
+ array           $old Previous groups
+ array           $new Current groups
 
 ;TranslateEventMessageGroupStateChange: Event triggered when a message group workflow state is changed in a language
  MessageGroup    $group: Message group instance
@@ -83,6 +88,16 @@ Post processing step to format in wiki
  MessageHandle   $handle: An object representing the translation page (e.g. 'MediaWiki:Example/qqq')
  array          &$boxes: An associative array to be appended to (format: 'name' => 'some HTML string')
 
+;TranslateGetAPIMessageGroupsParameterDescs: Provides an opportunity to document any parameters added with 'TranslateGetAPIMessageGroupsParameterList'.
+ array          &$paramDescs: An associative array of parameters, name => description.
+ string          $p: The prefix for action=query&meta=messagegroups (currently mg, but could change), useful for documentation
+
+;TranslateGetAPIMessageGroupsParameterList: Allows extra parameters to be added to the action=query&meta=messagegroups module
+ array          &$params: An associative array of possible parameters (name => details; see ApiQueryMessageGroups.php for correct spacing)
+
+;TranslateGetAPIMessageGroupsPropertyDescs: Allows extra properties to be added to captured by action=query&meta=messagegroups&mgprop=foo|bar|bat module
+ array          &$properties: An associative array of properties, name => description.
+
 ;TranslateGetExtraInputs: Provides an opportunity to add extra form inputs to to the default translation editor
  string         &$translation: The translation as it stands
  string         &$extraInputs: The extra input space, ready for HTML to be appended
@@ -95,6 +110,12 @@ Post processing step to format in wiki
  array          &$headers: List of prefilled headers. You can remove, change or add new headers.
  MessageGroup    $group: Message group instance
  string          $code: Language code
+
+;TranslateMessageTableInit: When creating new MessageTable
+ MessageTable   &$table: Default implementation that can be accessed or even replaced
+ IContextSource  $context:
+ MessageCollection $collection
+ MessageGroup    $group
 
 ;Translate:newTranslation: Event triggered when non-fuzzy translation has been made
  MessageHandle   $handle
@@ -110,6 +131,16 @@ Post processing step to format in wiki
 ;TranslatePrefillTranslation: Provides an opportunity for a new translation to start not from as a carte blanche (the default) but from some prefilled string
  string         &$translation: The translation string as it stands
  MessageHandle   $handle: The current MessageHandle object
+
+;TranslateProcessAPIMessageGroupsProperties: Allows exrra property requests to be acted upon, and the new new properties returned
+ array          &$a: Associative array of the properties of $group that will be returned
+ array           $props: Associative array ($name => true) of properties the user has specifically requested
+ array           $params: Parameter input by the user (unprefixed name => value)
+ MessageGroup    $g: The group in question
+
+;TranslateSupportedLanguages: Allows removing languages from language selectors. For adding $wgExtraLanguage names is recommended.
+ array          &$list: List of languages indexed by language code
+ string          $language: Language code of the language of which language names are in
 
 === JavaScript events ===
 

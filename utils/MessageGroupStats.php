@@ -5,6 +5,7 @@
  * @file
  * @author Wikia http://trac.wikia-code.com/browser/wikia/trunk/extensions/wikia/TranslationStatistics
  * @author Niklas Laxström
+ * @copyright Copyright © 2012-2013 Niklas Laxström
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
@@ -20,7 +21,7 @@ class MessageGroupStats {
 	const TABLE = 'translate_groupstats';
 
 	const TOTAL = 0; ///< Array index
-	const TRANSLATED = 1;  ///< Array index
+	const TRANSLATED = 1; ///< Array index
 	const FUZZY = 2; ///< Array index
 	const PROOFREAD = 3; ///< Array index
 
@@ -51,6 +52,16 @@ class MessageGroupStats {
 	}
 
 	/**
+	 * Returns empty stats array that indicates stats are incomplete or
+	 * unknown.
+	 * @return array
+	 * @since 2013-01-02
+	 */
+	protected static function getUnknownStats() {
+		return array( null, null, null, null );
+	}
+
+	/**
 	 * Returns stats for given group in given language.
 	 * @param $id string Group id
 	 * @param $code string Language code
@@ -60,7 +71,13 @@ class MessageGroupStats {
 		$res = self::selectRowsIdLang( $id, $code );
 		$stats = self::extractResults( $res );
 
+		/* In case some code calls this for dynamic groups, return the default
+		 * values for unknown/incomplete stats. Calculating these numbers don't
+		 * make sense for dynamic groups, and would just throw an exception. */
 		$group = MessageGroups::getGroup( $id );
+		if ( MessageGroups::isDynamic( $group ) ) {
+			$stats[$id][$code] = self::getUnknownStats();
+		}
 
 		if ( !isset( $stats[$id][$code] ) ) {
 			$stats[$id][$code] = self::forItemInternal( $stats, $group, $code );
@@ -133,7 +150,9 @@ class MessageGroupStats {
 	}
 
 	public static function clearGroup( $id ) {
-		if ( !count( $id ) ) return;
+		if ( !count( $id ) ) {
+			return;
+		}
 		$dbw = wfGetDB( DB_MASTER );
 		$conds = array( 'tgs_group' => $id );
 		$dbw->delete( self::TABLE, $conds, __METHOD__ );
@@ -141,7 +160,9 @@ class MessageGroupStats {
 	}
 
 	public static function clearLanguage( $code ) {
-		if ( !count( $code ) ) return;
+		if ( !count( $code ) ) {
+			return;
+		}
 		$dbw = wfGetDB( DB_MASTER );
 		$conds = array( 'tgs_lang' => $code );
 		$dbw->delete( self::TABLE, $conds, __METHOD__ );
@@ -202,7 +223,9 @@ class MessageGroupStats {
 
 		$groups = MessageGroups::singleton()->getGroups();
 		foreach ( $groups as $id => $group ) {
-			if ( isset( $stats[$id][$code] ) ) continue;
+			if ( isset( $stats[$id][$code] ) ) {
+				continue;
+			}
 			$stats[$id][$code] = self::forItemInternal( $stats, $group, $code );
 		}
 		return $stats;
@@ -231,7 +254,9 @@ class MessageGroupStats {
 		// This is for calculating things in correct order
 		sort( $languages );
 		foreach ( $languages as $code ) {
-			if ( isset( $stats[$id][$code] ) ) continue;
+			if ( isset( $stats[$id][$code] ) ) {
+				continue;
+			}
 			$stats[$id][$code] = self::forItemInternal( $stats, $group, $code );
 		}
 
@@ -262,7 +287,7 @@ class MessageGroupStats {
 		$id = $group->getId();
 
 		if ( self::$timeStart !== null && ( microtime( true ) - self::$timeStart ) > self::$limit ) {
-			return $stats[$id][$code] = array( null, null, null, null );
+			return $stats[$id][$code] = self::getUnknownStats();
 		}
 
 		if ( $group instanceof AggregateMessageGroup ) {
@@ -331,12 +356,16 @@ class MessageGroupStats {
 		return $a;
 	}
 
+	/**
+	 * @param MessageGroup $group
+	 * @param string $code Language code
+	 * @return array ( total, translated, fuzzy, proofread )
+	 */
 	protected static function calculateGroup( $group, $code ) {
 		global $wgTranslateDocumentationLanguageCode;
 		# Calculate if missing and store in the db
 		$collection = $group->initCollection( $code );
 		$collection->setReviewMode( true );
-
 
 		if ( $code === $wgTranslateDocumentationLanguageCode ) {
 			$ffs = $group->getFFS();

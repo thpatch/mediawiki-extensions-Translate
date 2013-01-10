@@ -4,7 +4,7 @@
  *
  * @file
  * @author Niklas Laxström
- * @copyright Copyright © 2011, Niklas Laxström
+ * @copyright Copyright © 2011-2012, Niklas Laxström
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
@@ -23,6 +23,44 @@ class ApiQueryMessageTranslations extends ApiQueryBase {
 		return 'public';
 	}
 
+	/**
+	 * Returns all translations of a given message.
+	 * @param MessageHandle $handle Language code is ignored.
+	 * @return array[]
+	 * @since 2012-12-18
+	 */
+	public static function getTranslations( MessageHandle $handle ) {
+		$namespace = $handle->getTitle()->getNamespace();
+		$base = $handle->getKey();
+
+		$dbr = wfGetDB( DB_SLAVE );
+
+		$res = $dbr->select( 'page',
+			array( 'page_namespace', 'page_title' ),
+			array(
+				'page_namespace' => $namespace,
+				'page_title ' . $dbr->buildLike( "$base/", $dbr->anyString() ),
+			),
+			__METHOD__,
+			array(
+				'ORDER BY' => 'page_title',
+				'USE INDEX' => 'name_title',
+			)
+		);
+
+		$titles = array();
+		foreach ( $res as $row ) {
+			$titles[] = $row->page_title;
+		}
+
+		if ( $titles === array() ) {
+			return array();
+		}
+
+		$pageInfo = TranslateUtils::getContents( $titles, $namespace );
+		return $pageInfo;
+	}
+
 	public function execute() {
 		$params = $this->extractRequestParams();
 
@@ -36,30 +74,8 @@ class ApiQueryMessageTranslations extends ApiQueryBase {
 			$this->dieUsage( 'Title does not correspond to a translatable message', 'nomessagefortitle' );
 		}
 
-		$base = Title::makeTitle( $title->getNamespace(), $handle->getKey() );
-		$namespace = $base->getNamespace();
-		$message = $base->getDBKey();
-
-		$dbr = wfGetDB( DB_SLAVE );
-
-		$res = $dbr->select( 'page',
-			array( 'page_namespace', 'page_title' ),
-			array(
-				'page_namespace' => $namespace,
-				'page_title ' . $dbr->buildLike( "$message/", $dbr->anyString() ),
-			),
-			__METHOD__,
-			array(
-				'ORDER BY'  => 'page_title',
-				'USE INDEX' => 'name_title',
-			)
-		);
-
-		$titles = array();
-		foreach ( $res as $row ) {
-			$titles[] = $row->page_title;
-		}
-		$pageInfo = TranslateUtils::getContents( $titles, $namespace );
+		$namespace = $title->getNamespace();
+		$pageInfo = self::getTranslations( $handle );
 
 		$result = $this->getResult();
 		$count = 0;
