@@ -184,6 +184,7 @@ class MessageTable {
 			} else {
 				global $wgPageTranslationNamespace;				
 				$message = $original;
+				$extraAttribs = self::getLanguageAttributes( $sourceLang );
 				foreach ($fallbackLangs as $fallbackLang)	{
 					$fbTitle = Title::makeTitle($wgPageTranslationNamespace,
 						$key . '/' . $fallbackLang);
@@ -192,10 +193,10 @@ class MessageTable {
 					$fbMessage = $fbPage->getText();
 					if($fbMessage) 	{
 						$message = $fbMessage;
+						$extraAttribs = self::getLanguageAttributes( $targetLang );
 						break;
 					}
 				}
-				$extraAttribs = self::getLanguageAttributes( $sourceLang );
 			}
 
 			wfRunHooks( 'TranslateFormatMessageBeforeTable', array( &$message, $m, $this->group, $targetLang, &$extraAttribs ) );
