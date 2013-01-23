@@ -24,6 +24,7 @@ $specialPageAliases['en'] = array(
 	'MyLanguage' => array( 'MyLanguage' ),
 	'PageTranslationDeletePage' => array( 'PageTranslationDeletePage' ),
 	'AggregateGroups' => array( 'AggregateGroups' ),
+	'SearchTranslations' => array( 'SearchTranslations' ),
 );
 
 /** Afrikaans (Afrikaans) */
@@ -59,7 +60,7 @@ $specialPageAliases['arc'] = array(
 	'Translate' => array( 'ܬܪܓܡ' ),
 	'Translations' => array( 'ܬܘܪ̈ܓܡܐ' ),
 	'PageTranslation' => array( 'ܬܘܪܓܡܐ_ܕܦܐܬܐ' ),
-	'FirstSteps' => array( 'ܦܣܘܥܝܬ̈ܐ_ܩܕ̈ܡܝܬܐ' ),
+	'FirstSteps' => array( 'ܦܣܘܥܝ̈ܬܐ_ܩܕ̈ܡܝܬܐ' ),
 	'SupportedLanguages' => array( 'ܠܫܢ̈ܐ_ܣܡܝܟ̈ܐ' ),
 	'MyLanguage' => array( 'ܠܫܢܐ_ܕܝܠܝ' ),
 );
@@ -202,6 +203,7 @@ $specialPageAliases['de'] = array(
 	'MyLanguage' => array( 'Meine_Sprache' ),
 	'PageTranslationDeletePage' => array( 'Löschseite_für_Übersetzungen' ),
 	'AggregateGroups' => array( 'Zusammenfassende_Nachrichtengruppen' ),
+	'SearchTranslations' => array( 'Übersetzungen_suchen' ),
 );
 
 /** Zazaki (Zazaki) */
@@ -441,13 +443,14 @@ $specialPageAliases['ja'] = array(
 	'LanguageStats' => array( '言語統計' ),
 	'MessageGroupStats' => array( 'メッセージグループ統計' ),
 	'PageTranslation' => array( 'ページ翻訳' ),
-	'ImportTranslations' => array( '翻訳インポート' ),
+	'ImportTranslations' => array( '翻訳取り込み', '翻訳インポート' ),
 	'ManageMessageGroups' => array( 'メッセージ群の管理' ),
 	'FirstSteps' => array( '開始手順' ),
 	'SupportedLanguages' => array( 'サポートしている言語' ),
 	'MyLanguage' => array( '自分の言語' ),
 	'PageTranslationDeletePage' => array( 'ページ翻訳削除ページ' ),
 	'AggregateGroups' => array( '集約群' ),
+	'SearchTranslations' => array( '翻訳の検索' ),
 );
 
 /** Georgian (ქართული) */
@@ -492,6 +495,7 @@ $specialPageAliases['ko'] = array(
 	'MyLanguage' => array( '내언어' ),
 	'PageTranslationDeletePage' => array( '문서번역삭제문서' ),
 	'AggregateGroups' => array( '집계그룹' ),
+	'SearchTranslations' => array( '번역찾기' ),
 );
 
 /** Colognian (Ripoarisch) */

@@ -16,7 +16,7 @@
  */
 class TTMServerAid extends TranslationAid {
 	public function getData() {
-		$suggestions = array( '**' => 'suggestion' );
+		$suggestions = array();
 
 		$text = $this->getDefinition();
 		$from = $this->group->getSourceLanguage();
@@ -49,6 +49,9 @@ class TTMServerAid extends TranslationAid {
 			}
 		}
 
+		$suggestions = TTMServer::sortSuggestions( $suggestions );
+
+		$suggestions['**'] = 'suggestion';
 		return $suggestions;
 	}
 }

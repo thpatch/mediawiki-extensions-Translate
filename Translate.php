@@ -17,7 +17,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 /**
  * Version number used in extension credits and in other places where needed.
  */
-define( 'TRANSLATE_VERSION', '2013-01-07' );
+define( 'TRANSLATE_VERSION', '2013-01-15' );
 
 /**
  * Extension credits properties.
@@ -48,6 +48,7 @@ $wgExtensionMessagesFiles['Translate'] = "$dir/Translate.i18n.php";
 $wgExtensionMessagesFiles['FirstSteps'] = "$dir/FirstSteps.i18n.php";
 $wgExtensionMessagesFiles['PageTranslation'] = "$dir/PageTranslation.i18n.php";
 $wgExtensionMessagesFiles['TranslateGroupDescriptions'] = "$dir/TranslateGroupDescriptions.i18n.php";
+$wgExtensionMessagesFiles['TranslateSearch'] = "$dir/TranslateSearch.i18n.php";
 $wgExtensionMessagesFiles['TranslateAlias'] = "$dir/Translate.alias.php";
 $wgExtensionMessagesFiles['TranslateMagic'] = "$dir/Translate.magic.php";
 
@@ -85,6 +86,8 @@ $wgSpecialPages['SupportedLanguages'] = 'SpecialSupportedLanguages';
 $wgSpecialPages['MyLanguage'] = 'SpecialMyLanguage';
 $wgSpecialPages['AggregateGroups'] = 'SpecialAggregateGroups';
 $wgSpecialPageGroups['AggregateGroups'] = 'wiki';
+
+$wgSpecialPages['SearchTranslations'] = 'SpecialSearchTranslations';
 
 // API
 $wgAPIListModules['messagecollection'] = 'ApiQueryMessageCollection';
@@ -258,6 +261,9 @@ $wgResourceModules['ext.translate.editor'] = array(
 		'tux-warnings-hide',
 		'tux-editor-save-failed',
 		'tux-editor-use-this-translation',
+		'tux-editor-doc-editor-placeholder',
+		'tux-editor-doc-editor-save',
+		'tux-editor-doc-editor-cancel',
 		'translate-edit-nopermission',
 		'translate-edit-askpermission',
 		'tux-editor-outdated-warning',
@@ -406,6 +412,11 @@ $wgResourceModules['ext.translate.special.aggregategroups'] = array(
 
 $wgResourceModules['ext.translate.special.supportedlanguages'] = array(
 	'styles' => 'resources/css/ext.translate.special.supportedlanguages.css',
+	'position' => 'top',
+) + $resourcePaths;
+
+$wgResourceModules['ext.translate.special.searchtranslations'] = array(
+	'styles' => 'resources/css/ext.translate.special.searchtranslations.css',
 	'position' => 'top',
 ) + $resourcePaths;
 
