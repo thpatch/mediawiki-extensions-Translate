@@ -4,7 +4,7 @@
  *
  * @file
  * @author Niklas Laxström
- * @copyright Copyright © 2007-2013 Niklas Laxström
+ * @copyright Copyright © 2007-2010 Niklas Laxström
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
@@ -261,18 +261,10 @@ class MessageTable {
 		return $output;
 	}
 
-	public function fullTable( $offsets, $nondefaults ) {
+	public function fullTable() {
 		$this->includeAssets();
 
-		$content = $this->header() . $this->contents() . '</table>';
-		$pager = $this->doStupidLinks( $offsets, $nondefaults );
-		if ( $offsets['count'] === 0 ) {
-			return $pager;
-		} elseif ( $offsets['count'] === $offsets['total'] ) {
-			return $content . $pager;
-		} else {
-			return $pager . $content . $pager;
-		}
+		return $this->header() . $this->contents() . '</table>';
 	}
 
 	protected function headerText( $type ) {
@@ -381,60 +373,4 @@ class MessageTable {
 		}
 		$batch->execute();
 	}
-
-	protected function doStupidLinks( $info, $nondefaults ) {
-		// Total number of messages for this query
-		$total = $info['total'];
-		// Messages in this page
-		$count = $info['count'];
-
-		$allInThisPage = $info['start'] === 0 && $total === $count;
-
-		if ( $info['count'] === 0 ) {
-			$navigation = wfMessage( 'translate-page-showing-none' )->parse();
-		} elseif ( $allInThisPage ) {
-			$navigation = wfMessage( 'translate-page-showing-all' )->numParams( $total )->parse();
-		} else {
-			$previous = wfMessage( 'translate-prev' )->escaped();
-			if ( $info['backwardsOffset'] !== false ) {
-				$previous = $this->makeOffsetLink( $previous, $info['backwardsOffset'], $nondefaults );
-			}
-
-			$nextious = wfMessage( 'translate-next' )->escaped();
-			if ( $info['forwardsOffset'] !== false ) {
-				$nextious = $this->makeOffsetLink( $nextious, $info['forwardsOffset'], $nondefaults );
-			}
-
-			$start = $info['start'] + 1;
-			$stop = $start + $info['count'] - 1;
-			$total = $info['total'];
-
-			$navigation = wfMessage( 'translate-page-showing' )->numParams( $start, $stop, $total )->parse();
-			$navigation .= ' ';
-			$navigation .= wfMessage( 'translate-page-paging-links' )->rawParams( $previous, $nextious )->escaped();
-		}
-
-		return
-			Html::openElement( 'fieldset' ) .
-			Html::element( 'legend', array(), wfMessage( 'translate-page-navigation-legend' )->text() ) .
-			$navigation .
-			Html::closeElement( 'fieldset' );
-	}
-
-	protected function makeOffsetLink( $label, $offset, $nondefaults ) {
-		$query = array_merge(
-			$nondefaults,
-			array( 'offset' => $offset )
-		);
-
-		$link = Linker::link(
-			$this->context->getTitle(),
-			$label,
-			array(),
-			$query
-		);
-
-		return $link;
-	}
-
 }

@@ -41,8 +41,6 @@
 
 .tux-message-editor .editcolumn {
 	border-right: 1px solid #AAA;
-	-webkit-transition: width 0.5s;
-	transition: width 0.5s;
 }
 
 .tux-message-editor textarea {
@@ -120,8 +118,6 @@
 	right: 0;
 	bottom: 0;
 	padding: 0;
-	-webkit-transition: width 0.5s;
-	transition: width 0.5s;
 }
 
 .tux-message-editor .infocolumn-block .caret:before {
@@ -144,16 +140,6 @@
 	left: -20px;
 	position: absolute;
 	bottom: 50%;
-}
-
-.infocolumn-block .infocolumn .message-desc-editor {
-	padding: 5px 0;
-	margin-right: 5px;
-}
-
-.infocolumn-block .infocolumn .message-desc-editor textarea {
-	height: 100px;
-	overflow: auto;
 }
 
 .infocolumn-block .infocolumn .message-desc {

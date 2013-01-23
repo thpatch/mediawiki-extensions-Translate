@@ -50,11 +50,8 @@ class ApiTranslateUser extends ApiBase {
 			return true;
 		}
 
-		$groups = $user->getOption( 'translate-recent-groups', '' );
-
-		if ( $groups === '' ) {
-			$groups = array();
-		} else {
+		$groups = $user->getOption( 'translate-recent-groups', array() );
+		if ( $groups !== array() ) {
 			$groups = explode( '|', $groups );
 		}
 

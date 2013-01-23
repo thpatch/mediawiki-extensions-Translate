@@ -58,7 +58,7 @@ class MessageCollection implements ArrayAccess, Iterator, Countable {
 	protected $dbData = null;
 
 	/// \type{Database Result Resource} Stored reviews in database.
-	protected $dbReviewData = array();
+	protected $dbReviewData = null;
 
 	/**
 	 * Tags, copied to thin messages
@@ -77,11 +77,14 @@ class MessageCollection implements ArrayAccess, Iterator, Countable {
 	protected $authors = array();
 
 	/**
-      * @var bool Whether to keep untranslated sections empty
-      */
+	 * @var bool Whether review info is loaded
+	 */
+	protected $reviewMode = false;
+
+	/// bool Whether to keep untranslated sections empty
 	public $keepEmpty = true;
 
-    /**
+	/**
 	 * Constructors. Use newFromDefinitions() instead.
 	 * @param string $code Language code.
 	 */
@@ -236,9 +239,12 @@ class MessageCollection implements ArrayAccess, Iterator, Countable {
 	}
 
 	/**
-	 * @deprecated 2013-01-18 enabled by default
+	 * Call this to load list of reviewers for each message.
+	 * Can be accessed from TMessage::getReviewers().
 	 */
-	public function setReviewMode( $value = true ) {}
+	public function setReviewMode( $value = true ) {
+		$this->reviewMode = $value;
+	}
 
 	// Data modifiers
 
@@ -251,7 +257,9 @@ class MessageCollection implements ArrayAccess, Iterator, Countable {
 	public function loadTranslations( $dbtype = DB_SLAVE ) {
 		$this->loadData( $this->keys, $dbtype );
 		$this->loadInfo( $this->keys, $dbtype );
-		$this->loadReviewInfo( $this->keys, $dbtype );
+		if ( $this->reviewMode ) {
+			$this->loadReviewInfo( $this->keys, $dbtype );
+		}
 		$this->initMessages();
 	}
 
@@ -265,7 +273,7 @@ class MessageCollection implements ArrayAccess, Iterator, Countable {
 		$this->keys = $this->fixKeys();
 		$this->dbInfo = null;
 		$this->dbData = null;
-		$this->dbReviewData = array();
+		$this->dbReviewData = null;
 		$this->messages = null;
 		$this->infile = array();
 		$this->authors = array();
@@ -664,7 +672,7 @@ class MessageCollection implements ArrayAccess, Iterator, Countable {
 	 * @param int $dbtype One of DB_* constants.
 	 */
 	protected function loadReviewInfo( array $keys, $dbtype = DB_SLAVE ) {
-		if ( $this->dbReviewData !== array() ) {
+		if ( $this->dbReviewData !== null ) {
 			return;
 		}
 
@@ -844,24 +852,13 @@ class MessageCollection implements ArrayAccess, Iterator, Countable {
 			}
 		}
 
-		foreach ( $this->dbReviewData as $row ) {
-			$mkey = $this->rowToKey( $row );
-			if ( !isset( $messages[$mkey] ) ) {
-				continue;
-			}
-			$messages[$mkey]->appendProperty( 'reviewers', $row->trr_user );
-		}
-
-		// Set the status property
-		foreach ( $messages as $obj ) {
-			if ( $obj->hasTag( 'fuzzy' ) ) {
-				$obj->setProperty( 'status', 'fuzzy' );
-			} elseif ( is_array( $obj->getProperty( 'reviewers' ) ) ) {
-				$obj->setProperty( 'status', 'proofread' );
-			} elseif ( $obj->translation() !== null ) {
-				$obj->setProperty( 'status', 'translated' );
-			} else {
-				$obj->setProperty( 'status', 'untranslated' );
+		if ( $this->dbReviewData !== null ) {
+			foreach ( $this->dbReviewData as $row ) {
+				$mkey = $this->rowToKey( $row );
+				if ( !isset( $messages[$mkey] ) ) {
+					continue;
+				}
+				$messages[$mkey]->appendProperty( 'reviewers', $row->trr_user );
 			}
 		}
 

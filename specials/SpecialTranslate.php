@@ -93,6 +93,14 @@ class SpecialTranslate extends SpecialPage {
 			}
 		}
 
+		// Proceed.
+		$taskOptions = new TaskOptions(
+			$this->options['language'],
+			$this->options['limit'],
+			$this->options['offset'],
+			array( $this, 'cbAddPagingNumbers' )
+		);
+
 		$params = array( $this->getContext(), $this->task, $this->group, $this->options );
 		if ( !wfRunHooks( 'SpecialTranslate::executeTask', $params ) ) {
 			return;
@@ -103,7 +111,7 @@ class SpecialTranslate extends SpecialPage {
 			return;
 		}
 
-		$this->task->init( $this->group, $this->options, $this->nondefaults, $this->getContext() );
+		$this->task->init( $this->group, $taskOptions, $this->getContext() );
 		$output = $this->task->execute();
 
 		if ( $this->task->plainOutput() ) {
@@ -192,8 +200,16 @@ class SpecialTranslate extends SpecialPage {
 				);
 			}
 
+			$links = $this->doStupidLinks();
+
 			if ( !self::isBeta( $this->getRequest() ) ) {
-				$out->addHTML( $description . $output );
+				if ( $this->paging['count'] === 0 ) {
+					$out->addHTML( $description . $links );
+				} elseif ( $this->paging['count'] === $this->paging['total'] ) {
+					$out->addHTML( $description . $output . $links );
+				} else {
+					$out->addHTML( $description . $links . $output . $links );
+				}
 			} else {
 				$out->addHTML( $output );
 			}
@@ -236,11 +252,10 @@ class SpecialTranslate extends SpecialPage {
 		/* str  */ 'task'     => self::isBeta( $this->getRequest() ) ? 'custom' : 'untranslated',
 		/* str  */ 'sort'     => 'normal',
 		/* str  */ 'language' => $this->getLanguage()->getCode(),
-		/* str  */ 'group'    => self::isBeta( $this->getRequest() ) ? '!additions': '',
+		/* str  */ 'group'    => '',
 		/* str  */ 'offset'   => '', // Used to be int, now str
 		/* int  */ 'limit'    => 100,
-		/* str  */ 'filter'   => self::isBeta( $this->getRequest() ) ? '!translated' : '', // Tux
-		/* int  */ 'optional' => '0',
+		/* str  */ 'filter'   => '', // Tux
 		);
 
 		// Dump everything here
@@ -265,7 +280,6 @@ class SpecialTranslate extends SpecialPage {
 		}
 
 		$request = $this->getRequest();
-
 		foreach ( $defaults as $v => $t ) {
 			if ( is_bool( $t ) ) {
 				$r = isset( $pars[$v] ) ? (bool)$pars[$v] : $defaults[$v];
@@ -276,10 +290,6 @@ class SpecialTranslate extends SpecialPage {
 			} elseif ( is_string( $t ) ) {
 				$r = isset( $pars[$v] ) ? (string)$pars[$v] : $defaults[$v];
 				$r = $request->getText( $v, $r );
-			}
-
-			if ( !isset( $r ) ) {
-				throw new MWException( '$r was not set' );
 			}
 
 			wfAppendToArrayIfNotDefault( $v, $r, $defaults, $nondefaults );
@@ -377,7 +387,7 @@ class SpecialTranslate extends SpecialPage {
 	protected function messageSelector() {
 		$output = Html::openElement( 'ul', array( 'class' => 'row tux-message-selector' ) );
 		$tabs = array(
-			'tux-tab-all' => '',
+			'tux-tab-all' => null,
 			'tux-tab-untranslated' => '!translated',
 			//'Hardest',
 			'tux-tab-outdated' => 'fuzzy',
@@ -397,16 +407,15 @@ class SpecialTranslate extends SpecialPage {
 		}
 
 		$options = array(
-			'optional' => 'Optional messages',
-			//@todo: 'Messages without suggestions',
+			'Optional messages',
+			'Messages without suggestions',
 		);
 
 		$container = Html::openElement( 'ul', array( 'class' => 'column tux-message-selector' ) );
-		foreach ( $options as $index => $opt ) {
-			$container .= Html::rawElement( 'li',
-				array( 'class' => 'column' ),
-				Xml::checkLabel( $opt, $index, "tux-option-$index", isset( $this->nondefaults[$index] ) )
-			);
+		foreach ( $options as $opt ) {
+			$container .= Html::openElement( 'li', array( 'class' => 'column' ) ) .
+				Xml::checkLabel( $opt, "$opt-name", "$opt-id" ) .
+				Html::closeElement( 'li' );
 		}
 
 		$container .= Html::closeElement( 'ul' );
@@ -570,6 +579,71 @@ class SpecialTranslate extends SpecialPage {
 		}
 
 		return $selector->getHTML();
+	}
+
+	private $paging = null;
+
+	public function cbAddPagingNumbers( $params ) {
+		$this->paging = $params;
+	}
+
+	protected function doStupidLinks() {
+		if ( $this->paging === null ) {
+			return '';
+		}
+
+		// Total number of messages for this query
+		$total = $this->paging['total'];
+		// Messages in this page
+		$count = $this->paging['count'];
+
+		$allInThisPage = $this->paging['start'] === 0 && $total === $count;
+
+		if ( $this->paging['count'] === 0 ) {
+			$navigation = $this->msg( 'translate-page-showing-none' )->parse();
+		} elseif ( $allInThisPage ) {
+			$navigation = $this->msg( 'translate-page-showing-all' )->numParams( $total )->parse();
+		} else {
+			$previous = $this->msg( 'translate-prev' )->escaped();
+			if ( $this->paging['backwardsOffset'] !== false ) {
+				$previous = $this->makeOffsetLink( $previous, $this->paging['backwardsOffset'] );
+			}
+
+			$nextious = $this->msg( 'translate-next' )->escaped();
+			if ( $this->paging['forwardsOffset'] !== false ) {
+				$nextious = $this->makeOffsetLink( $nextious, $this->paging['forwardsOffset'] );
+			}
+
+			$start = $this->paging['start'] + 1;
+			$stop = $start + $this->paging['count'] - 1;
+			$total = $this->paging['total'];
+
+			$navigation = $this->msg( 'translate-page-showing' )->numParams( $start, $stop, $total )->parse();
+			$navigation .= ' ';
+			$navigation .= $this->msg( 'translate-page-paging-links' )->rawParams( $previous, $nextious )->escaped();
+		}
+
+		return
+			Html::openElement( 'fieldset' ) .
+			Html::element( 'legend', array(), $this->msg( 'translate-page-navigation-legend' )->text() ) .
+			$navigation .
+			Html::closeElement( 'fieldset' );
+	}
+
+	private function makeOffsetLink( $label, $offset ) {
+		$query = array_merge(
+			$this->nondefaults,
+			array( 'offset' => $offset )
+		);
+
+		$link = Linker::link(
+			$this->getTitle(),
+			$label,
+			array(),
+			$query
+		);
+
+		return $link;
 	}
 
 	protected function getGroupDescription( MessageGroup $group ) {

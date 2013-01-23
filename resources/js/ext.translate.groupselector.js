@@ -177,14 +177,6 @@
 				.on( 'click', function () {
 					var parentGroupId;
 
-					/* Do nothing if user clicks active tab. Fixes two things:
-					 *  - The blue bottom border highlight doesn't jump around
-					 *  - No flash when clicking recent tab again
-					 */
-					if ( $( this ).hasClass( 'selected' ) ) {
-						return;
-					}
-
 					groupSelector.$menu.find( '.ext-translate-msggroup-category' )
 						.toggleClass( 'selected' );
 
@@ -246,30 +238,36 @@
 		 * Get recent message groups.
 		 */
 		getRecentGroups: function () {
-			var queryParams,
-				apiURL = mw.util.wikiScript( 'api' ),
-				messageGroups = $( '.ext-translate-msggroup-selector' ).data( 'msggroups' ),
-				$msgGroupList = this.$menu.find( '.ext-translate-msggroup-list' );
+			var groupSelector = this,
+				queryParams,
+				apiURL,
+				messageGroups,
+				$msgGroupList;
 
 			queryParams = {
 				action: 'translateuser',
 				format: 'json'
 			};
 
+			apiURL = mw.util.wikiScript( 'api' );
+			$msgGroupList = groupSelector.$menu.find( '.ext-translate-msggroup-list' );
+			messageGroups = $( '.ext-translate-msggroup-selector' ).data( 'msggroups' );
+
 			$msgGroupList.empty();
 			$.get( apiURL, queryParams, function ( result ) {
-				var msgGroupRows = [];
+				var $msgGroupRows = [],
+					messageGroupId,
+					messagegroup;
 
-				$.each( result.translateuser.recentgroups, function ( index, messageGroupId ) {
-					var messagegroup = getGroup( messageGroupId, messageGroups );
-
-					if ( messagegroup ) {
-						msgGroupRows.push( prepareMessageGroupRow( messagegroup ) );
-					}
+				$.each( result.translateuser.recentgroups, function ( index ) {
+					messageGroupId = result.translateuser.recentgroups[index];
+					messagegroup = getGroup( messageGroupId, messageGroups );
+					$msgGroupRows.push( prepareMessageGroupRow( messagegroup ) );
 				} );
 
-				$msgGroupList.append( msgGroupRows );
+				$msgGroupList.append( $msgGroupRows );
 			} );
+
 		},
 
 		/**
@@ -358,7 +356,7 @@
 				format: 'json',
 				meta: 'messagegroups',
 				mgformat: 'tree',
-				mgprop: 'id|label|icon|priority|prioritylangs|priorityforce',
+				mgprop: 'id|label|icon|priority',
 				// Keep this in sync with css!
 				mgiconsize: '32'
 			};
@@ -386,11 +384,15 @@
 		 * @param {Array} msgGroups - array of message group objects to add.
 		 */
 		addGroupRows: function ( parentGroupId, msgGroups ) {
-			var $msgGroupRows,
-				$parent,
-				messageGroups = $( '.ext-translate-msggroup-selector' ).data( 'msggroups' ),
-				$msgGroupList = this.$menu.find( '.ext-translate-msggroup-list' ),
-				targetLanguage = $( '.ext-translate-msggroup-selector' ).data( 'language' );
+			var groupSelector = this,
+				messagegroup,
+				messageGroups,
+				$msgGroupRows,
+				$msgGroupList,
+				$parent;
+
+			$msgGroupList = groupSelector.$menu.find( '.ext-translate-msggroup-list' );
+			messageGroups = $( '.ext-translate-msggroup-selector' ).data( 'msggroups' );
 
 			if ( msgGroups ) {
 				messageGroups = msgGroups;
@@ -406,27 +408,21 @@
 
 			$msgGroupRows = [];
 
-			$.each( messageGroups, function ( index, messagegroup ) {
-				/* Hide from the selector:
-				 * - discouraged groups (the only priority value currently supported).
-				 * - groups that are recommended for other languages.
-				 */
-				if ( messagegroup.priority === 'discouraged' ||
-					( messagegroup.priorityforce &&
-						messagegroup.prioritylangs &&
-						$.inArray( targetLanguage, messagegroup.prioritylangs ) === -1 )
-				) {
+			$.each( messageGroups, function ( index ) {
+				messagegroup = messageGroups[index];
+				/* Hide discouraged groups from the selector, this is the only
+				 * priority value currently supproted. */
+				if ( messagegroup.priority === 'discouraged' ) {
 					return;
 				}
-
 				$msgGroupRows.push( prepareMessageGroupRow( messagegroup ) );
 			} );
 
 			if ( !parentGroupId ) {
 				$msgGroupList.append( $msgGroupRows );
 			} else {
-				$parent = $msgGroupList.find( '.ext-translate-msggroup-item[data-msggroupid="' +
-					parentGroupId + '"]' );
+				$parent = $msgGroupList.find( '.ext-translate-msggroup-item[data-msggroupid=' +
+					parentGroupId + ']' );
 
 				if ( $parent.length ) {
 					$parent.after( $msgGroupRows );
@@ -586,4 +582,5 @@
 			timer = setTimeout( callback, milliseconds );
 		};
 	} () );
+
 }( jQuery, mediaWiki ) );
