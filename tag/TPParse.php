@@ -203,7 +203,7 @@ class TPParse {
 				}
 			}
 			// Use the original text if no translation is available
-			if ( $sectiontext === null && !$collection->keepEmpty) {
+			if( !($collection && $collection->keepEmpty) && $sectiontext === null ) {
 				$sectiontext = $s->getTextForTrans();
 			}
 
