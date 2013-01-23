@@ -10,7 +10,7 @@
 
 /**
  * @group Database
- * @group medium
+ * @group Medium
  */
 class TranslateHooksTest extends MediaWikiLangTestCase {
 	protected function setUp() {

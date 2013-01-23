@@ -55,22 +55,19 @@
 	mw.translate = mw.translate || {};
 
 	mw.translate = $.extend( mw.translate, {
-
 		changeGroup: function ( group ) {
-			mw.translate.changeUrl( {
-				'group': group,
-				filter: mw.Uri().query.filter || '!translated'
+			var uri = new mw.Uri( window.location.href );
+			uri.extend( {
+				group: group
 			} );
+			window.location.href = uri.toString();
 		},
 
 		changeLanguage: function ( language ) {
-			mw.translate.changeUrl( { 'language': language } );
-		},
-
-		changeUrl: function ( params ) {
-			var uri;
-			uri = new mw.Uri( window.location.href );
-			uri.extend( params );
+			var uri = new mw.Uri( window.location.href );
+			uri.extend( {
+				language: language
+			} );
 			window.location.href = uri.toString();
 		},
 
@@ -80,14 +77,13 @@
 
 		/**
 		 * Get the documentation edit URL for a title
+		 * @param {String} title message title
 		 *
-		 * @param {String} title Message title with namespace
-		 * @return {String} URL for editing the documentation
+		 * @returns{String} URL for editing the documentation
 		 */
 		getDocumentationEditURL: function ( title ) {
 			var descUri = new mw.Uri( window.location.href );
 
-			descUri.path = mw.config.get( 'wgScript' );
 			descUri.query = {
 				action: 'edit',
 				title: title + '/' +  mw.config.get( 'wgTranslateDocumentationLanguageCode' )
@@ -135,7 +131,7 @@
 			$( '.ext-translate-msggroup-selector .tail' ).remove();
 			$newLink = $( '<span>' ).addClass( 'grouptitle grouplink tail' )
 				.text( mw.msg( 'translate-msggroupselector-search-all' ) );
-			$( '.ext-translate-msggroup-selector .grouplink:last' ).after( $newLink );
+			$( '.ext-translate-msggroup-selector .grouplink' ).after( $newLink );
 			$newLink.data( 'msggroupid', msgGroup.id );
 			$newLink.msggroupselector( {
 				onSelect: groupSelectorHandler
@@ -154,10 +150,6 @@
 		ourWindowOnBeforeUnloadRegister();
 		prepareWorkflowSelector();
 
-		$( '#tux-option-optional' ).click( function () {
-			mw.translate.changeUrl( { 'optional': $( this ).prop( 'checked' ) ? 1 : 0 } );
-		} );
-
 		$.when(
 			// Get ready with language stats
 			$.fn.languagestatsbar.Constructor.prototype.getStats( uiLanguage )
@@ -165,11 +157,7 @@
 				$( '.ext-translate-msggroup-selector .grouplink' ).msggroupselector( {
 					onSelect: groupSelectorHandler
 				} );
-				$( '.tux-message-list-statsbar' ).languagestatsbar( {
-					language: uiLanguage,
-					group: $( '.tux-message-list-statsbar' ).data( 'messagegroup' )
-				} );
-		} );
+			} );
 
 		// Use ULS for language selection if it's available
 		if ( $.uls ) {

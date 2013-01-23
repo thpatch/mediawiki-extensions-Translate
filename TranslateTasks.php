@@ -5,9 +5,70 @@
  *
  * @file
  * @author Niklas Laxström
- * @copyright Copyright © 2007-2013 Niklas Laxström
+ * @copyright Copyright © 2007-2012 Niklas Laxström
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
+
+/**
+ * Container for options that are passed to tasks.
+ */
+class TaskOptions {
+	/// @var string Language code.
+	protected $language;
+	/// @var int Number of items to show.
+	protected $limit = 0;
+	/// @var int Offset to the results.
+	protected $offset = 0;
+	/// @var Callable Callback which is called to provide information about the result counts.
+	protected $pagingCB;
+
+	/**
+	 * @param string $language Language code.
+	 * @param int $limit Number of items to show.
+	 * @param int $offset Offset to the results.
+	 * @param Callable $pagingCB  Callback which is called to provide
+	 *   information about the paging of results. The callback is provided
+	 *   with three parameters:
+	 *   - offset given
+	 *   - number of messages displayed
+	 *   - total number of messages
+	 */
+	public function __construct( $language, $limit = 0, $offset = 0, $pagingCB = null ) {
+		$this->language = $language;
+		$this->limit = $limit;
+		$this->offset = $offset;
+		$this->pagingCB = $pagingCB;
+	}
+
+	/**
+	 * @return string Language code.
+	 */
+	public function getLanguage() {
+		return $this->language;
+	}
+
+	/**
+	 * @return int Number of items to show.
+	 */
+	public function getLimit() {
+		return $this->limit;
+	}
+
+	/**
+	 * @return int Offset to the results.
+	 */
+	public function getOffset() {
+		return $this->offset;
+	}
+
+	/**
+	 * @return Callable Callback which is called to provide information about
+	 *   the result counts.
+	 */
+	public function getPagingCB() {
+		return $this->pagingCB;
+	}
+}
 
 /**
  * Basic implementation and interface for tasks.
@@ -57,14 +118,9 @@ abstract class TranslateTask {
 	protected $collection;
 
 	/**
-	 * @var array
+	 * @var TaskOptions
 	 */
 	protected $options;
-
-	/**
-	 * @var array
-	 */
-	protected $nondefaults;
 
 	/**
 	 * @var IContextSource
@@ -72,21 +128,14 @@ abstract class TranslateTask {
 	protected $context;
 
 	/**
-	 * @var array Offsets stored after the collection has been paged.
-	 */
-	protected $offsets;
-
-	/**
 	 * Constructor.
 	 * @param MessageGroup $group Message group.
-	 * @param array $options Options.
-	 * @param array $nondefaults List of non-default options for links.
+	 * @param TaskOptions $options Options.
 	 * @param IContextSource $context
 	 */
-	public final function init( MessageGroup $group, array $options, array $nondefaults, IContextSource $context ) {
+	public final function init( MessageGroup $group, TaskOptions $options, IContextSource $context ) {
 		$this->group = $group;
 		$this->options = $options;
-		$this->nondefaults = $nondefaults;
 		$this->context = $context;
 	}
 
@@ -119,22 +168,27 @@ abstract class TranslateTask {
 	 * Takes a slice of messages according to limit and offset given
 	 * in option at initialisation time. Calls the callback to provide
 	 * information how much messages there is.
+	 * @return array|null
 	 */
 	protected function doPaging() {
 		$total = count( $this->collection );
 		$offsets = $this->collection->slice(
-			$this->options['offset'],
-			$this->options['limit']
+			$this->options->getOffset(),
+			$this->options->getLimit()
 		);
 		$left = count( $this->collection );
 
-		$this->offsets = array(
+		$params = array(
 			'backwardsOffset' => $offsets[0],
 			'forwardsOffset' => $offsets[1],
 			'start' => $offsets[2],
 			'count' => $left,
 			'total' => $total,
 		);
+
+		$callback = $this->options->getPagingCB();
+		call_user_func( $callback, $params );
+		return $params;
 	}
 
 	/**
@@ -157,29 +211,33 @@ abstract class TranslateTask {
  */
 class CustomFilteredMessagesTask extends TranslateTask {
 	protected $id = 'custom';
+	/// Store some info
+	protected $offsets = array();
 
 	protected function preinit() {
-		$code = $this->options['language'];
+		$code = $this->options->getLanguage();
 		$this->collection = $this->group->initCollection( $code );
+		$this->collection->setReviewMode( true );
 		$this->collection->filter( 'ignored' );
-		if ( !isset( $this->nondefaults['optional'] ) ) {
+		if ( $this->context->getRequest()->getBool( 'optional' ) ) {
 			$this->collection->filter( 'optional' );
 		}
 
-		$filter = $this->options['filter'];
-
-		foreach ( explode( '|', $filter ) as $cond ) {
-			if ( trim( $cond ) === '' ) {
-				continue;
-			}
-
-			$negate = false;
-			if ( $cond[0] === '!' ) {
-				$negate = true;
-				$cond = substr( $cond, 1 );
-			}
-			$this->collection->filter( $cond, $negate );
+		$filter = $this->context->getRequest()->getVal( 'filter' );
+		if ( !$filter ) {
+			return;
 		}
+		$negate = false;
+		if ( $filter[0] === '!' ) {
+			$negate = true;
+			$filter = substr( $filter, 1 );
+		}
+		$this->collection->filter( $filter, $negate );
+	}
+
+	protected function doPaging() {
+		$this->offsets = parent::doPaging();
+		return $this->offsets;
 	}
 
 	protected function postinit() {
@@ -189,7 +247,11 @@ class CustomFilteredMessagesTask extends TranslateTask {
 	protected function output() {
 		$table = MessageTable::newFromContext( $this->context, $this->collection, $this->group );
 		$table->appendEditLinkParams( 'loadtask', $this->getId() );
-		return $table->fullTable( $this->offsets, $this->nondefaults );
+		if ( method_exists( $table, 'setOffsets' ) ) {
+			$table->setOffsets( $this->offsets );
+		}
+
+		return $table->fullTable();
 	}
 }
 
@@ -200,7 +262,7 @@ class ViewMessagesTask extends TranslateTask {
 	protected $id = 'view';
 
 	protected function preinit() {
-		$code = $this->options['language'];
+		$code = $this->options->getLanguage();
 		$this->collection = $this->group->initCollection( $code );
 		$this->collection->filter( 'ignored' );
 		$this->collection->filter( 'optional' );
@@ -214,7 +276,7 @@ class ViewMessagesTask extends TranslateTask {
 		$table = MessageTable::newFromContext( $this->context, $this->collection, $this->group );
 		$table->appendEditLinkParams( 'loadtask', $this->getId() );
 
-		return $table->fullTable( $this->offsets, $this->nondefaults );
+		return $table->fullTable();
 	}
 }
 
@@ -225,8 +287,9 @@ class ReviewMessagesTask extends ViewMessagesTask {
 	protected $id = 'review';
 
 	protected function preinit() {
-		$code = $this->options['language'];
+		$code = $this->options->getLanguage();
 		$this->collection = $this->group->initCollection( $code );
+		$this->collection->setReviewMode( true );
 		$this->collection->filter( 'ignored' );
 	}
 
@@ -234,7 +297,7 @@ class ReviewMessagesTask extends ViewMessagesTask {
 		$table = MessageTable::newFromContext( $this->context, $this->collection, $this->group );
 		$table->appendEditLinkParams( 'loadtask', $this->getId() );
 		$table->setReviewMode();
-		return $table->fullTable( $this->offsets, $this->nondefaults );
+		return $table->fullTable();
 	}
 }
 
@@ -246,7 +309,7 @@ class ViewUntranslatedTask extends ViewMessagesTask {
 	protected $id = 'untranslated';
 
 	protected function preinit() {
-		$code = $this->options['language'];
+		$code = $this->options->getLanguage();
 		$this->collection = $this->group->initCollection( $code );
 		$this->collection->filter( 'ignored' );
 		$this->collection->filter( 'optional' );
@@ -261,7 +324,7 @@ class ViewOptionalTask extends ViewMessagesTask {
 	protected $id = 'optional';
 
 	protected function preinit() {
-		$code = $this->options['language'];
+		$code = $this->options->getLanguage();
 		$this->collection = $this->group->initCollection( $code );
 		$this->collection->filter( 'ignored' );
 		$this->collection->filter( 'optional', false );
@@ -276,7 +339,7 @@ class ViewWithSuggestionsTask extends ViewMessagesTask {
 	protected $id = 'suggestions';
 
 	protected function preinit() {
-		$code = $this->options['language'];
+		$code = $this->options->getLanguage();
 		$sourceLanguage = $this->group->getSourceLanguage();
 
 		$this->collection = $this->group->initCollection( $code );
@@ -315,7 +378,7 @@ class ViewUntranslatedOptionalTask extends ViewOptionalTask {
 	protected $id = 'untranslatedoptional';
 
 	protected function preinit() {
-		$code = $this->options['language'];
+		$code = $this->options->getLanguage();
 		$this->collection = $this->group->initCollection( $code );
 		$this->collection->filter( 'ignored' );
 		$this->collection->filter( 'optional', false );
@@ -364,7 +427,7 @@ class ExportMessagesTask extends ViewMessagesTask {
 	protected $id = 'export';
 
 	protected function preinit() {
-		$code = $this->options['language'];
+		$code = $this->options->getLanguage();
 		$this->collection = $this->group->initCollection( $code );
 		// Don't export ignored, unless it is the source language
 		// or message documentation
@@ -445,7 +508,7 @@ class ExportAsPoMessagesTask extends ExportMessagesTask {
 
 		$ffs->setOfflineMode( 'true' );
 
-		$code = $this->options['language'];
+		$code = $this->options->getLanguage();
 		$id = $this->group->getID();
 		$filename = "${id}_$code.po";
 		header( "Content-Disposition: attachment; filename=\"$filename\"" );

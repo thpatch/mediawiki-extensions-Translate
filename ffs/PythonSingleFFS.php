@@ -97,9 +97,6 @@ class PythonSingleFFS extends SimpleFFS {
 		$json = wfShellExec( "python -c $command" );
 
 		$parsed = FormatJson::decode( $json, true );
-		if ( !is_array( $parsed ) ) {
-			throw new MWException( "Failed to decode python file $filename" );
-		}
 		$sections = array();
 		foreach ( $parsed as $code => $messages ) {
 			$sections[$code] = array( 'MESSAGES' => $messages );

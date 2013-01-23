@@ -1,6 +1,12 @@
 <?php
 
 class TuxMessageTable extends MessageTable {
+	protected $offsets = array();
+
+	public function setOffsets( array $offsets ) {
+		$this->offsets = $offsets;
+	}
+
 	// TODO: MessageTable should extend context source
 	public function msg( /* $args */ ) {
 		$args = func_get_args();
@@ -44,10 +50,6 @@ class TuxMessageTable extends MessageTable {
 			$title = $titleMap[$key];
 			$original = $m->definition();
 			$translation = $m->translation();
-			// Remove !!FUZZY!! from translation if present.
-			if ( $translation !== null ) {
-				$translation = str_replace( TRANSLATE_FUZZY, '', $translation );
-			}
 
 			$linkAttribs = array();
 			$query = array( 'action' => 'edit' ) + $this->editLinkParams;
@@ -83,6 +85,7 @@ class TuxMessageTable extends MessageTable {
 					array( 'class' => 'tux-warning tux-status-fuzzy' ),
 					$this->msg( 'tux-status-fuzzy' )->text()
 				);
+				$translation = str_replace( TRANSLATE_FUZZY, '', $translation );
 				$itemClass = 'fuzzy';
 			} elseif ( is_array( $reviewers ) && in_array( $userId, $reviewers ) ) {
 				$status = Html::element( 'span',
@@ -131,22 +134,25 @@ class TuxMessageTable extends MessageTable {
 		return $output;
 	}
 
-	public function fullTable( $offsets, $nondefaults ) {
+	public function fullTable() {
 		$this->includeAssets();
 		$this->context->getOutput()->addModules( 'ext.translate.editor' );
 
-		$total = $offsets['total'];
+		// FIXME
+		$total = $this->offsets['total'];
 		$batchSize = 100;
-		$remaining = $total - $offsets['start'] - $offsets['count'];
+		$remaining = $total - $this->offsets['start'] - $this->offsets['count'];
+
+		$statsBar = StatsBar::getNew( $this->group->getId(), $this->collection->getLanguage() );
+		$statsBarHtml = $statsBar->getHtml( $this->context );
 
 		$footer =  Html::openElement( 'div',
 			array(
 				'class' => 'tux-messagetable-loader',
 				'data-messagegroup' => $this->group->getId(),
-				'data-total' => $total,
 				'data-pagesize' => $batchSize,
 				'data-remaining' => $remaining,
-				'data-offset' => $offsets['forwardsOffset'],
+				'data-offset' => $this->offsets['forwardsOffset'],
 			) )
 			. '<span class="tux-loading-indicator"></span>'
 			. '<div class="tux-messagetable-loader-count">'
@@ -157,12 +163,9 @@ class TuxMessageTable extends MessageTable {
 			. '</div>'
 			. Html::closeElement( 'div' );
 
-		$footer .= '<div class="tux-action-bar row">'
-			. Html::element( 'div',
-				array(
-					'class' => 'three columns tux-message-list-statsbar',
-					'data-messagegroup' => $this->group->getId(),
-				) );
+		$footer .= '<div class="tux-action-bar row"><div class="three columns">' .
+			$statsBarHtml
+			. '</div>';
 		$footer .= '<div class="three columns text-center">'
 			. '<button class="button tux-editor-clear-translated">'
 			. wfMessage( 'tux-editor-clear-translated' )->escaped()
