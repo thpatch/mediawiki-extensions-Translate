@@ -196,10 +196,6 @@ class TPParse {
 				if ( $translation !== null ) {
 					// Ideally we should not have fuzzy here, but old texts do
 					$sectiontext = str_replace( TRANSLATE_FUZZY, '', $translation );
-
-					if ( $msg->hasTag( 'fuzzy' ) ) {
-						$sectiontext = "<span class=\"mw-translate-fuzzy\">\n$sectiontext\n</span>";
-					}
 				}
 			}
 			// Use the original text if no translation is available

@@ -128,9 +128,6 @@ class TranslationHelpers {
 			$obj = new CurrentTranslationAid( $this->group, $this->handle, RequestContext::getMain() );
 			$aid = $obj->getData();
 			$this->translation = $aid['value'];
-			if ( $aid['fuzzy'] ) {
-				$this->translation = TRANSLATE_FUZZY . $this->translation;
-			}
 		}
 		return $this->translation;
 	}
