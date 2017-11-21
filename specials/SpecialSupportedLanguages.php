@@ -298,6 +298,14 @@ class SpecialSupportedLanguages extends SpecialPage {
 
 		$links = array();
 
+		$maxcount = 0;
+		foreach ( $users as $username => $count ) {
+			if ( isset( $editcounts[$username] ) ) {
+				$maxcount = max( $maxcount, $count );
+			}
+		}
+		var_dump( $maxcount );
+
 		foreach ( $users as $username => $count ) {
 			$title = Title::makeTitleSafe( NS_SPECIAL, "Contributions/$username" );
 			$enc = htmlspecialchars( $username );
@@ -309,7 +317,7 @@ class SpecialSupportedLanguages extends SpecialPage {
 					$count = $editcounts[$username];
 				}
 
-				$styles['font-size'] = round( log( $count, 10 ) * 30 ) + 70 . '%';
+				$styles['font-size'] = round( pow( $count / floatval( $maxcount ), 1.0 / sizeof( $users ) ) * 200.0 ) + 40 . '%';
 
 				$last = wfTimestamp( TS_UNIX ) - $lastedits[$username];
 				$last = round( $last / $day );
