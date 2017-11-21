@@ -206,6 +206,7 @@ class SpecialSupportedLanguages extends SpecialPage {
 			'page_title' . $dbr->buildLike( $dbr->anyString(), '/', $dbr->anyString() ),
 			'page_namespace' => $wgTranslateMessageNamespaces,
 			'page_id=rev_page',
+			'rev_comment NOT' . $dbr->buildLike( $dbr->anyString(), "moved page [[", $dbr->anyString() )
 		);
 		$options = array( 'GROUP BY' => 'rev_user_text, lang' );
 
