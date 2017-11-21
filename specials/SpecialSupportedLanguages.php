@@ -295,7 +295,7 @@ class SpecialSupportedLanguages extends SpecialPage {
 		$links = array();
 
 		foreach ( $users as $username => $count ) {
-			$title = Title::makeTitleSafe( NS_USER, $username );
+			$title = Title::makeTitleSafe( NS_SPECIAL, "Contributions/$username" );
 			$enc = htmlspecialchars( $username );
 
 			$attribs = array();
