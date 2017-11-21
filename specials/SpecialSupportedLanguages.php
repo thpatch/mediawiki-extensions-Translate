@@ -216,6 +216,9 @@ class SpecialSupportedLanguages extends SpecialPage {
 		foreach ( $res as $row ) {
 			$data[$row->lang][$row->rev_user_text] = $row->count;
 		}
+		foreach ( $data as &$lang ) {
+			arsort( $lang );
+		}
 
 		$cache->set( $cachekey, $data, 3600 );
 		return $data;
