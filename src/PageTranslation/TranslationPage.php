@@ -95,9 +95,20 @@ class TranslationPage {
 	 */
 	public function generateSourceFromTranslations( Parser $parser, array $messages ): string {
 		$replacements = [];
+
+		// Blank out untranslated sections in TL-included pages.
+		// Essential for patch stacking to work as intended!
+		$title = $this->group->getTitle();
+		if ( \TPCPatchMap::getTLPageSourceLanguage( $title->getNamespace(), $title->getText() ) ) {
+			$blankMessage = new \FatMessage( "", "" );
+			$blankMessage->setTranslation( "" );
+		} else {
+			$blankMessage = null;
+		}
+
 		foreach ( $this->output->units() as $placeholder => $unit ) {
 			/** @var TMessage $msg */
-			$msg = $messages[$unit->id] ?? null;
+			$msg = $messages[$unit->id] ?? $blankMessage;
 			$replacements[$placeholder] = $unit->getTextForRendering(
 				$msg,
 				$this->sourceLanguage,
