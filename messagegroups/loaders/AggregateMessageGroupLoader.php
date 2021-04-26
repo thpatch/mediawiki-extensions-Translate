@@ -108,6 +108,9 @@ class AggregateMessageGroupLoader extends MessageGroupLoader
 				'class' => AggregateMessageGroup::class,
 				'namespace' => NS_TRANSLATIONS,
 			];
+			if ( $sourcelanguage = TranslateMetadata::get( $id, 'sourcelanguage' ) ) {
+				$conf['BASIC']['sourcelanguage'] = $sourcelanguage;
+			}
 			$conf['GROUPS'] = TranslateMetadata::getSubgroups( $id );
 			$groups[$id] = $conf;
 		}
