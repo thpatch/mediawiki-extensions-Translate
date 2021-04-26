@@ -21,6 +21,33 @@
 	background: #fcfcfc;
 }
 
+.ext-translate-container .tux-messagelist .tux-message-proofread.translated .tux-message-item-compact {
+	background-color: #f0f0f0;
+	border-bottom-color: #e1e1e1;
+}
+
+.ext-translate-container .tux-messagelist .tux-message-proofread.translated .tux-message-item-compact:hover {
+	background-color: #ececec;
+}
+
+.ext-translate-container .tux-messagelist .tux-message-proofread.fuzzy .tux-message-item-compact {
+	background-color: #ffffcc;
+	border-bottom-color: #f0f0bd;
+}
+
+.ext-translate-container .tux-messagelist .tux-message-proofread.fuzzy:hover .tux-message-item-compact {
+	background-color: #fbfbc8;
+}
+
+.ext-translate-container .tux-messagelist .tux-message-proofread.proofread .tux-message-item-compact {
+	background-color: #ccffcc;
+	border-bottom-color: #bdf0bd;
+}
+
+.ext-translate-container .tux-messagelist .tux-message-proofread.proofread:hover .tux-message-item-compact {
+	background-color: #c8fbc8;
+}
+
 .ext-translate-container .tux-messagelist .tux-message-proofread:first-child .tux-message-item-compact {
 	margin-top: 10px;
 	border-top: 1px solid #ddd;
