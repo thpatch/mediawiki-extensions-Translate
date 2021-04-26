@@ -1,12 +1,11 @@
 .ext-translate-container .tux-messagelist .tux-message-proofread {
-	min-height: 50px;
 	margin: 0 auto;
 	vertical-align: middle;
 	background: #f8f8f8;
 }
 
 .ext-translate-container .tux-messagelist .tux-message-proofread .tux-message-item-compact {
-	padding: 30px 0;
+	padding: 0.5em 0;
 	overflow: hidden;
 	margin-right: auto;
 	margin-left: auto;
@@ -24,13 +23,11 @@
 
 .ext-translate-container .tux-messagelist .tux-message-proofread:first-child .tux-message-item-compact {
 	margin-top: 10px;
-	padding-top: 60px;
 	border-top: 1px solid #ddd;
 }
 
 .ext-translate-container .tux-messagelist .tux-message-proofread:last-child .tux-message-item-compact {
 	margin-bottom: 10px;
-	padding-bottom: 60px;
 	border-bottom: 1px solid #ddd;
 }
 
@@ -50,14 +47,11 @@
 .tux-messagelist .tux-message-proofread .tux-proofread-source {
 	color: #54595d;
 	line-height: 1.5em;
-	padding-right: 25px;
-	padding-left: 25px;
 }
 
 .tux-messagelist .tux-message-proofread .tux-proofread-translation {
 	color: #222;
 	line-height: 1.5em;
-	padding-left: 20px;
 }
 
 .tux-proofread-action-block {
@@ -95,14 +89,14 @@
 	background: left center no-repeat;
 	/* @embed */
 	background-image: linear-gradient( transparent, transparent ), url( ../images/outdated-ltr.svg );
-	height: 40px;
+	height: 23px;
 }
 
 .tux-proofread-status.untranslated {
 	background: left center no-repeat;
 	/* @embed */
 	background-image: linear-gradient( transparent, transparent ), url( ../images/translate-ltr.svg );
-	height: 40px;
+	height: 23px;
 }
 
 .tux-proofread-action {
@@ -140,7 +134,7 @@
 	background-image: /* @embed */ linear-gradient( transparent, transparent ), url( ../images/edit-mark.svg );
 	background-repeat: no-repeat;
 	background-position: right center;
-	height: 50px;
+	height: 23px;
 	cursor: pointer;
 	visibility: hidden;
 	text-align: right;

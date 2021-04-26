@@ -1,13 +1,11 @@
 .ext-translate-container .tux-messagelist .tux-message-pagemode {
-	min-height: 50px;
 	margin: 0 auto;
 	vertical-align: middle;
 	background: #f8f8f8;
 }
 
 .ext-translate-container .tux-messagelist .tux-message-pagemode .tux-message-item-compact {
-	padding: 35px 0;
-	line-height: 50px;
+	padding: 0.75em 0;
 	overflow: hidden;
 	margin-right: auto;
 	margin-left: auto;
@@ -25,13 +23,11 @@
 
 .ext-translate-container .tux-messagelist .tux-message-pagemode:first-child .tux-message-item-compact {
 	margin-top: 10px;
-	padding-top: 60px;
 	border-top: 1px solid #ddd;
 }
 
 .ext-translate-container .tux-messagelist .tux-message-pagemode:last-child .tux-message-item-compact {
 	margin-bottom: 10px;
-	padding-bottom: 60px;
 	border-bottom: 1px solid #ddd;
 }
 
@@ -51,15 +47,12 @@
 	color: #54595d;
 	font-size: 16px;
 	line-height: 1.5em;
-	padding-right: 25px;
-	padding-left: 25px;
 }
 
 .tux-messagelist .tux-message-pagemode .tux-pagemode-translation {
 	color: #222;
 	font-size: 16px;
 	line-height: 1.5em;
-	padding-left: 20px;
 }
 
 .tux-pagemode-action-block {
@@ -68,8 +61,7 @@
 }
 
 .tux-pagemode-status {
-	top: -10px;
-	height: 40px;
+	height: 23px;
 }
 
 .tux-pagemode-status.fuzzy {
@@ -100,7 +92,7 @@
 	background-image: /* @embed */ linear-gradient( transparent, transparent ), url( ../images/edit-mark.svg );
 	background-repeat: no-repeat;
 	background-position: right center;
-	height: 40px;
+	height: 23px;
 	cursor: pointer;
 	visibility: hidden;
 }
