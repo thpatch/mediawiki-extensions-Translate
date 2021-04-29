@@ -145,6 +145,16 @@
 	}
 }
 
+.tux-action-bar {
+	// Since we remove all mode-switching buttons from this bar, it becomes
+	// invisible if no own translations are present. So, rather than
+	// permanently enabling the tux-proofread-own-translations-button, which
+	// would then do nothing, let's just force this bar into existence in any
+	// case…
+	// Combination of `min-height` and `margin` from `.tux-action-bar button`.
+	min-height: 50px;
+}
+
 .tux-action-bar .tux-statsbar {
 	position: relative;
 	top: 30px;

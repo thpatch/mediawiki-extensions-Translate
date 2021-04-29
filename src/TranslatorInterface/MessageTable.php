@@ -77,12 +77,6 @@ class MessageTable extends ContextSource {
 					</button>
 					<button class="toggle button tux-editor-clear-translated hide">$clearTranslated</button>
 				</div>
-				<div class="six columns tux-view-switcher text-center">
-					<button class="toggle down translate-mode-button">$modeTranslate
-					</button><button class="toggle down page-mode-button">$modePage
-					</button><button class="toggle hide proofread-mode-button">$modeProofread
-					</button>
-				</div>
 			</div>
 			HTML;
 
