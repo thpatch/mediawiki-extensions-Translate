@@ -107,13 +107,7 @@
 				.append( $( '<span>' )
 					.addClass( 'tux-proofread-edit-label hide' )
 					.text( mw.msg( 'tux-proofread-edit-label' ) )
-				)
-				.on( 'mouseover', function () {
-					$( this ).find( '.tux-proofread-edit-label' ).removeClass( 'hide' );
-				} )
-				.on( 'mouseout', function () {
-					$( this ).find( '.tux-proofread-edit-label' ).addClass( 'hide' );
-				} );
+				);
 
 			var targetLangAttrib;
 			if ( this.options.targetlangcode === mw.config.get( 'wgTranslateDocumentationLanguageCode' ) ) {
@@ -258,12 +252,9 @@
 				return false;
 			} );
 
-			this.$message.find( '.tux-proofread-edit' ).on( 'click', function () {
-				// Make sure that the tooltip is hidden when going to the editor
-				$( '.translate-tooltip' ).remove();
+			this.$message.children( '.message' ).on( 'click', function ( e ) {
 				that.$message.data( 'translateeditor' ).show();
-
-				return false;
+				e.preventDefault();
 			} );
 		}
 	};
