@@ -37,7 +37,7 @@ class MessageTable extends ContextSource {
 		$languageFactory = MediaWikiServices::getInstance()->getLanguageFactory();
 		$sourceLang = $languageFactory->getLanguage( $this->group->getSourceLanguage() );
 		$targetLang = $languageFactory->getLanguage( $this->language );
-		$batchSize = 100;
+		$batchSize = 1000;
 
 		$list = Html::element( 'div', [
 			'class' => 'row tux-messagelist',
