@@ -134,14 +134,14 @@
 								lang: this.options.sourcelangcode,
 								dir: sourceLangDir
 							} )
-							.text( this.message.definition ),
+							.html( mw.translate.formatMessageGently( this.message.definition, this.message.key ) ),
 						$( '<div>' )
 							.addClass( 'five columns tux-proofread-translation' )
 							.attr( {
 								lang: targetLangAttrib,
 								dir: targetLangDir
 							} )
-							.text( this.message.translation || '' ),
+							.html( mw.translate.formatMessageGently( this.message.translation || '', this.message.key ) ),
 						$( '<div>' )
 							.addClass( 'tux-proofread-action-block one column' )
 							.append(
