@@ -747,20 +747,7 @@
 			var $hideTranslatedButton = messageTable.$actionBar.find( '.tux-editor-clear-translated' );
 
 			if ( messageTable.mode === 'proofread' ) {
-				$tuxTabUntranslated.addClass( 'hide' );
 				$tuxTabUnproofread.removeClass( 'hide' );
-
-				// Fix the filter if it is untranslated. Untranslated does not make sense
-				// for proofread mode. Keep the filter if it is not 'untranslated'
-				if ( !filter || filter.indexOf( '!translated' ) >= 0 ) {
-					messageTable.messages = [];
-					// default filter for proofread mode
-					mw.translate.changeFilter( 'translated|!reviewer:' + userId +
-						'|!last-translator:' + userId );
-					$tuxTabUnproofread.addClass( 'selected' );
-					// Own translations are not present in proofread + unreviewed mode
-				}
-
 				$hideTranslatedButton.addClass( 'hide' );
 			} else {
 				$tuxTabUntranslated.removeClass( 'hide' );

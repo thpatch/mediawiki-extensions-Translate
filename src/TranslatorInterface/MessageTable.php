@@ -75,7 +75,6 @@ class MessageTable extends ContextSource {
 					<button class="toggle button tux-proofread-own-translations-button hide">
 						$hideOwn
 					</button>
-					<button class="toggle button tux-editor-clear-translated hide">$clearTranslated</button>
 				</div>
 			</div>
 			HTML;
