@@ -29,6 +29,8 @@
 	border-right: 1px solid #ddd;
 	background: #fff;
 	max-width: 100%;
+	display: flex;
+	align-items: center;
 }
 
 .ext-translate-container .tux-messagelist .tux-message-proofread .tux-message-item-compact:hover {
@@ -78,11 +80,7 @@
 	white-space: pre-wrap;
 }
 
-.tux-message-proofread.open .tux-proofread-status,
-.tux-message-proofread.open .tux-proofread-source,
-.tux-message-proofread.open .tux-flag,
-.tux-message-proofread.open .tux-proofread-translation,
-.tux-message-proofread.open .tux-proofread-action-block {
+.tux-messagelist .tux-message-proofread.open .tux-message-item-compact {
 	display: none;
 }
 
