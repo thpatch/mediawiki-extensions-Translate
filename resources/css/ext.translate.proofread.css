@@ -79,6 +79,11 @@
 	border-bottom: 1px solid #ddd;
 }
 
+.ext-translate-container .tux-messagelist .tux-message-proofread .tux-message-item-compact * {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
 .tux-proofread-source,
 .tux-proofread-translation {
 	word-wrap: break-word;
