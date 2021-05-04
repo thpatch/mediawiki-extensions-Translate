@@ -118,6 +118,8 @@
 
 			var targetLangDir = $.uls.data.getDir( targetLangAttrib );
 
+			let key = this.message.key.substring( this.message.key.lastIndexOf('/') + 1);
+
 			// `status` class is documented elsewhere
 			// eslint-disable-next-line mediawiki/class-doc
 			this.$message.append(
@@ -128,6 +130,12 @@
 						// eslint-disable-next-line mediawiki/class-doc
 						$( '<div>' )
 							.addClass( 'column tux-proofread-status ' + this.message.properties.status ),
+						$( '<a>' )
+							.addClass( 'one column tux-key' )
+							.attr( {
+								href: mw.util.getUrl( this.message.title ),
+							})
+							.html( key.replace(/_/g, ' ') ),
 						$( '<div>' )
 							.addClass( 'five columns tux-proofread-source' )
 							.attr( {

@@ -5,6 +5,11 @@
 	margin-right: 5px;
 }
 
+.ext-translate-container .tux-messagelist .tux-key {
+	overflow-wrap: break-word;
+	hyphens: auto;
+}
+
 .ext-translate-container .tux-messagelist .tux-flag {
 	width: 1em;
 	height: 1em;
