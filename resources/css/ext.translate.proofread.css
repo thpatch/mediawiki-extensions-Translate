@@ -1,4 +1,5 @@
 .tux-proofread-status {
+	visibility: hidden;
 	height: 23px;
 	width: 34px;
 	margin-right: 5px;
@@ -121,6 +122,13 @@
 	background-image: linear-gradient( transparent, transparent ), url( ../images/translate-ltr.svg );
 }
 
+.tux-proofread-status.translated,
+.tux-proofread-status.proofread {
+	background: left center no-repeat;
+	/* @embed */
+	background-image: linear-gradient( transparent, transparent ), url( ../images/edit-mark.svg );
+}
+
 .tux-proofread-action {
 	background-position: right top;
 	background-repeat: no-repeat;
@@ -160,9 +168,10 @@
 	cursor: pointer;
 	visibility: hidden;
 	text-align: right;
+	display: none;
 }
 
-.tux-message-proofread:hover .tux-proofread-edit {
+.tux-message-proofread:hover .tux-proofread-status {
 	visibility: visible;
 }
 
