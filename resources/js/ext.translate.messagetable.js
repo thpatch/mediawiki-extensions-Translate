@@ -12,6 +12,35 @@
 		getMessages: function ( messageGroup, language, offset, limit, filter ) {
 			var api = new mw.Api();
 
+			api.get( {
+				action: 'query',
+				titles: "File:Flag " + language + ".svg",
+				prop: "imageinfo",
+				iiprop: "url"
+			} ).done( function ( result ) {
+				const FLAG_CSS_ID = 'flag-css';
+				let flagCSS = document.getElementById(FLAG_CSS_ID);
+				if ( flagCSS === null ) {
+					let head = document.getElementsByTagName('head')[0];
+					flagCSS = document.createElement('style');
+					flagCSS.id = FLAG_CSS_ID;
+					head.appendChild(flagCSS);
+				}
+
+				for ( let pageid in result.query.pages ) {
+					let page = result.query.pages[pageid];
+					if ( page.hasOwnProperty( 'imageinfo') ) {
+						for ( let ii of page.imageinfo ) {
+							flagCSS.textContent = ".tux-messagelist .tux-flag {" +
+								"background: url(" + ii.url + ")" +
+							"}";
+						}
+					} else {
+						flagCSS.textContent = "";
+					}
+				}
+			} );
+
 			return api.get( {
 				action: 'query',
 				list: 'messagecollection',

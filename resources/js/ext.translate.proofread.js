@@ -136,6 +136,8 @@
 							} )
 							.html( mw.translate.formatMessageGently( this.message.definition, this.message.key ) ),
 						$( '<div>' )
+							.addClass( 'column tux-flag'),
+						$( '<div>' )
 							.addClass( 'five columns tux-proofread-translation' )
 							.attr( {
 								lang: targetLangAttrib,

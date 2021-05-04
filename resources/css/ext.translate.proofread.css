@@ -5,6 +5,13 @@
 	margin-right: 5px;
 }
 
+.ext-translate-container .tux-messagelist .tux-flag {
+	width: 1em;
+	height: 1em;
+	margin-right: 5px;
+	background-size: contain;
+}
+
 .ext-translate-container .tux-messagelist .tux-message-proofread {
 	margin: 0 auto;
 	vertical-align: middle;
@@ -73,6 +80,7 @@
 
 .tux-message-proofread.open .tux-proofread-status,
 .tux-message-proofread.open .tux-proofread-source,
+.tux-message-proofread.open .tux-flag,
 .tux-message-proofread.open .tux-proofread-translation,
 .tux-message-proofread.open .tux-proofread-action-block {
 	display: none;
