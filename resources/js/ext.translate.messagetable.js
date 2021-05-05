@@ -461,7 +461,6 @@
 					onlyLoadCurrentGroupData: true
 				} );
 
-			this.initialized = true;
 			// Reset other info and make visible
 			this.$loader
 				.removeData( 'offset' )
@@ -548,6 +547,16 @@
 					}
 				} );
 
+				if ( self.initialized === false ) {
+					let fragmentFromUrl = location.hash.substring(1);
+					if ( fragmentFromUrl != "" ) {
+						let fragmentTarget = document.getElementById(fragmentFromUrl);
+						if ( fragmentTarget ) {
+							fragmentTarget.scrollIntoView();
+						}
+					}
+				}
+
 				var state = result.query.metadata && result.query.metadata.state;
 				$( '.tux-workflow' ).workflowselector(
 					self.settings.group,
@@ -593,6 +602,7 @@
 			} ).always( function () {
 				self.$loaderIcon.addClass( 'tux-loading-indicator--stopped' );
 				self.loading = false;
+				self.initialized = true;
 			} );
 		},
 

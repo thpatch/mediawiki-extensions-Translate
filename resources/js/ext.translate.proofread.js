@@ -167,6 +167,10 @@
 					)
 			).addClass( this.message.properties.status );
 
+			if ( this.message.group == this.message.primaryGroup ) {
+				this.$message.attr( { id: key } );
+			}
+
 			if ( !translatedBySelf && !proofreadBySelf ) {
 				// This will get removed later if any of various other reasons prevent it
 				this.message.proofreadable = true;
