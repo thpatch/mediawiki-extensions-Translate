@@ -824,17 +824,6 @@
 			var messageListBottom = messageListTop + messageListHeight;
 			var messageListWidth = this.$container.width();
 
-			// Header:
-			var messageTableRelativePos = messageListTop - this.$header.height() - windowScrollTop;
-			var needsTableHeaderFloat = messageTableRelativePos + 10 < 0;
-			var needsTableHeaderStick = messageTableRelativePos - 10 >= 0;
-			if ( needsTableHeaderFloat ) {
-				this.$header.addClass( 'floating' ).width( messageListWidth );
-			} else if ( needsTableHeaderStick ) {
-				// Let the element change width automatically again
-				this.$header.removeClass( 'floating' ).css( 'width', '' );
-			}
-
 			// Action bar:
 			var isActionBarFloating = this.$actionBar.hasClass( 'floating' );
 			var needsActionBarFloat = windowScrollBottom < messageListBottom;
