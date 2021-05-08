@@ -537,8 +537,32 @@
 					}
 				}
 
+				// Needs to be preserved across batches.
+				self.lastPageTitleShown ??= '';
+
 				messages.forEach( function ( message, index ) {
+					// message.group hasn't been initialized before
 					message.group = self.settings.group;
+
+					// message.primaryGroup is undefined for WikiMessageGroups
+					if ( message.primaryGroup && ( message.group != message.primaryGroup ) ) {
+						if ( message.key.lastIndexOf( '/Page_display_title' ) != -1 ) {
+							self.lastPageTitleShown = message.primaryGroup.replace(/^page-/, '');
+						} else {
+							let currentPageTitle = message.primaryGroup.replace(/^page-/, '');
+							if ( currentPageTitle != self.lastPageTitleShown ) {
+								self.$container.append( $( '<a>' )
+									.addClass( 'row tux-pagetitle tux-breadcrumb' )
+									.attr( {
+										href: mw.util.getUrl( currentPageTitle + "/" + message.targetLanguage ),
+									} )
+									.text( currentPageTitle )
+								);
+								self.lastPageTitleShown = currentPageTitle;
+							}
+						}
+					}
+
 					self.add( message );
 					self.messages.push( message );
 
