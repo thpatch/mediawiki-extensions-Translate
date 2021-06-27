@@ -54,6 +54,12 @@
 				this.disableProofread();
 			}
 
+			this.$message.refreshClass = function () {
+				this
+					.removeClass( 'translated fuzzy proofread untranslated' )
+					.addClass( that.message.properties.status );
+			}
+
 			this.$message.translateeditor( {
 				message: this.message,
 				beforeSave: function ( translation ) {
@@ -67,10 +73,7 @@
 						.removeClass( 'highlight' );
 					that.message.translation = translation;
 					that.markSelfTranslation();
-
-					that.$message
-						.removeClass( 'translated fuzzy proofread untranslated' )
-						.addClass( that.message.properties.status );
+					that.$message.refreshClass();
 				}
 			} );
 
