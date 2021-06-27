@@ -247,6 +247,7 @@
 				if ( mw.track ) {
 					mw.track( 'ext.translate.event.proofread', message );
 				}
+				$message.refreshClass();
 			} ).fail( function ( errorCode ) {
 				$message.find( '.tux-proofread-action' ).addClass( 'tux-notice' );
 				if ( errorCode === 'assertuserfailed' ) {
