@@ -91,6 +91,7 @@
 .ext-translate-container .tux-messagelist .tux-message-proofread .tux-message-item-compact * {
 	margin-top: 0;
 	margin-bottom: 0;
+	word-break: break-word;
 }
 
 .tux-proofread-source,
