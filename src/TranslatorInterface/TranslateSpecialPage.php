@@ -111,7 +111,7 @@ class TranslateSpecialPage extends SpecialPage {
 
 		$defaults = [
 			/* str  */'language' => $this->getLanguage()->getCode(),
-			/* str  */'group' => '!additions',
+			/* str  */'group' => '',
 		];
 
 		// Dump everything here

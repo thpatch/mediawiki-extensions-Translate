@@ -597,11 +597,7 @@ class MessageGroups {
 
 	/** Contents on these groups changes on a whim. */
 	public static function getDynamicGroups(): array {
-		return [
-			'!recent' => 'RecentMessageGroup',
-			'!additions' => 'RecentAdditionsMessageGroup',
-			'!sandbox' => 'SandboxMessageGroup',
-		];
+		return [];
 	}
 
 	/**
