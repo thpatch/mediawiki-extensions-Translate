@@ -1,3 +1,25 @@
+Touhou Patch Center fork, implementing the following changes:
+
+• On game data pages, untranslated sections are blanked out rather than copied
+  from the source language. This is required for leaving out empty sections in
+  the parsed patch files, allow patch stacking to work as intended. To achieve
+  this, this fork depends on the https://github.com/thpatch/TouhouPatchCenter
+  extension.
+• The source language of aggregate groups is defined by the source language of
+  the first page added to it, and any further page must share the same source
+  language. `update.php` applies this constraint to any previously created
+  aggregate groups. (https://phabricator.wikimedia.org/T301311)
+• Dynamic message groups (*Recent additions* and *Recent translations*) were
+  removed, as we can't guarantee that they share the same source language.
+• A redesigned translation interface, merging the original list, page, and
+  proofread modes into a single tabular layout.
+
+Original README below.
+
+
+-------------------------------------------------------------------------------
+
+
 The Translate extension makes MediaWiki a powerful tool to translate every
 kind of text. It's used especially to translate software user interfaces and
 to manage multilingual wikis in a sensible way.
