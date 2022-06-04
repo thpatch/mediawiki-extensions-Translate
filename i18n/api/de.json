@@ -19,6 +19,7 @@
 	"apihelp-aggregategroups-param-groupname": "Name der zusammengefassten Nachrichtengruppe.",
 	"apihelp-aggregategroups-param-groupdescription": "Beschreibung der zusammengefassten Nachrichtengruppe.",
 	"apihelp-aggregategroups-example-1": "Verknüpft eine Gruppe",
+	"apierror-aggregategroups-source-language-mismatch": "Die Quellsprache dieser Nachrichtengruppe ist '$1'. Seiten mit der Quellsprache '$2' können ihr nicht hinzugefügt werden.",
 	"apihelp-groupreview-description": "Nachrichtengruppen-Workflow-Status festlegen.",
 	"apihelp-groupreview-summary": "Nachrichtengruppen-Workflow-Status festlegen.",
 	"apihelp-groupreview-param-group": "Nachrichtengruppe.",

@@ -12,6 +12,7 @@
 	"apihelp-aggregategroups-param-groupname": "Aggregate message group name.",
 	"apihelp-aggregategroups-param-groupdescription": "Aggregate message group description.",
 	"apihelp-aggregategroups-example-1": "Associate a group",
+	"apierror-aggregategroups-source-language-mismatch": "The source language of this group is '$1'. Pages with a source language of '$2' cannot be added.",
 	"apihelp-groupreview-description": "Set message group workflow states.",
 	"apihelp-groupreview-summary": "Set message group workflow states.",
 	"apihelp-groupreview-param-group": "Message group.",

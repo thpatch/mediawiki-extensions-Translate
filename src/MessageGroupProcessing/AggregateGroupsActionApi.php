@@ -77,6 +77,22 @@ class AggregateGroupsActionApi extends ApiBase {
 				}
 
 				$aggregateLanguage = TranslateMetadata::get( $aggregateGroup, 'sourcelanguage' );
+				$pageLanguage = $group->getSourceLanguage();
+
+				if ( $aggregateLanguage && $pageLanguage !== $aggregateLanguage ) {
+					// Natural translation of language name parameters in messages like these is an
+					// unsolved MediaWiki issue, as of June 2022:
+					//
+					// 	https://phabricator.wikimedia.org/T226981
+					//
+					// Besides, it's completely confusing whether API error localization even
+					// happens or not. So, let's go with the codes.
+					$this->dieWithError( [
+						'apierror-aggregategroups-source-language-mismatch',
+						$aggregateLanguage,
+						$pageLanguage
+					] );
+				}
 				TranslateMetadata::set( $aggregateGroup, 'sourcelanguage', $pageLanguage );
 
 				$subgroups[] = $subgroupId;
