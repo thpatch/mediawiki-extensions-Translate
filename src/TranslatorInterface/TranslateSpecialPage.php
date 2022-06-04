@@ -97,10 +97,12 @@ class TranslateSpecialPage extends SpecialPage {
 		$out->addHTML( $this->tuxSettingsForm() );
 		$out->addHTML( $this->messageSelector() );
 
-		$table = new MessageTable( $this->getContext(), $this->group, $this->options['language'] );
-		$output = $table->fullTable();
+		if ( $this->group ) {
+			$table = new MessageTable( $this->getContext(), $this->group, $this->options['language'] );
+			$output = $table->fullTable();
 
-		$out->addHTML( $output );
+			$out->addHTML( $output );
+		}
 		$out->addHTML( Html::closeElement( 'div' ) );
 	}
 
@@ -170,7 +172,7 @@ class TranslateSpecialPage extends SpecialPage {
 			$this->options['language'] = $this->defaults['language'];
 		}
 
-		if ( MessageGroups::isDynamic( $this->group ) ) {
+		if ( $this->group && MessageGroups::isDynamic( $this->group ) ) {
 			// @phan-suppress-next-line PhanUndeclaredMethod
 			$this->group->setLanguage( $this->options['language'] );
 		}
@@ -184,11 +186,13 @@ class TranslateSpecialPage extends SpecialPage {
 		);
 
 		$attrs = [ 'class' => 'row tux-editor-header' ];
-		$selectors = $this->tuxGroupSelector() .
-			$this->tuxLanguageSelector() .
-			$this->tuxGroupDescription() .
-			$this->tuxWorkflowSelector() .
-			$this->tuxGroupWarning();
+		$selectors = $this->tuxGroupSelector() . $this->tuxLanguageSelector();
+		if ( $this->group ) {
+			$selectors .=
+				$this->tuxGroupDescription() .
+				$this->tuxWorkflowSelector() .
+				$this->tuxGroupWarning();
+		}
 
 		return Html::rawElement( 'div', $attrs, $selectors ) . $nojs;
 	}
@@ -296,13 +300,13 @@ class TranslateSpecialPage extends SpecialPage {
 				[ 'class' => 'grouptitle grouplink tux-breadcrumb__item--aggregate' ],
 				$this->msg( 'translate-msggroupselector-search-all' )->text()
 			) .
-			Html::element( 'span',
+			( $this->group ? Html::element( 'span',
 				[
 					'class' => $groupClass,
 					'data-msggroupid' => $this->group->getId(),
 				],
 				$this->group->getLabel( $this->getContext() )
-			) .
+			) : '' ) .
 			Html::closeElement( 'div' );
 
 		return $output;
