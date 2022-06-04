@@ -76,6 +76,9 @@ class AggregateGroupsActionApi extends ApiBase {
 					$this->dieWithError( 'apierror-translate-invalidgroup', 'invalidgroup' );
 				}
 
+				$aggregateLanguage = TranslateMetadata::get( $aggregateGroup, 'sourcelanguage' );
+				TranslateMetadata::set( $aggregateGroup, 'sourcelanguage', $pageLanguage );
+
 				$subgroups[] = $subgroupId;
 				$subgroups = array_unique( $subgroups );
 			} elseif ( $action === 'dissociate' ) {
@@ -83,6 +86,9 @@ class AggregateGroupsActionApi extends ApiBase {
 				$subgroups = array_flip( $subgroups );
 				unset( $subgroups[$subgroupId] );
 				$subgroups = array_flip( $subgroups );
+				if ( count( $subgroups ) === 0 ) {
+					TranslateMetadata::set( $aggregateGroup, 'sourcelanguage', false );
+				}
 			}
 
 			TranslateMetadata::setSubgroups( $aggregateGroup, $subgroups );
