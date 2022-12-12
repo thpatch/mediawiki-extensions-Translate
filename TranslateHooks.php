@@ -11,6 +11,7 @@ use MediaWiki\ChangeTags\Hook\ChangeTagsListActiveHook;
 use MediaWiki\ChangeTags\Hook\ListDefinedTagsHook;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\AbuseFilter\Variables\VariableHolder;
+use MediaWiki\Extension\Translate\Diagnostics\LockAggregateGroupSourceLanguageMaintenanceScript;
 use MediaWiki\Extension\Translate\Diagnostics\SyncTranslatableBundleStatusMaintenanceScript;
 use MediaWiki\Extension\Translate\MessageGroupProcessing\DeleteTranslatableBundleJob;
 use MediaWiki\Extension\Translate\MessageGroupProcessing\MoveTranslatableBundleJob;
@@ -565,6 +566,7 @@ class TranslateHooks implements RevisionRecordInsertedHook, ListDefinedTagsHook,
 			"{$dir}/{$dbType}/patch-revtag-unique-to-pk.sql"
 		);
 
+		$updater->addPostDatabaseUpdateMaintenance( LockAggregateGroupSourceLanguageMaintenanceScript::class );
 		$updater->addPostDatabaseUpdateMaintenance( SyncTranslatableBundleStatusMaintenanceScript::class );
 	}
 
