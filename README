@@ -13,6 +13,7 @@ Touhou Patch Center fork, implementing the following changes:
   removed, as we can't guarantee that they share the same source language.
 • A redesigned translation interface, merging the original list, page, and
   proofread modes into a single tabular layout.
+• The *Priority languages* section was removed from Special:PageTranslation.
 
 Original README below.
 

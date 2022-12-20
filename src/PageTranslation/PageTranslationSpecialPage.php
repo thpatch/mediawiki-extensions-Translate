@@ -955,8 +955,6 @@ class PageTranslationSpecialPage extends SpecialPage {
 			$out->wrapWikiMsg( Html::successBox( '$1' ), 'tpt-mark-nochanges' );
 		}
 
-		$this->priorityLanguagesForm( $page );
-
 		// If an existing page does not have the supportsTransclusion flag, keep the checkbox unchecked,
 		// If the page is being marked for translation for the first time, the checkbox can be checked
 		$this->templateTransclusionForm( $page->supportsTransclusion() ?? $firstMark );
