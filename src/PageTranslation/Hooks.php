@@ -581,7 +581,7 @@ class Hooks {
 		}
 
 		// Sort languages by autonym
-		ksort( $languages );
+		ksort( $languages, SORT_STRING|SORT_FLAG_CASE );
 		$languages = array_values( $languages );
 		$languages = implode( "\n", $languages );
 
