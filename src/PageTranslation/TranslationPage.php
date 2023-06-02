@@ -109,6 +109,10 @@ class TranslationPage {
 		foreach ( $this->output->units() as $placeholder => $unit ) {
 			/** @var TMessage $msg */
 			$msg = $messages[$unit->id] ?? $blankMessage;
+			if ( $blankMessage !== null ) {
+				// Don't add any extra markup if the message is to be processed by TPC
+				$unit->setCanWrap( false );
+			}
 			$replacements[$placeholder] = $unit->getTextForRendering(
 				$msg,
 				$this->sourceLanguage,
