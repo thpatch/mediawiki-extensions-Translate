@@ -58,6 +58,12 @@
 				this.disableProofread();
 			}
 
+			this.$message.refreshClass = function () {
+				this
+					.removeClass( 'translated fuzzy proofread untranslated' )
+					.addClass( that.message.properties.status );
+			}
+
 			this.$message.translateeditor( {
 				message: this.message,
 				beforeSave: function ( translation ) {
@@ -71,12 +77,7 @@
 						.removeClass( 'tux-highlight' );
 					that.message.translation = translation;
 					that.markSelfTranslation();
-
-					// `status` class is documented elsewhere
-					// eslint-disable-next-line mediawiki/class-doc
-					that.$message.find( '.tux-proofread-status' )
-						.removeClass( 'translated fuzzy proofread untranslated' )
-						.addClass( that.message.properties.status );
+					that.$message.refreshClass();
 				}
 			} );
 
@@ -106,7 +107,7 @@
 			var $proofreadAction = $( '<div>' )
 				.attr( 'title', mw.msg( 'tux-proofread-action-tooltip' ) )
 				.addClass(
-					'tux-proofread-action ' + this.message.properties.status + ' ' + ( proofreadBySelf ? 'accepted' : '' )
+					'tux-proofread-action ' + ( proofreadBySelf ? 'accepted' : '' )
 				);
 
 			var $proofreadEdit = $( '<div>' )
@@ -114,13 +115,7 @@
 				.append( $( '<span>' )
 					.addClass( 'tux-proofread-edit-label hide' )
 					.text( mw.msg( 'tux-proofread-edit-label' ) )
-				)
-				.on( 'mouseover', function () {
-					$( this ).find( '.tux-proofread-edit-label' ).removeClass( 'hide' );
-				} )
-				.on( 'mouseout', function () {
-					$( this ).find( '.tux-proofread-edit-label' ).addClass( 'hide' );
-				} );
+				);
 
 			var targetLangAttrib;
 			if ( this.options.targetlangcode === mw.config.get( 'wgTranslateDocumentationLanguageCode' ) ) {
@@ -131,6 +126,8 @@
 
 			var targetLangDir = $.uls.data.getDir( targetLangAttrib );
 
+			let key = this.message.key.substring( this.message.key.lastIndexOf('/') + 1);
+
 			// `status` class is documented elsewhere
 			// eslint-disable-next-line mediawiki/class-doc
 			this.$message.append(
@@ -140,21 +137,29 @@
 						// `status` class is documented elsewhere
 						// eslint-disable-next-line mediawiki/class-doc
 						$( '<div>' )
-							.addClass( 'one column tux-proofread-status skin-invert ' + this.message.properties.status ),
+							.addClass( 'one column tux-proofread-status skin-invert ' ),
+						$( '<a>' )
+							.addClass( 'one column tux-key' )
+							.attr( {
+								href: mw.util.getUrl( this.message.title ),
+							})
+							.html( key.replace(/_/g, ' ') ),
 						$( '<div>' )
 							.addClass( 'five columns tux-proofread-source' )
 							.attr( {
 								lang: this.options.sourcelangcode,
 								dir: sourceLangDir
 							} )
-							.text( this.message.definition ),
+							.html( mw.translate.formatMessageGently( this.message.definition, this.message.key ) ),
+						$( '<div>' )
+							.addClass( 'column tux-flag'),
 						$( '<div>' )
 							.addClass( 'five columns tux-proofread-translation' )
 							.attr( {
 								lang: targetLangAttrib,
 								dir: targetLangDir
 							} )
-							.text( this.message.translation || '' ),
+							.html( mw.translate.formatMessageGently( this.message.translation || '', this.message.key ) ),
 						$( '<div>' )
 							.addClass( 'tux-proofread-action-block one column' )
 							.append(
@@ -169,6 +174,10 @@
 							)
 					)
 			).addClass( this.message.properties.status );
+
+			if ( this.message.group == this.message.primaryGroup ) {
+				this.$message.attr( { id: key } );
+			}
 
 			if ( !translatedBySelf && !proofreadBySelf ) {
 				// This will get removed later if any of various other reasons prevent it
@@ -252,6 +261,7 @@
 				if ( mw.track ) {
 					mw.track( 'ext.translate.event.proofread', message );
 				}
+				$message.refreshClass();
 			} ).fail( function ( errorCode ) {
 				$message.find( '.tux-proofread-action' ).addClass( 'tux-notice' );
 				if ( errorCode === 'assertuserfailed' ) {
@@ -278,12 +288,9 @@
 				return false;
 			} );
 
-			this.$message.find( '.tux-proofread-edit' ).on( 'click', function () {
-				// Make sure that the tooltip is hidden when going to the editor
-				$( '.translate-tooltip' ).remove();
+			this.$message.children( '.message' ).on( 'click', function ( e ) {
 				that.$message.data( 'translateeditor' ).show();
-
-				return false;
+				e.preventDefault();
 			} );
 		}
 	};

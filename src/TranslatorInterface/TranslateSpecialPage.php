@@ -112,7 +112,7 @@ class TranslateSpecialPage extends SpecialPage {
 
 		$defaults = [
 			'language' => $this->getLanguage()->getCode(),
-			'group' => '!additions',
+			'group' => '',
 		];
 
 		// Dump everything here
@@ -168,7 +168,7 @@ class TranslateSpecialPage extends SpecialPage {
 			$this->options['language'] = $defaults['language'];
 		}
 
-		if ( MessageGroups::isDynamic( $this->group ) ) {
+		if ( $this->group && MessageGroups::isDynamic( $this->group ) ) {
 			// @phan-suppress-next-line PhanUndeclaredMethod
 			$this->group->setLanguage( $this->options['language'] );
 		}
@@ -183,11 +183,14 @@ class TranslateSpecialPage extends SpecialPage {
 
 		$attrs = [ 'class' => 'row tux-editor-header' ];
 		$selectors = $this->tuxGroupSelector() .
-			$this->tuxLanguageSelector() .
-			$this->tuxGroupSubscription() .
-			$this->tuxGroupDescription() .
-			$this->tuxWorkflowSelector() .
-			$this->tuxGroupWarning();
+			$this->tuxLanguageSelector();
+		if ( $this->group ) {
+			$selectors .=
+				$this->tuxGroupSubscription() .
+				$this->tuxGroupDescription() .
+				$this->tuxWorkflowSelector() .
+				$this->tuxGroupWarning();
+		}
 
 		return Html::rawElement( 'div', $attrs, $selectors ) . $noJs;
 	}
@@ -278,14 +281,14 @@ class TranslateSpecialPage extends SpecialPage {
 				[ 'class' => 'grouptitle grouplink tux-breadcrumb__item--aggregate' ],
 				$this->msg( 'translate-msggroupselector-search-all' )->text()
 			) .
-			Html::element( 'span',
+			( $this->group ? Html::element( 'span',
 				[
 					'class' => $groupClass,
 					'data-msggroupid' => $this->group->getId(),
 					'data-msggroup-subgroup-count' => $subGroupCount
 				],
 				$this->group->getLabel( $this->getContext() )
-			) .
+			) : '' ) .
 			Html::closeElement( 'div' );
 	}
 

@@ -19,6 +19,8 @@ use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\AbuseFilter\Variables\VariableHolder;
 use MediaWiki\Extension\Translate\LogFormatter as TranslateLogFormatter;
 use MediaWiki\Extension\Translate\MessageBundleTranslation\ScribuntoHookHandler;
+use MediaWiki\Extension\Translate\Diagnostics\LockAggregateGroupSourceLanguageMaintenanceScript;
+use MediaWiki\Extension\Translate\Diagnostics\SyncTranslatableBundleStatusMaintenanceScript;
 use MediaWiki\Extension\Translate\MessageGroupProcessing\DeleteTranslatableBundleJob;
 use MediaWiki\Extension\Translate\MessageGroupProcessing\MessageGroupSubscriptionHookHandler;
 use MediaWiki\Extension\Translate\MessageGroupProcessing\MessageGroupSubscriptionNotificationJob;
@@ -561,6 +563,123 @@ class HookHandler implements
 	public static function setupParserHooks( Parser $parser ): void {
 		// For nice language list in-page
 		$parser->setHook( 'languages', [ Hooks::class, 'languages' ] );
+	}
+
+	/**
+	 * Hook: LoadExtensionSchemaUpdates
+	 *
+	 * @param DatabaseUpdater $updater
+	 */
+	public static function schemaUpdates( DatabaseUpdater $updater ) {
+		$dir = __DIR__ . '/sql';
+		$dbType = $updater->getDB()->getType();
+
+		if ( $dbType === 'mysql' || $dbType === 'sqlite' ) {
+			$updater->addExtensionTable(
+				'translate_sections',
+				"{$dir}/{$dbType}/translate_sections.sql"
+			);
+			$updater->addExtensionTable(
+				'revtag',
+				"{$dir}/{$dbType}/revtag.sql"
+			);
+			$updater->addExtensionTable(
+				'translate_groupstats',
+				"{$dir}/{$dbType}/translate_groupstats.sql"
+			);
+			$updater->addExtensionTable(
+				'translate_reviews',
+				"{$dir}/{$dbType}/translate_reviews.sql"
+			);
+			$updater->addExtensionTable(
+				'translate_groupreviews',
+				"{$dir}/{$dbType}/translate_groupreviews.sql"
+			);
+			$updater->addExtensionTable(
+				'translate_tms',
+				"{$dir}/{$dbType}/translate_tm.sql"
+			);
+			$updater->addExtensionTable(
+				'translate_metadata',
+				"{$dir}/{$dbType}/translate_metadata.sql"
+			);
+			$updater->addExtensionTable(
+				'translate_messageindex',
+				"{$dir}/{$dbType}/translate_messageindex.sql"
+			);
+			$updater->addExtensionTable(
+				'translate_stash',
+				"{$dir}/{$dbType}/translate_stash.sql"
+			);
+			$updater->addExtensionTable(
+				'translate_translatable_bundles',
+				"{$dir}/{$dbType}/translate_translatable_bundles.sql"
+			);
+
+			// 1.32 - This also adds a PRIMARY KEY
+			$updater->addExtensionUpdate( [
+				'renameIndex',
+				'translate_reviews',
+				'trr_user_page_revision',
+				'PRIMARY',
+				false,
+				"$dir/translate_reviews-patch-01-primary-key.sql",
+				true
+			] );
+
+			$updater->addExtensionTable(
+				'translate_cache',
+				"{$dir}/{$dbType}/translate_cache.sql"
+			);
+
+			if ( $dbType === 'mysql' ) {
+				// 1.38
+				$updater->modifyExtensionField(
+					'translate_cache',
+					'tc_key',
+					"{$dir}/{$dbType}/translate_cache-alter-varbinary.sql"
+				);
+			}
+		} elseif ( $dbType === 'postgres' ) {
+			$updater->addExtensionTable(
+				'translate_sections',
+				"{$dir}/{$dbType}/tables-generated.sql"
+			);
+			$updater->addExtensionUpdate( [
+				'changeField', 'translate_cache', 'tc_exptime', 'TIMESTAMPTZ', 'th_timestamp::timestamp with time zone'
+			] );
+		}
+
+		// 1.39
+		$updater->dropExtensionIndex(
+			'translate_messageindex',
+			'tmi_key',
+			"{$dir}/{$dbType}/patch-translate_messageindex-unique-to-pk.sql"
+		);
+		$updater->dropExtensionIndex(
+			'translate_tmt',
+			'tms_sid_lang',
+			"{$dir}/{$dbType}/patch-translate_tmt-unique-to-pk.sql"
+		);
+		$updater->dropExtensionIndex(
+			'revtag',
+			'rt_type_page_revision',
+			"{$dir}/{$dbType}/patch-revtag-unique-to-pk.sql"
+		);
+
+		$updater->addPostDatabaseUpdateMaintenance( LockAggregateGroupSourceLanguageMaintenanceScript::class );
+		$updater->addPostDatabaseUpdateMaintenance( SyncTranslatableBundleStatusMaintenanceScript::class );
+	}
+
+	/**
+	 * Hook: ParserTestTables
+	 * @param array &$tables
+	 */
+	public static function parserTestTables( array &$tables ) {
+		$tables[] = 'revtag';
+		$tables[] = 'translate_groupstats';
+		$tables[] = 'translate_messageindex';
+		$tables[] = 'translate_stash';
 	}
 
 	/**

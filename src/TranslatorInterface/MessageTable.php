@@ -37,7 +37,7 @@ class MessageTable extends ContextSource {
 		$languageFactory = MediaWikiServices::getInstance()->getLanguageFactory();
 		$sourceLang = $languageFactory->getLanguage( $this->group->getSourceLanguage() );
 		$targetLang = $languageFactory->getLanguage( $this->language );
-		$batchSize = 100;
+		$batchSize = 1000;
 
 		$list = Html::element( 'div', [
 			'class' => 'row tux-messagelist',
@@ -74,13 +74,6 @@ class MessageTable extends ContextSource {
 				<div class="three columns text-center">
 					<button class="toggle button tux-proofread-own-translations-button hide">
 						$hideOwn
-					</button>
-					<button class="toggle button tux-editor-clear-translated hide">$clearTranslated</button>
-				</div>
-				<div class="six columns tux-view-switcher text-center">
-					<button class="toggle down translate-mode-button">$modeTranslate
-					</button><button class="toggle down page-mode-button">$modePage
-					</button><button class="toggle hide proofread-mode-button">$modeProofread
 					</button>
 				</div>
 			</div>

@@ -87,13 +87,36 @@ class TranslationPage {
 	 * @param Message[] $messages
 	 */
 	public function generateSourceFromTranslations( Parser $parser, array $messages ): string {
-		return $this->output->getPageTextForRendering(
-			$this->sourceLanguage,
-			$this->targetLanguage,
-			$this->wrapUntranslated,
-			$messages,
-			$parser
-		);
+		$replacements = [];
+
+		// Blank out untranslated sections in TL-included pages.
+		// Essential for patch stacking to work as intended!
+		$title = $this->group->getTitle();
+		if ( \TPCPatchMap::getTLPageSourceLanguage( $title->getNamespace(), $title->getText() ) ) {
+			$blankMessage = new \FatMessage( "", "" );
+			$blankMessage->setTranslation( "" );
+		} else {
+			$blankMessage = null;
+		}
+
+		foreach ( $this->output->units() as $placeholder => $unit ) {
+			/** @var TMessage $msg */
+			$msg = $messages[$unit->id] ?? $blankMessage;
+			if ( $blankMessage !== null ) {
+				// Don't add any extra markup if the message is to be processed by TPC
+				$unit->setCanWrap( false );
+			}
+			$replacements[$placeholder] = $unit->getTextForRendering(
+				$msg,
+				$this->sourceLanguage,
+				$this->targetLanguage,
+				$this->wrapUntranslated,
+				$parser
+			);
+		}
+
+		$template = $this->output->translationPageTemplate();
+		return strtr( $template, $replacements );
 	}
 
 	public function generateSourceFromMessageCollection(

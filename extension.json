@@ -17,7 +17,8 @@
 	"requires": {
 		"MediaWiki": ">= 1.45.0",
 		"extensions": {
-			"UniversalLanguageSelector": "*"
+			"UniversalLanguageSelector": "*",
+			"TouhouPatchCenter": "*"
 		}
 	},
 	"callback": "MediaWiki\\Extension\\Translate\\HookHandler::setupTranslate",

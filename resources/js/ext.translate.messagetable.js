@@ -13,6 +13,35 @@
 		getMessages: function ( messageGroup, language, offset, limit, filter ) {
 			var api = new mw.Api();
 
+			api.get( {
+				action: 'query',
+				titles: "File:Flag " + language + ".svg",
+				prop: "imageinfo",
+				iiprop: "url"
+			} ).done( function ( result ) {
+				const FLAG_CSS_ID = 'flag-css';
+				let flagCSS = document.getElementById(FLAG_CSS_ID);
+				if ( flagCSS === null ) {
+					let head = document.getElementsByTagName('head')[0];
+					flagCSS = document.createElement('style');
+					flagCSS.id = FLAG_CSS_ID;
+					head.appendChild(flagCSS);
+				}
+
+				for ( let pageid in result.query.pages ) {
+					let page = result.query.pages[pageid];
+					if ( page.hasOwnProperty( 'imageinfo') ) {
+						for ( let ii of page.imageinfo ) {
+							flagCSS.textContent = ".tux-messagelist .tux-flag {" +
+								"background: url(" + ii.url + ")" +
+							"}";
+						}
+					} else {
+						flagCSS.textContent = "";
+					}
+				}
+			} );
+
 			return api.get( {
 				action: 'query',
 				list: 'messagecollection',
@@ -445,7 +474,6 @@
 					onlyLoadCurrentGroupData: true
 				} );
 
-			this.initialized = true;
 			// Reset other info and make visible
 			this.$loader
 				.removeData( 'offset' )
@@ -526,8 +554,32 @@
 					}
 				}
 
+				// Needs to be preserved across batches.
+				self.lastPageTitleShown ??= '';
+
 				messages.forEach( function ( message, index ) {
+					// message.group hasn't been initialized before
 					message.group = self.settings.group;
+
+					// message.primaryGroup is undefined for WikiMessageGroups
+					if ( message.primaryGroup && ( message.group != message.primaryGroup ) ) {
+						if ( message.key.lastIndexOf( '/Page_display_title' ) != -1 ) {
+							self.lastPageTitleShown = message.primaryGroup.replace(/^page-/, '');
+						} else {
+							let currentPageTitle = message.primaryGroup.replace(/^page-/, '');
+							if ( currentPageTitle != self.lastPageTitleShown ) {
+								self.$container.append( $( '<a>' )
+									.addClass( 'row tux-pagetitle tux-breadcrumb' )
+									.attr( {
+										href: mw.util.getUrl( currentPageTitle + "/" + message.targetLanguage ),
+									} )
+									.text( currentPageTitle )
+								);
+								self.lastPageTitleShown = currentPageTitle;
+							}
+						}
+					}
+
 					self.add( message );
 					self.messages.push( message );
 
@@ -535,6 +587,16 @@
 						$( '.tux-message:first' ).data( 'translateeditor' ).init();
 					}
 				} );
+
+				if ( self.initialized === false ) {
+					let fragmentFromUrl = location.hash.substring(1);
+					if ( fragmentFromUrl != "" ) {
+						let fragmentTarget = document.getElementById(fragmentFromUrl);
+						if ( fragmentTarget ) {
+							fragmentTarget.scrollIntoView();
+						}
+					}
+				}
 
 				var state = result.query.metadata && result.query.metadata.state;
 				$( '.tux-workflow' ).workflowselector(
@@ -578,6 +640,7 @@
 			} ).always( function () {
 				self.$loaderIcon.addClass( 'tux-loading-indicator--stopped' );
 				self.loading = false;
+				self.initialized = true;
 			} );
 		},
 
@@ -746,7 +809,6 @@
 			var $hideTranslatedButton = messageTable.$actionBar.find( '.tux-editor-clear-translated' );
 
 			if ( messageTable.mode === 'proofread' ) {
-				$tuxTabUntranslated.addClass( 'hide' );
 				$tuxTabUnproofread.removeClass( 'hide' );
 
 				// Fix the filter if it is untranslated. Untranslated does not make sense
@@ -791,6 +853,35 @@
 
 			messageTable.updateHideOwnInProofreadingToggleVisibility();
 			messageTable.updateLastMessage();
+		},
+
+		/**
+		 * The scroll handler
+		 */
+		scroll: function () {
+			var $window = $( window );
+
+			var windowScrollTop = $window.scrollTop();
+			var windowScrollBottom = windowScrollTop + $window.height();
+			var messageListOffset = this.$container.offset();
+			var messageListHeight = this.$container.height();
+			var messageListTop = messageListOffset.top;
+			var messageListBottom = messageListTop + messageListHeight;
+			var messageListWidth = this.$container.width();
+
+			// Action bar:
+			var isActionBarFloating = this.$actionBar.hasClass( 'floating' );
+			var needsActionBarFloat = windowScrollBottom < messageListBottom;
+			var needsActionBarStick = windowScrollBottom > ( messageListBottom + this.$actionBar.height() );
+
+			if ( !isActionBarFloating && needsActionBarFloat ) {
+				this.$actionBar.addClass( 'floating' ).width( messageListWidth );
+			} else if ( isActionBarFloating && needsActionBarStick ) {
+				// Let the element change width automatically again
+				this.$actionBar.removeClass( 'floating' ).css( 'width', '' );
+			} else if ( isActionBarFloating && needsActionBarFloat ) {
+				this.$actionBar.width( messageListWidth );
+			}
 		},
 
 		/**
@@ -868,7 +959,7 @@
 	$.fn.messagetable.Constructor = MessageTable;
 
 	$.fn.messagetable.defaults = {
-		mode: mw.util.getParamValue( 'action' ) || 'translate'
+		mode: 'proofread'
 	};
 
 	/**

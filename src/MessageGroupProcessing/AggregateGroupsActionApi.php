@@ -78,8 +78,14 @@ class AggregateGroupsActionApi extends ApiBase {
 						$output[ 'groupUrls'][ $subgroupId ] =
 							$this->aggregateGroupManager->getTargetTitleByGroupId( $subgroupId )->getFullURL();
 					}
+
+					$aggregateLanguage = TranslateMetadata::get( $aggregateGroup, 'sourcelanguage' );
+					$pageLanguage = $group->getSourceLanguage();
 				} else {
 					$groupIdsToLog = $this->aggregateGroupManager->disassociate( $aggregateGroupId, $subgroupIds );
+					if ( count( $subgroups ) === 0 ) {
+						TranslateMetadata::set( $aggregateGroup, 'sourcelanguage', false );
+					}
 				}
 			} catch (
 				AggregateGroupAssociationFailure |

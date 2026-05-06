@@ -663,6 +663,9 @@
 		updateGroupInformation( state );
 
 		showAggregateSubgroupCount();
+		if ( !state.group ) {
+			state.groupSelector.toggle();
+		}
 
 		$( '.ext-translate-language-selector .uls' ).one( 'click', function () {
 			var $target = $( this );
